@@ -24,4 +24,8 @@ class ofApp : public ofBaseApp{
         void guiEvent(ofxUIEventArgs &e);
     
         ofxUICanvas *gui;
+        ofxUIRotarySlider *dominanceSlider;
+        ofxUIRotarySlider *interruptionSlider;
+        ofxUIRotarySlider *expressionSlider;
+        vector<ofxUIRotarySlider*> sliders;
 };

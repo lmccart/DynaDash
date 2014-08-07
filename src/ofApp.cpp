@@ -2,14 +2,30 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    gui = new ofxUICanvas();        // Create a canvas at (0,0) using the default width
+    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
+    gui->setColorBack(ofColor(0, 0, 0, 0));
     
-    gui->addSlider("BACKGROUND",0.0,255.0,100.0);
-    gui->addToggle("FULLSCREEN", false);
+    float w = ofGetWidth()/4;
+    dominanceSlider = new ofxUIRotarySlider(w,0.0,100,50.0,"DOMINANCE");
+    sliders.push_back(dominanceSlider);
+    interruptionSlider = new ofxUIRotarySlider(w,0.0,100,50.0,"INTERRUPTIONS");
+    sliders.push_back(interruptionSlider);
+    expressionSlider = new ofxUIRotarySlider(w,0.0,100,50.0,"EXPRESSION");
+    sliders.push_back(expressionSlider);
     
-    gui->autoSizeToFitWidgets();
+    for (int i=0; i<sliders.size(); i++) {
+        gui->addWidgetRight(sliders[i]);
+        sliders[i]->setColorOutline(ofColor(255, 255, 255, 0));
+        sliders[i]->setColorOutlineHighlight(ofColor(255, 255, 255, 0));
+        sliders[i]->setColorFill(ofColor(255, 255, 255));
+        sliders[i]->setColorBack(ofColor(100, 100, 100));
+        sliders[i]->setPadding(20.0);
+    }
+    
+    //gui->autoSizeToFitWidgets();
+    gui->centerWidgetsOnCanvas();
     ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
-    gui->loadSettings("settings.xml");
+    gui->loadSettings("settings.xml"); // pend, does anything need to be saved?
     
     ofShowCursor();
 }
@@ -75,11 +91,13 @@ void ofApp::exit() {
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {
-    if(e.getName() == "BACKGROUND") {
+    if(e.getName() == "DOMINANCE") {
         ofxUISlider *slider = e.getSlider();
         ofBackground(slider->getScaledValue());
-    } else if(e.getName() == "FULLSCREEN") {
-        ofxUIToggle *toggle = e.getToggle();
-        ofSetFullscreen(toggle->getValue());
     }
+//    } else if (e.getSlider() == interruptionSlider) {
+//        
+//    } else if (e.getSlider() == expressionSlider) {
+//        
+//    }
 }
