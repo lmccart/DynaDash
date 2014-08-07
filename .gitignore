@@ -19,3 +19,14 @@
 *.exe
 *.out
 *.app
+
+#Compiled apps
+*.app*
+*.DS_*
+*.xcuserstate
+*.xcworkspacedata
+xcshareddata/
+xcuserdata/
+*.xcodeproj/xcuserdata/*.xcuserdatad
+*.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
+
