@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxUI.h"
+#include "Analyzer.h"
 
 class ofApp : public ofBaseApp{
 
@@ -24,8 +24,5 @@ class ofApp : public ofBaseApp{
         void guiEvent(ofxUIEventArgs &e);
     
         ofxUICanvas *gui;
-        ofxUIRotarySlider *dominanceSlider;
-        ofxUIRotarySlider *interruptionSlider;
-        ofxUIRotarySlider *expressionSlider;
-        vector<ofxUIRotarySlider*> sliders;
+        Analyzer analyzer;
 };

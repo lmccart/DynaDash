@@ -2,52 +2,44 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
-    gui->setColorBack(ofColor(0, 0, 0, 0));
-    
-    float w = ofGetWidth()/4;
-    dominanceSlider = new ofxUIRotarySlider(w,0.0,100,50.0,"DOMINANCE");
-    sliders.push_back(dominanceSlider);
-    interruptionSlider = new ofxUIRotarySlider(w,0.0,100,50.0,"INTERRUPTIONS");
-    sliders.push_back(interruptionSlider);
-    expressionSlider = new ofxUIRotarySlider(w,0.0,100,50.0,"EXPRESSION");
-    sliders.push_back(expressionSlider);
-    
-    for (int i=0; i<sliders.size(); i++) {
-        gui->addWidgetRight(sliders[i]);
-        sliders[i]->setColorOutline(ofColor(255, 255, 255, 0));
-        sliders[i]->setColorOutlineHighlight(ofColor(255, 255, 255, 0));
-        sliders[i]->setColorFill(ofColor(255, 255, 255));
-        sliders[i]->setColorBack(ofColor(100, 100, 100));
-        sliders[i]->setPadding(20.0);
-    }
-    
-    //gui->autoSizeToFitWidgets();
-    gui->centerWidgetsOnCanvas();
-    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
-    gui->loadSettings("settings.xml"); // pend, does anything need to be saved?
-    
+
     ofShowCursor();
+//    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
+//    gui->addLabelToggle("RECORDING", false);
+//    gui->autoSizeToFitWidgets();
+//    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
+
+	ofSetVerticalSync(true);
+	ofEnableSmoothing();
+	
+    
+    gui = new ofxUISuperCanvas("CONTROLS");
+    gui->addLabelToggle("RECORDING", false);
+    gui->autoSizeToFitWidgets();
+    ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
+    gui->loadSettings("guiSettings.xml");
 }
 
 //--------------------------------------------------------------
 void ofApp::update() {
-
+    analyzer.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+    analyzer.draw();
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-
+    if (key == 32) {
+        analyzer.setMode(!analyzer.curMode);
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {
-
 }
 
 //--------------------------------------------------------------
@@ -86,18 +78,17 @@ void ofApp::dragEvent(ofDragInfo dragInfo) {
 }
 
 void ofApp::exit() {
-    gui->saveSettings("settings.xml");
     delete gui;
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {
-    if(e.getName() == "DOMINANCE") {
-        ofxUISlider *slider = e.getSlider();
-        ofBackground(slider->getScaledValue());
+    if(e.getName() == "RECORDING") {
+        ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
+        analyzer.setMode(toggle->getValue());
     }
-//    } else if (e.getSlider() == interruptionSlider) {
-//        
-//    } else if (e.getSlider() == expressionSlider) {
-//        
-//    }
+    //    } else if (e.getSlider() == interruptionSlider) {
+    //
+    //    } else if (e.getSlider() == expressionSlider) {
+    //
+    //    }
 }
