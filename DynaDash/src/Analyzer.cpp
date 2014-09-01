@@ -17,10 +17,10 @@ Analyzer::Analyzer():
 
 Analyzer::~Analyzer() {}
 
-void Analyzer::setup(ofBaseApp *app) {
+void Analyzer::setup() {
     
     curMode = TRAINING;
-    audioInput.setup(app);
+    audioInput.setup();
     videoInput.setup();
     feedback.setup();
     reset();
@@ -81,7 +81,7 @@ void Analyzer::update() {
 }
 
 void Analyzer::draw() {
-    feedback.draw(videoInput.status, talkRatio);
+    feedback.draw(videoInput.status, audioInput.status, talkRatio);
 }
 
 void Analyzer::reset() {

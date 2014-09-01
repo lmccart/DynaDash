@@ -14,7 +14,7 @@ class Feedback {
     
 public:
     void setup();
-    void draw(float expression[4], float dominance[4]);
+    void draw(float expression[4], float volume[4], float dominance[4]);
     
 private:
     void drawArc(float amt);

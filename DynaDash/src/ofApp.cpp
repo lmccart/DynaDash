@@ -21,7 +21,7 @@ void ofApp::setup() {
     
 //    analyzer.audioInput.soundStream.setup(this, 0, 2, 44100, 256, 4);
     
-    analyzer.setup(this);
+    analyzer.setup();
 }
 
 //--------------------------------------------------------------

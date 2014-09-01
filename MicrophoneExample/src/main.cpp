@@ -12,8 +12,8 @@ public:
         deviceLister.listDevices();
         
         // happens to be on device 3 and 4
-        mic0.setup(3);
-        mic1.setup(4);
+        mic0.setup(4);
+        mic1.setup(5);
 	}
 	void draw() {
         ofBackground(0);

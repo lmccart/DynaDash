@@ -9,21 +9,44 @@
 #include "Feedback.h"
 
 void Feedback::setup() {
-    
 }
 
-void Feedback::draw(float expression[4], float dominance[4]) {
+void Feedback::draw(float expression[4], float volume[4], float dominance[4]) {
     
     ofPushMatrix();
     ofBackground(ofColor(40));
-    ofTranslate(ofGetWidth()*0.25, 0);
-    drawArc(expression[0]);
-    ofTranslate(ofGetWidth()*0.50, 0);
-    //drawArc(dominance[0]);
+    ofTranslate(100, 0);
+    
+    // speaking LED
+    
+    volume[0] *= 1000;
+    volume[1] *= 1000;
+    ofLogNotice() << "volume: " << volume[0] << " " << volume[1] << " " << volume[0]/volume[1] << " " << (volume[0] - volume[1])/((volume[0]+volume[1])/2);
     
     for (int i=0; i<4; i++) {
+        ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
+        ofNoFill();
+        ofCircle(40*i, ofGetHeight()/2, 15);
+        if (volume[i] > 30) {
+            ofSetColor(ledColor);
+            ofFill();
+            ofCircle(40*i, ofGetHeight()/2, 15);
+        }
+    }
+    ofTranslate(350, 0);
+   
+    // facial expression dial
+    drawArc(expression[0]);
+    ofTranslate(350, 0);
+    
+    // dominance/interruption LED display
+    for (int i=0; i<4; i++) {
         float nextAlpha = 255*dominance[i];
+        ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
+        ofNoFill();
+        ofCircle(ledCenters[i].x, ledCenters[i].y, 15);
         ofSetColor(ledColor[0], ledColor[1], ledColor[2], nextAlpha*(1-easing)+ledAlpha[i]*easing);
+        ofFill();
         ledAlpha[i] = nextAlpha;
         ofCircle(ledCenters[i].x, ledCenters[i].y, 15);
     }
@@ -33,6 +56,7 @@ void Feedback::draw(float expression[4], float dominance[4]) {
 }
 
 void Feedback::drawArc(float amt) {
+    amt = ofClamp(amt, 0, 1);
     float unit = ofGetWidth()*0.1;
     float h = ofGetHeight()*0.5;
     ofPath expressionCurve;

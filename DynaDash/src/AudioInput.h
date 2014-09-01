@@ -6,15 +6,17 @@
 //
 //
 #include "ofMain.h"
+#include "AudioAnalyzer.h"
 
 
 class AudioInput {
     
 public:
-    void setup(ofBaseApp *app);
+    void setup();
     void update();
     float status[4] = {0, 0, 0, 0};
     ofSoundStream soundStream;
+    AudioAnalyzer mics[4];
     
 private:
     float threshold;
