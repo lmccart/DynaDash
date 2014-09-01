@@ -13,12 +13,18 @@ Analyzer::Analyzer():
     db(ofToDataPath("dynadash.sqlite", true),
        SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE) {
         
-    curMode = TRAINING;
-    reset();
 }
 
 Analyzer::~Analyzer() {}
 
+void Analyzer::setup(ofBaseApp *app) {
+    
+    curMode = TRAINING;
+    audioInput.setup(app);
+    videoInput.setup();
+    feedback.setup();
+    reset();
+}
 
 void Analyzer::update() {
 
@@ -31,12 +37,13 @@ void Analyzer::update() {
     
     // track talk time ratios
     float totalTalkTime = 0;
-    for (int i : audioInput.status) {
+    for (int i=0; i<4; i++) {
         talkTime[i] += audioInput.status[i]*elapsed;
         totalTalkTime += talkTime[i];
     }
-    for (int i : talkRatio) {
+    for (int i=0; i<4; i++) {
         talkRatio[i] = talkTime[i]/totalTalkTime;
+        
     }
     
     // log relevant things to db for end analysis

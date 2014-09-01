@@ -18,6 +18,7 @@ public:
     Analyzer();
     ~Analyzer();
     
+    void setup(ofBaseApp *app);
     void update();
     void draw();
     void reset();

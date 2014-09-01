@@ -8,23 +8,26 @@
 
 #include "Feedback.h"
 
-
-Feedback::Feedback() {
+void Feedback::setup() {
     
 }
-
-Feedback::~Feedback() {}
-
-
 
 void Feedback::draw(float expression[4], float dominance[4]) {
     
     ofPushMatrix();
-    ofBackground(ofColor::white);
+    ofBackground(ofColor(40));
     ofTranslate(ofGetWidth()*0.25, 0);
     drawArc(expression[0]);
-    ofTranslate(ofGetWidth()*0.25, 0);
-    drawArc(dominance[0]);
+    ofTranslate(ofGetWidth()*0.50, 0);
+    //drawArc(dominance[0]);
+    
+    for (int i=0; i<4; i++) {
+        float nextAlpha = 255*dominance[i];
+        ofSetColor(ledColor[0], ledColor[1], ledColor[2], nextAlpha*(1-easing)+ledAlpha[i]*easing);
+        ledAlpha[i] = nextAlpha;
+        ofCircle(ledCenters[i].x, ledCenters[i].y, 15);
+    }
+    
     ofPopMatrix();
 
 }

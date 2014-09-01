@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		003D204D25082161368113CC /* win.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6F9AE469CBDD3712305BB8B9 /* win.cc */; };
 		014058944CFE6AE1A2171D12 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0BF2C3D22217F4607658D67D /* OscTypes.cpp */; };
 		1008E12EC52F9A6735082236 /* ofxUILabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9867DBDADFC90454A11A5219 /* ofxUILabel.cpp */; };
 		125939C91D0148773985F009 /* ofxUISpacer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9ADFD76185380F92E3FEF5E /* ofxUISpacer.cpp */; };
@@ -15,7 +14,6 @@
 		1E1525D2ECDC75EA4BC22D91 /* ofxUIImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24718F8E7FD5DC549AC1AA47 /* ofxUIImageButton.cpp */; };
 		2AF670D1984FB850CD130ECD /* ofxUIFPS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4862F6D92D00C0AA3ADE1420 /* ofxUIFPS.cpp */; };
 		2D2B3E5C037E3973CE36A766 /* ofxUIMultiImageToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AFCFF09A67D81C29E9E99221 /* ofxUIMultiImageToggle.cpp */; };
-		33A7D5300E08636D9C415964 /* serial.cc in Sources */ = {isa = PBXBuildFile; fileRef = A23E433CAC3C1CFC95DB8BF6 /* serial.cc */; };
 		3A160602504FC7ADC66D539F /* ofxUIImageSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D619D03F7DEBBAD847CEAF2 /* ofxUIImageSampler.cpp */; };
 		40F8E3F7627F83C74FD9086A /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 673AFCBC7323D2A93120A7A2 /* ofxOscBundle.cpp */; };
 		45856715D4FD8D39DDB28D6A /* ofxUILabelToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CD90DE7AFF324F6E88F9E812 /* ofxUILabelToggle.cpp */; };
@@ -62,7 +60,6 @@
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		BDB249B426913C517C2CCE5B /* ofxUIToggleMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28CC463EBB5EC807618BE9D6 /* ofxUIToggleMatrix.cpp */; };
 		BE25035A8B1C9C8DFFD50858 /* ofxUIRectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E1F00C0A33A53C25F1DB941D /* ofxUIRectangle.cpp */; };
-		C15AE7D09EDBDDDA86890752 /* unix.cc in Sources */ = {isa = PBXBuildFile; fileRef = 63875434A9786FDC700C3266 /* unix.cc */; };
 		C93D3E65FCD0C141D7C384A4 /* ofxUIRangeSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 863D6F252A05AA07800F2CFF /* ofxUIRangeSlider.cpp */; };
 		C9651B24B869083F299EFA4D /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28BB671FAE846D1979E878D2 /* UdpSocket.cpp */; };
 		C9D9F5077806966A166750A1 /* ofxUITextInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 803B54F6633FF3557A0F7505 /* ofxUITextInput.cpp */; };
@@ -94,7 +91,6 @@
 		E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E715D3B6510020DFD4 /* QTKit.framework */; };
 		E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F985F515E0DE99003869B5 /* Accelerate.framework */; };
 		E9169FACA5153089A1CC1328 /* ofxUIImageToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61DFC02CBB5E24B36F4E0710 /* ofxUIImageToggle.cpp */; };
-		E94245483DA0C0517C9FED44 /* ofxThermalPrinter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C7A351A028B93BBEE2F08225 /* ofxThermalPrinter.cpp */; };
 		F0509CA2E805D1D5F70A87D0 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F72D5263CF8609CF22E13BD6 /* NetworkingUtils.cpp */; };
 		F265FF0B49705768728F4D75 /* ofxUIWidgetWithLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 36D88A44128C08168EC11AC1 /* ofxUIWidgetWithLabel.cpp */; };
 		F5553C592E53CD1DB11CCB29 /* ofxUITabBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC43470B7D289E90E70C61A2 /* ofxUITabBar.cpp */; };
@@ -142,7 +138,6 @@
 		1122629B63D710D5689A89C1 /* ofxUIMinimalSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIMinimalSlider.cpp; path = ../../addons/ofxUI/src/ofxUIMinimalSlider.cpp; sourceTree = SOURCE_ROOT; };
 		153F60E33CCCB6E2FF9CE543 /* ofxUIOFWrapper.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIOFWrapper.h; path = ../../addons/ofxUI/src/ofxUIOFWrapper.h; sourceTree = SOURCE_ROOT; };
 		169DE09B3A680C1DC51E3644 /* ofxUISpectrum.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUISpectrum.cpp; path = ../../addons/ofxUI/src/ofxUISpectrum.cpp; sourceTree = SOURCE_ROOT; };
-		1BDE1DA5FD5B8618977DD50F /* serial.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = serial.h; path = ../../addons/ofxThermalPrinter/src/serial.h; sourceTree = SOURCE_ROOT; };
 		1D62E92EF3FAA346CCAE6E56 /* ofxUIRadio.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIRadio.h; path = ../../addons/ofxUI/src/ofxUIRadio.h; sourceTree = SOURCE_ROOT; };
 		1E1B1EDCC8EBFD6C27F5F577 /* ofxUI2DPad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUI2DPad.h; path = ../../addons/ofxUI/src/ofxUI2DPad.h; sourceTree = SOURCE_ROOT; };
 		1EC8F090F53493B67CD75AC4 /* ofxUILabelToggle.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUILabelToggle.h; path = ../../addons/ofxUI/src/ofxUILabelToggle.h; sourceTree = SOURCE_ROOT; };
@@ -153,9 +148,7 @@
 		28CC463EBB5EC807618BE9D6 /* ofxUIToggleMatrix.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIToggleMatrix.cpp; path = ../../addons/ofxUI/src/ofxUIToggleMatrix.cpp; sourceTree = SOURCE_ROOT; };
 		28E8BDC9D17CC55DB15C7D17 /* ofxUISlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUISlider.cpp; path = ../../addons/ofxUI/src/ofxUISlider.cpp; sourceTree = SOURCE_ROOT; };
 		29ECC02C053DC28A0DC2D3E8 /* ofxUISuperCanvas.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUISuperCanvas.cpp; path = ../../addons/ofxUI/src/ofxUISuperCanvas.cpp; sourceTree = SOURCE_ROOT; };
-		2A267354F115BD395EB6EC85 /* ofxThermalPrinter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxThermalPrinter.h; path = ../../addons/ofxThermalPrinter/src/ofxThermalPrinter.h; sourceTree = SOURCE_ROOT; };
 		2DD07F19C62EE9FB0D66A9D5 /* ofxUILabelButton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUILabelButton.cpp; path = ../../addons/ofxUI/src/ofxUILabelButton.cpp; sourceTree = SOURCE_ROOT; };
-		30B9CA264511888D05E0E920 /* v8stdint.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = v8stdint.h; path = ../../addons/ofxThermalPrinter/src/v8stdint.h; sourceTree = SOURCE_ROOT; };
 		34D3CEB701ADE58D28B9E792 /* ofxUIWidget.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIWidget.cpp; path = ../../addons/ofxUI/src/ofxUIWidget.cpp; sourceTree = SOURCE_ROOT; };
 		36B84C19F7D43A4B625AFA5A /* ofxUIBiLabelSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIBiLabelSlider.h; path = ../../addons/ofxUI/src/ofxUIBiLabelSlider.h; sourceTree = SOURCE_ROOT; };
 		36D88A44128C08168EC11AC1 /* ofxUIWidgetWithLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIWidgetWithLabel.cpp; path = ../../addons/ofxUI/src/ofxUIWidgetWithLabel.cpp; sourceTree = SOURCE_ROOT; };
@@ -183,7 +176,6 @@
 		6183DF553DAE91BAF104F03D /* ofxUIButton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIButton.cpp; path = ../../addons/ofxUI/src/ofxUIButton.cpp; sourceTree = SOURCE_ROOT; };
 		61CF7239F6DF326C4C318080 /* ofxUIDragableLabelButton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIDragableLabelButton.cpp; path = ../../addons/ofxUI/src/ofxUIDragableLabelButton.cpp; sourceTree = SOURCE_ROOT; };
 		61DFC02CBB5E24B36F4E0710 /* ofxUIImageToggle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIImageToggle.cpp; path = ../../addons/ofxUI/src/ofxUIImageToggle.cpp; sourceTree = SOURCE_ROOT; };
-		63875434A9786FDC700C3266 /* unix.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = unix.cc; path = ../../addons/ofxThermalPrinter/src/impl/unix.cc; sourceTree = SOURCE_ROOT; };
 		65A9A1771994252F00F3C2B2 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
 		65A9A1781994252F00F3C2B2 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
 		65A9A1791994252F00F3C2B2 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
@@ -219,13 +211,11 @@
 		6D619D03F7DEBBAD847CEAF2 /* ofxUIImageSampler.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIImageSampler.cpp; path = ../../addons/ofxUI/src/ofxUIImageSampler.cpp; sourceTree = SOURCE_ROOT; };
 		6EE05DD94DAD5D94142391A8 /* IpEndpointName.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = IpEndpointName.cpp; path = ../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.cpp; sourceTree = SOURCE_ROOT; };
 		6F8DEBB04960E223982CDABF /* ofxUICanvas.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUICanvas.cpp; path = ../../addons/ofxUI/src/ofxUICanvas.cpp; sourceTree = SOURCE_ROOT; };
-		6F9AE469CBDD3712305BB8B9 /* win.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = win.cc; path = ../../addons/ofxThermalPrinter/src/impl/win.cc; sourceTree = SOURCE_ROOT; };
 		72D4615B3AB82B37F87B9AD7 /* ofxOsc.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOsc.h; path = ../../addons/ofxOsc/src/ofxOsc.h; sourceTree = SOURCE_ROOT; };
 		739311BF504374DAF2859C5B /* ofxUIWaveform.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIWaveform.h; path = ../../addons/ofxUI/src/ofxUIWaveform.h; sourceTree = SOURCE_ROOT; };
 		76EA76EF69563B46ED98941F /* ofxUISortableList.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUISortableList.cpp; path = ../../addons/ofxUI/src/ofxUISortableList.cpp; sourceTree = SOURCE_ROOT; };
 		789FBFD56A572E7AA9033A0F /* ofxUILabel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUILabel.h; path = ../../addons/ofxUI/src/ofxUILabel.h; sourceTree = SOURCE_ROOT; };
 		798379B5500CA5F7564887DA /* OscReceivedElements.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscReceivedElements.h; path = ../../addons/ofxOsc/libs/oscpack/src/osc/OscReceivedElements.h; sourceTree = SOURCE_ROOT; };
-		7AE20E0B8380BCE541F79E8D /* win.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = win.h; path = ../../addons/ofxThermalPrinter/src/impl/win.h; sourceTree = SOURCE_ROOT; };
 		7B2BAA0F221902291E676F45 /* ofxOscSender.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscSender.cpp; path = ../../addons/ofxOsc/src/ofxOscSender.cpp; sourceTree = SOURCE_ROOT; };
 		803B54F6633FF3557A0F7505 /* ofxUITextInput.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUITextInput.cpp; path = ../../addons/ofxUI/src/ofxUITextInput.cpp; sourceTree = SOURCE_ROOT; };
 		806CC7C260DCA74E4EDEBFA8 /* ofxUIWidgets.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIWidgets.h; path = ../../addons/ofxUI/src/ofxUIWidgets.h; sourceTree = SOURCE_ROOT; };
@@ -251,7 +241,6 @@
 		9BB93D8C9F763F71ACE84464 /* ofxUIMultiImageButton.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIMultiImageButton.cpp; path = ../../addons/ofxUI/src/ofxUIMultiImageButton.cpp; sourceTree = SOURCE_ROOT; };
 		9EA710687A480F98DDABF393 /* OscHostEndianness.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = OscHostEndianness.h; path = ../../addons/ofxOsc/libs/oscpack/src/osc/OscHostEndianness.h; sourceTree = SOURCE_ROOT; };
 		9F965786DA5C49F1281ACC4B /* ofxUINumberDialer.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUINumberDialer.h; path = ../../addons/ofxUI/src/ofxUINumberDialer.h; sourceTree = SOURCE_ROOT; };
-		A23E433CAC3C1CFC95DB8BF6 /* serial.cc */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = serial.cc; path = ../../addons/ofxThermalPrinter/src/serial.cc; sourceTree = SOURCE_ROOT; };
 		A2A21BEF344AF207FD58307E /* ofxUIFPSSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIFPSSlider.h; path = ../../addons/ofxUI/src/ofxUIFPSSlider.h; sourceTree = SOURCE_ROOT; };
 		A445B36C656236A1A27845A9 /* ofxUISpectrum.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUISpectrum.h; path = ../../addons/ofxUI/src/ofxUISpectrum.h; sourceTree = SOURCE_ROOT; };
 		A5874FC297274C6D52ADAFE8 /* ofxUIDefines.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIDefines.h; path = ../../addons/ofxUI/src/ofxUIDefines.h; sourceTree = SOURCE_ROOT; };
@@ -278,7 +267,6 @@
 		C1B9244B7D12ED7F3DA69968 /* ofxUI2DPad.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUI2DPad.cpp; path = ../../addons/ofxUI/src/ofxUI2DPad.cpp; sourceTree = SOURCE_ROOT; };
 		C529D43984024AF697ABF518 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = OscPrintReceivedElements.cpp; path = ../../addons/ofxOsc/libs/oscpack/src/osc/OscPrintReceivedElements.cpp; sourceTree = SOURCE_ROOT; };
 		C624A95FF974E0F40F86E3F0 /* ofxUIImageSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIImageSlider.h; path = ../../addons/ofxUI/src/ofxUIImageSlider.h; sourceTree = SOURCE_ROOT; };
-		C7A351A028B93BBEE2F08225 /* ofxThermalPrinter.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxThermalPrinter.cpp; path = ../../addons/ofxThermalPrinter/src/ofxThermalPrinter.cpp; sourceTree = SOURCE_ROOT; };
 		C8149463B006FA2747A85DD5 /* ofxUINumberDialer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUINumberDialer.cpp; path = ../../addons/ofxUI/src/ofxUINumberDialer.cpp; sourceTree = SOURCE_ROOT; };
 		CC9BEB01A3AF97A1D0D2A7D6 /* NetworkingUtilsWin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtilsWin.cpp; path = ../../addons/ofxOsc/libs/oscpack/src/ip/win32/NetworkingUtilsWin.cpp; sourceTree = SOURCE_ROOT; };
 		CD404B60813848D2BE4A66AE /* ofxUIBaseDraws.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIBaseDraws.cpp; path = ../../addons/ofxUI/src/ofxUIBaseDraws.cpp; sourceTree = SOURCE_ROOT; };
@@ -323,7 +311,6 @@
 		F72D5263CF8609CF22E13BD6 /* NetworkingUtils.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtils.cpp; path = ../../addons/ofxOsc/libs/oscpack/src/ip/posix/NetworkingUtils.cpp; sourceTree = SOURCE_ROOT; };
 		F995218DE3C753350D322868 /* ofxUIEventArgs.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIEventArgs.h; path = ../../addons/ofxUI/src/ofxUIEventArgs.h; sourceTree = SOURCE_ROOT; };
 		F9DEE6E8B315A11A871C5C35 /* ofxUITextArea.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUITextArea.h; path = ../../addons/ofxUI/src/ofxUITextArea.h; sourceTree = SOURCE_ROOT; };
-		FE2D92C14FE7609908834AC0 /* unix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = unix.h; path = ../../addons/ofxThermalPrinter/src/impl/unix.h; sourceTree = SOURCE_ROOT; };
 		FE6EB7A9C21C6431726F001C /* ofxOscMessage.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxOscMessage.h; path = ../../addons/ofxOsc/src/ofxOscMessage.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -354,19 +341,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2ECD902C0FC04BCC03ADE5CD /* src */ = {
-			isa = PBXGroup;
-			children = (
-				A4040CA956B1390EEE7B6856 /* impl */,
-				C7A351A028B93BBEE2F08225 /* ofxThermalPrinter.cpp */,
-				2A267354F115BD395EB6EC85 /* ofxThermalPrinter.h */,
-				A23E433CAC3C1CFC95DB8BF6 /* serial.cc */,
-				1BDE1DA5FD5B8618977DD50F /* serial.h */,
-				30B9CA264511888D05E0E920 /* v8stdint.h */,
-			);
-			name = src;
-			sourceTree = "<group>";
-		};
 		30CB364908817057B430D528 /* osc */ = {
 			isa = PBXGroup;
 			children = (
@@ -490,31 +464,12 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		7A5FE121D3645C5252E80CBD /* ofxThermalPrinter */ = {
-			isa = PBXGroup;
-			children = (
-				2ECD902C0FC04BCC03ADE5CD /* src */,
-			);
-			name = ofxThermalPrinter;
-			sourceTree = "<group>";
-		};
 		86D2677079A3AF4A5A88E29A /* oscpack */ = {
 			isa = PBXGroup;
 			children = (
 				D27B2221A225CA523C019676 /* src */,
 			);
 			name = oscpack;
-			sourceTree = "<group>";
-		};
-		A4040CA956B1390EEE7B6856 /* impl */ = {
-			isa = PBXGroup;
-			children = (
-				63875434A9786FDC700C3266 /* unix.cc */,
-				FE2D92C14FE7609908834AC0 /* unix.h */,
-				6F9AE469CBDD3712305BB8B9 /* win.cc */,
-				7AE20E0B8380BCE541F79E8D /* win.h */,
-			);
-			name = impl;
 			sourceTree = "<group>";
 		};
 		A492CE86424AB8905550BFD8 /* ofxUI */ = {
@@ -540,7 +495,6 @@
 				65EDFE9919A0F8630095AE6E /* ofxSQLiteCpp */,
 				65A9A1751994252F00F3C2B2 /* ofxXmlSettings */,
 				E6053AB7FEC63D5F83825B88 /* ofxOsc */,
-				7A5FE121D3645C5252E80CBD /* ofxThermalPrinter */,
 				A492CE86424AB8905550BFD8 /* ofxUI */,
 			);
 			name = addons;
@@ -893,10 +847,6 @@
 				65A9A1801994252F00F3C2B2 /* tinyxmlparser.cpp in Sources */,
 				F95B04FD042E7407B70EE321 /* OscReceivedElements.cpp in Sources */,
 				014058944CFE6AE1A2171D12 /* OscTypes.cpp in Sources */,
-				C15AE7D09EDBDDDA86890752 /* unix.cc in Sources */,
-				003D204D25082161368113CC /* win.cc in Sources */,
-				E94245483DA0C0517C9FED44 /* ofxThermalPrinter.cpp in Sources */,
-				33A7D5300E08636D9C415964 /* serial.cc in Sources */,
 				963A4D13E79E8425C67C6866 /* ofxUI2DGraph.cpp in Sources */,
 				6823F4B976F27134DE4475CF /* ofxUI2DPad.cpp in Sources */,
 				D312F950BA61735F52FF6814 /* ofxUIBaseDraws.cpp in Sources */,

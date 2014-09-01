@@ -8,11 +8,9 @@
 
 #include "VideoInput.h"
 
-VideoInput::VideoInput() {
+void VideoInput::setup() {
+    
 }
-
-VideoInput::~VideoInput() {}
-
 
 void VideoInput::update() {
     for (int i : status) {

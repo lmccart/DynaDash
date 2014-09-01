@@ -18,6 +18,10 @@ void ofApp::setup() {
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
     gui->loadSettings("guiSettings.xml");
+    
+//    analyzer.audioInput.soundStream.setup(this, 0, 2, 44100, 256, 4);
+    
+    analyzer.setup(this);
 }
 
 //--------------------------------------------------------------

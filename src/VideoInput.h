@@ -11,9 +11,7 @@
 class VideoInput {
     
 public:
-    VideoInput();
-    ~VideoInput();
-    
+    void setup();
     void update();
     float status[4] = {0.3, 0, 0, 0};
     
