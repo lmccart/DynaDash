@@ -1,3 +1,3 @@
-ofxOsc
-ofxThermalPrinter
+ofxXmlSettings
+ofxSQLiteCpp
 ofxUI
