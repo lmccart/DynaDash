@@ -14,12 +14,15 @@ class AudioInput {
 public:
     void setup();
     void update();
-    vector<float>status;
+    vector<float>lastVolume;
+    vector<float>volume;
+	vector<float>normalizedVolume;
+	vector<bool>speaking;
+	float smoothAmt;
+	float speakingNormalizedThresh;
     ofSoundStream soundStream;
     AudioAnalyzer mics[4];
     
 private:
-    float threshold;
-    float minimumThreshold;
-    float decayRate;
+	void normalizeVolumes();
 };

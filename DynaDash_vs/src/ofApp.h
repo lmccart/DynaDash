@@ -7,6 +7,7 @@ class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
+		void initSettings();
 		void update();
 		void draw();
 

@@ -29,4 +29,5 @@ xcshareddata/
 xcuserdata/
 *.xcodeproj/xcuserdata/*.xcuserdatad
 *.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
-
+*.tlog
+obj/*

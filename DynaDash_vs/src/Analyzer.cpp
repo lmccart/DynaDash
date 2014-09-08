@@ -39,15 +39,15 @@ void Analyzer::update() {
     expressionInput.update();
     
     // track talk time ratios
-    float totalTalkTime = 0;
-    for (int i=0; i<talkTime.size(); i++) {
-        talkTime[i] += audioInput.status[i]*elapsed;
-        totalTalkTime += talkTime[i];
-    }
-    for (int i=0; i<talkTime.size(); i++) {
-        talkRatio[i] = talkTime[i]/totalTalkTime;
-        
-    }
+    //float totalTalkTime = 0;
+    //for (int i=0; i<talkTime.size(); i++) {
+    //    talkTime[i] += audioInput.volume[i]*elapsed;
+    //    totalTalkTime += talkTime[i];
+    //}
+    //for (int i=0; i<talkTime.size(); i++) {
+    //    talkRatio[i] = talkTime[i]/totalTalkTime;
+    //    
+    //}
     
     // log relevant things to db for end analysis
     if (curMode == RECORDING) {
@@ -84,7 +84,7 @@ void Analyzer::update() {
 }
 
 void Analyzer::draw() {
-    feedback.draw(expressionInput.status, audioInput.status, talkRatio);
+    feedback.draw(expressionInput.status, audioInput.normalizedVolume, audioInput.speaking, talkRatio);
 }
 
 void Analyzer::reset() {

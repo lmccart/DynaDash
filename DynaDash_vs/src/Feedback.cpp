@@ -19,7 +19,7 @@ void Feedback::setup() {
 	easing = 0.8;
 }
 
-void Feedback::draw(vector<float> expression, vector<float> volume, vector<float> dominance) {
+void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<bool> speaking, vector<float> dominance) {
     
     ofPushMatrix();
     ofBackground(ofColor(40));
@@ -27,20 +27,21 @@ void Feedback::draw(vector<float> expression, vector<float> volume, vector<float
     
     // speaking LED
     
-    volume[0] *= 1000;
-    volume[1] *= 1000;
-    //ofLogNotice() << "volume: " << volume[0] << " " << volume[1] << " " << volume[0]/volume[1] << " " << (volume[0] - volume[1])/((volume[0]+volume[1])/2);
-    
+   //ofLogNotice() << "volume: " << volume[0] << " " << volume[1] << " " << volume[2] << " " << volume[3];
+
+	ofPushStyle();
     for (int i=0; i<4; i++) {
         ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
         ofNoFill();
+		ofSetLineWidth(normVolume[i] * 12);
         ofCircle(40*i, ofGetHeight()/2, 15);
-        if (volume[i] > 30) {
+        if (speaking[i]) {
             ofSetColor(ledColor);
             ofFill();
             ofCircle(40*i, ofGetHeight()/2, 15);
         }
     }
+	ofPopStyle();
     ofTranslate(350, 0);
    
     // facial expression dial
