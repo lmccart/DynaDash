@@ -184,6 +184,12 @@
     <ClCompile Include="src\ExpressionInput.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\StackedPlot.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioAnalyzer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -717,6 +723,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\ExpressionInput.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StackedPlot.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

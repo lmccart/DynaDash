@@ -146,11 +146,13 @@
     <ClCompile Include="..\..\..\addons\ofxUI\src\ofxUIWidget.cpp" />
     <ClCompile Include="..\..\..\addons\ofxUI\src\ofxUIWidgetWithLabel.cpp" />
     <ClCompile Include="src\Analyzer.cpp" />
+    <ClCompile Include="src\AudioAnalyzer.cpp" />
     <ClCompile Include="src\AudioInput.cpp" />
     <ClCompile Include="src\Feedback.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\ExpressionInput.cpp" />
+    <ClCompile Include="src\StackedPlot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\addons\ofxOpenCv\src\ofxCvBlob.h" />
@@ -303,6 +305,7 @@
     <ClInclude Include="src\Feedback.h" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\ExpressionInput.h" />
+    <ClInclude Include="src\StackedPlot.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

@@ -85,7 +85,7 @@ void Analyzer::update() {
 }
 
 void Analyzer::draw() {
-    feedback.draw(expressionInput.status, audioInput.normalizedVolume, audioInput.speaking, talkRatio);
+    feedback.draw(expressionInput.status, audioInput.normalizedVolume, audioInput.speaking, audioInput.interrupting, talkRatio);
 }
 
 void Analyzer::reset() {

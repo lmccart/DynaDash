@@ -30,7 +30,7 @@ void ofApp::setup() {
 
 void ofApp::initSettings() {
 	gui->loadSettings("guiSettings.xml");
-	analyzer.audioInput.smoothAmt = ((ofxUISlider *)gui->getWidget("AUDIO_SMOOTH_AMT"))->getValue();
+	analyzer.audioInput.setSmoothing(((ofxUISlider *)gui->getWidget("AUDIO_SMOOTH_AMT"))->getValue());
 	analyzer.audioInput.speakingNormalizedThresh = ((ofxUISlider *)gui->getWidget("AUDIO_SPEAKING_THRESH"))->getValue();
 }
 
@@ -103,8 +103,8 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
         analyzer.setMode(toggle->getValue());
     } else if (e.getName() == "AUDIO_SMOOTH_AMT") {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
-		analyzer.audioInput.smoothAmt = slider->getValue();
-		ofLogNotice() << "audio smooth amt set to: " << analyzer.audioInput.smoothAmt;
+		analyzer.audioInput.setSmoothing(slider->getValue());
+		ofLogNotice() << "audio smooth amt set to: " << slider->getValue();
 	} else if (e.getName() == "AUDIO_SPEAKING_THRESH") {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
 		analyzer.audioInput.speakingNormalizedThresh = slider->getValue();
