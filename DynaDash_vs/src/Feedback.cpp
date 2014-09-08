@@ -17,6 +17,16 @@ void Feedback::setup() {
 	ledCenters[2] = ofVec2f(0, 100);
 	ledCenters[3] = ofVec2f(100, 200);
 	easing = 0.8;
+
+    audioPlot.historyLength = 100;
+    audioPlot.addColor(ofColor::fromHex(0xF4C341));
+    audioPlot.addColor(ofColor::fromHex(0x05A180));
+    audioPlot.addColor(ofColor::fromHex(0xE25D48));
+    audioPlot.addColor(ofColor::fromHex(0x055D48));
+}
+
+void Feedback::update(vector<float>volume) {
+	audioPlot.addData(volume);
 }
 
 void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<bool> speaking, vector<float> dominance) {
@@ -42,6 +52,10 @@ void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<b
         }
     }
 	ofPopStyle();
+
+	ofTranslate(200, 0);
+	audioPlot.draw(200, 100);
+
     ofTranslate(350, 0);
    
     // facial expression dial

@@ -6,7 +6,8 @@
 //
 //
 
-#include "AudioInput.h"
+#include "AudioInput.h";
+#include "StackedPlot.h";
 
 void AudioInput::setup() {
     
@@ -26,22 +27,22 @@ void AudioInput::setup() {
 
 void AudioInput::update() {
     for (int i=0; i<4; i++) {
-		float v = ofLerp(lastVolume[i], mics[i].getVolume(), (1.0-smoothAmt));
+		float v = mics[i].getVolume();
+		float adjV;
+		if (v >= volume[i]) {
+			adjV = v;
+		} else {
+			adjV = ofLerp(lastVolume[i], mics[i].getVolume(), (1.0-smoothAmt));
+		}
 		lastVolume[i] = volume[i];
-		volume[i] = v;
+		volume[i] = adjV;
     }
-	normalizeVolumes();
+	analyzeVolumes();
 }
 
-void AudioInput::normalizeVolumes() {
-	    
-	float volumeSum = 0;
-	for(int i = 0; i < 4; i++) {
-		volumeSum += volume[i];
-	}
-	for(int i = 0; i < 4; i++) {
-		normalizedVolume[i] = volume[i] / volumeSum;
-	}
+void AudioInput::analyzeVolumes() {
+
+	normalizedVolume = StackedPlot::normalize(volume);
 	int maxVolumeIndex = 0;
 	float maxVolume = 0;
 	for(int i = 0; i < 4; i++) {

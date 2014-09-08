@@ -37,6 +37,7 @@ void Analyzer::update() {
     // update inputs
     audioInput.update();
     expressionInput.update();
+	feedback.update(audioInput.normalizedVolume);
     
     // track talk time ratios
     //float totalTalkTime = 0;

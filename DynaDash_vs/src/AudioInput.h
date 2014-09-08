@@ -24,5 +24,5 @@ public:
     AudioAnalyzer mics[4];
     
 private:
-	void normalizeVolumes();
+	void analyzeVolumes();
 };
