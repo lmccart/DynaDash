@@ -23,6 +23,10 @@ void Analyzer::setup() {
 	talkTime = vector<float>(4, 0);
 	talkRatio = vector<float>(4, 0);
 	
+	for (int i=0; i<4; i++) {
+		talkHistory.push_back(vector<float>(ofGetFrameRate()*60, 0)); // one minute
+	}
+	
 	showDebug = true;
 
     audioInput.setup();
@@ -43,17 +47,29 @@ void Analyzer::update() {
 	feedback.update(audioInput.normalizedVolume);
 	debugFeedback.update(audioInput.normalizedVolume);
     
+	// update talk history arrays
+	for (int i=0; i<4; i++) {
+		vector<float> v = talkHistory[i];
+		float t = audioInput.speaking[i]*elapsed;
+		talkTime[i] -= talkHistory[i][0];
+		//rotate(talkHistory[i].begin(),talkHistory[i].end()-1,talkHistory[i].end());
+		for (int j=0; j<talkHistory[i].size()-1; j++) {
+			talkHistory[i][j] = talkHistory[i][j+1];
+		}
+		talkHistory[i][talkHistory[i].size()-1] = t;
+		talkTime[i] += t;
+	}
+	
     // track talk time ratios
-    //float totalTalkTime = 0;
-    //for (int i=0; i<talkTime.size(); i++) {
-    //    talkTime[i] += audioInput.volume[i]*elapsed;
-    //    totalTalkTime += talkTime[i];
-    //}
-    //for (int i=0; i<talkTime.size(); i++) {
-    //    talkRatio[i] = talkTime[i]/totalTalkTime;
-    //    
-    //}
+    float totalTalkTime = 0;
+    for (int i=0; i<4; i++) {
+		totalTalkTime += talkTime[i];
+    }
+    for (int i=0; i<talkTime.size(); i++) {
+        talkRatio[i] = talkTime[i]/totalTalkTime;
+    }
     
+		ofLogNotice() << talkHistory[0][0] <<"  " << talkHistory[0][talkHistory[0].size()-1] << " " << talkTime[0];
     // log relevant things to db for end analysis
     if (curMode == RECORDING) {
         try {

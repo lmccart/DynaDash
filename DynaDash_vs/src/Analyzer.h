@@ -40,6 +40,7 @@ public:
 
 private:
     float lastUpdate;
+	vector<vector<float>> talkHistory;
     vector<float> talkTime;
     vector<float> talkRatio;
 };

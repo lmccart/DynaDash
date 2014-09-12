@@ -47,15 +47,15 @@ void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<b
 	ofPushStyle();
 	ofSetLineWidth(2.5);
     for (int i=0; i<4; i++) {
-        //float nextAlpha = 255*dominance[i];
+        float nextAlpha = 255*dominance[i];
         ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
         ofNoFill();
         ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
 
-        //ofSetColor(ledColor[0], ledColor[1], ledColor[2], ofLerp(ledAlpha[i], nextAlpha, easing));
-        //ofFill();
-        //ledAlpha[i] = nextAlpha;
-        //ofCircle(ledCenters[i].x, ledCenters[i].y, 15);
+        ofSetColor(ledColor[0], ledColor[1], ledColor[2], ofLerp(ledAlpha[i], nextAlpha, easing));
+        ofFill();
+        ledAlpha[i] = nextAlpha;
+        ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
 
 		float warnAlpha = 0;
 		if (interrupting[i]) {
