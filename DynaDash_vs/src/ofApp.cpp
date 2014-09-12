@@ -13,12 +13,13 @@ void ofApp::setup() {
 	ofEnableSmoothing();
 	
     
-    gui = new ofxUISuperCanvas("CONTROLS");
+    gui = new ofxUISuperCanvas("DEBUG VIEW");
     gui->addLabelToggle("RECORDING", false);
+	gui->setWidth(215);
 	
 	// audio stuff
 	gui->addSlider("AUDIO_SMOOTH_AMT", 0, 1.0, 0.2);
-	gui->addSlider("AUDIO_SPEAKING_THRESH", 0, 1.0, 0.5);
+	gui->addSlider("AUDIO_THRESH", 0, 1.0, 0.5);
 
 	gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
@@ -31,7 +32,7 @@ void ofApp::setup() {
 void ofApp::initSettings() {
 	gui->loadSettings("guiSettings.xml");
 	analyzer.audioInput.setSmoothing(((ofxUISlider *)gui->getWidget("AUDIO_SMOOTH_AMT"))->getValue());
-	analyzer.audioInput.speakingNormalizedThresh = ((ofxUISlider *)gui->getWidget("AUDIO_SPEAKING_THRESH"))->getValue();
+	analyzer.audioInput.speakingNormalizedThresh = ((ofxUISlider *)gui->getWidget("AUDIO_THRESH"))->getValue();
 }
 
 //--------------------------------------------------------------
@@ -48,8 +49,14 @@ void ofApp::draw() {
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
     if (key == 32) {
-        analyzer.setMode(!analyzer.curMode);
+        //analyzer.setMode(!analyzer.curMode);
+		analyzer.showDebug = !analyzer.showDebug;
+		ofLogNotice() << "debug view: " << analyzer.showDebug;
+
+		gui->setVisible(analyzer.showDebug);
+
     }
+	ofLogNotice() << "key pressed: " << key;
 }
 
 //--------------------------------------------------------------
@@ -105,7 +112,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
 		analyzer.audioInput.setSmoothing(slider->getValue());
 		ofLogNotice() << "audio smooth amt set to: " << slider->getValue();
-	} else if (e.getName() == "AUDIO_SPEAKING_THRESH") {
+	} else if (e.getName() == "AUDIO_THRESH") {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
 		analyzer.audioInput.speakingNormalizedThresh = slider->getValue();
 		ofLogNotice() << "audio speaking norm thresh set to: " << analyzer.audioInput.speakingNormalizedThresh;

@@ -190,6 +190,9 @@
     <ClCompile Include="src\AudioAnalyzer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\DebugFeedback.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -726,6 +729,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\StackedPlot.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DebugFeedback.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -9,6 +9,7 @@
 #include "ofMain.h"
 //#include "SQLiteC++.h"
 #include "Feedback.h"
+#include "DebugFeedback.h"
 #include "AudioInput.h"
 #include "ExpressionInput.h"
 
@@ -33,7 +34,9 @@ public:
     AudioInput audioInput;
     ExpressionInput expressionInput;
     Feedback feedback;
+	DebugFeedback debugFeedback;
     //SQLite::Database db;
+	bool showDebug;
 
 private:
     float lastUpdate;

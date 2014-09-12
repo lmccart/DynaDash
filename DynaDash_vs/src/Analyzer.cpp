@@ -22,10 +22,13 @@ void Analyzer::setup() {
     curMode = TRAINING;
 	talkTime = vector<float>(4, 0);
 	talkRatio = vector<float>(4, 0);
+	
+	showDebug = true;
 
     audioInput.setup();
     expressionInput.setup();
     feedback.setup();
+	debugFeedback.setup(215);
     reset();
 }
 
@@ -38,6 +41,7 @@ void Analyzer::update() {
     audioInput.update();
     expressionInput.update();
 	feedback.update(audioInput.normalizedVolume);
+	debugFeedback.update(audioInput.normalizedVolume);
     
     // track talk time ratios
     //float totalTalkTime = 0;
@@ -86,6 +90,9 @@ void Analyzer::update() {
 
 void Analyzer::draw() {
     feedback.draw(expressionInput.status, audioInput.normalizedVolume, audioInput.speaking, audioInput.interrupting, talkRatio);
+	if (showDebug) {
+		debugFeedback.draw(audioInput.normalizedVolume, audioInput.speaking);
+	}
 }
 
 void Analyzer::reset() {

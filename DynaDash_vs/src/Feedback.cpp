@@ -33,36 +33,25 @@ void Feedback::update(vector<float>volume) {
 
 void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<bool> speaking, vector<bool> interrupting, vector<float> dominance) {
     
-    ofPushMatrix();
     ofBackground(ofColor(40));
-    ofTranslate(100, 0);
-    
-    // SPEAKING LED
-	ofPushStyle();
-    for (int i=0; i<4; i++) {
-        ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
-        ofNoFill();
-		ofSetLineWidth(normVolume[i] * 12);
-        ofCircle(40*i, ofGetHeight()/2, 15);
-        if (speaking[i]) {
-            ofSetColor(ledColor);
-            ofFill();
-            ofCircle(40*i, ofGetHeight()/2, 15);
-        }
-    }
-	ofPopStyle();
 
-	ofTranslate(200, 0);
-	audioPlot.draw(200, 100);
+    ofPushMatrix();
+	ofTranslate(425, 0);
 	
+    // facial expression dial
+    drawArc(expression[0]);
+
+	ofTranslate(375, 0);
+
     // DOMINANCE/SPEAKING LED DISPLAY
-    ofTranslate(350, 0);
 	ofPushStyle();
+	ofSetLineWidth(2.5);
     for (int i=0; i<4; i++) {
         //float nextAlpha = 255*dominance[i];
         ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
         ofNoFill();
-        ofCircle(ledCenters[i].x, ledCenters[i].y, 15);
+        ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
+
         //ofSetColor(ledColor[0], ledColor[1], ledColor[2], ofLerp(ledAlpha[i], nextAlpha, easing));
         //ofFill();
         //ledAlpha[i] = nextAlpha;
@@ -77,34 +66,39 @@ void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<b
 		ledWarnAlpha[i] = warnAlpha;
 		ofSetColor(ledWarnColor[0], ledWarnColor[1], ledWarnColor[2], warnAlpha);
 		ofFill();
-		ofCircle(ledCenters[i].x, ledCenters[i].y, 15);
+		ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
     }
 	ofPopStyle();
 	
-    // facial expression dial
-    ofTranslate(350, 0);
-    drawArc(expression[0]);
-    
-    drawArc(expression[0]);
- 
     
     ofPopMatrix();
 
 }
 
 void Feedback::drawArc(float amt) {
+	ofPushStyle();
     amt = ofClamp(amt, 0, 1);
-    float unit = ofGetWidth()*0.1;
+    float unit = ofGetWidth()*0.15;
     float h = ofGetHeight()*0.5;
-    ofPath expressionCurve;
 	ofPoint p(0, h);
-	expressionCurve.arc(p, unit, unit, -180, 180*amt-180);
-	expressionCurve.arcNegative(p, 0.5*unit, 0.5*unit, 180*amt-180, -180);
-	expressionCurve.close();
-	expressionCurve.setCurveResolution(60);
+	ofColor blue(70, 70, 200);
+	ofColor gray(100);
+
+    ofPath expressionCurveBack;
+	expressionCurveBack.setCurveResolution(100);
+	expressionCurveBack.arc(p, unit, unit, -180, 0);
+	expressionCurveBack.setFillColor(gray);
+	expressionCurveBack.setFilled(true);
+	expressionCurveBack.draw();
+	
+    ofPath expressionCurve;
+	expressionCurve.setCurveResolution(100);
+	expressionCurve.arc(p, unit, unit, -180, ofClamp(180*amt-180, -180, 0));
 	ofColor c(255, 0,0);
-	expressionCurve.setFillColor(c);
+	expressionCurve.setFillColor(blue);
 	expressionCurve.setFilled(true);
 	expressionCurve.draw();
+
+	ofPopStyle();
 }
 
