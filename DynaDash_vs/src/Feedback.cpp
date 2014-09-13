@@ -77,7 +77,6 @@ void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<b
 
 void Feedback::drawArc(float amt) {
 	ofPushStyle();
-    amt = ofClamp(amt, 0, 1);
     float unit = ofGetWidth()*0.15;
     float h = ofGetHeight()*0.5;
 	ofPoint p(0, h);
@@ -93,7 +92,7 @@ void Feedback::drawArc(float amt) {
 	
     ofPath expressionCurve;
 	expressionCurve.setCurveResolution(100);
-	expressionCurve.arc(p, unit, unit, -180, ofClamp(180*amt-180, -180, 0));
+	expressionCurve.arc(p, unit, unit, -180, ofClamp(180*amt-180, -178, 0));
 	ofColor c(255, 0,0);
 	expressionCurve.setFillColor(blue);
 	expressionCurve.setFilled(true);

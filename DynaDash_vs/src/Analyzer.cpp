@@ -22,11 +22,9 @@ void Analyzer::setup() {
     curMode = TRAINING;
 	talkTime = vector<float>(4, 0);
 	talkRatio = vector<float>(4, 0);
-	
-	for (int i=0; i<4; i++) {
-		talkHistory.push_back(vector<float>(ofGetFrameRate()*60, 0)); // one minute
-	}
-	
+	talkHistory = vector<list<float>>(4, list<float>());
+
+	talkHistoryMinutes = 3;
 	showDebug = true;
 
     audioInput.setup();
@@ -38,8 +36,9 @@ void Analyzer::setup() {
 
 void Analyzer::update() {
 
-    float elapsed = ofGetElapsedTimef() - lastUpdate;
-    lastUpdate = ofGetElapsedTimef();
+	float curUpdate = ofGetElapsedTimef();
+    float elapsed = curUpdate - lastUpdate;
+    lastUpdate = curUpdate;
     
     // update inputs
     audioInput.update();
@@ -47,19 +46,24 @@ void Analyzer::update() {
 	feedback.update(audioInput.normalizedVolume);
 	debugFeedback.update(audioInput.normalizedVolume);
     
-	// update talk history arrays
-	for (int i=0; i<4; i++) {
-		vector<float> v = talkHistory[i];
-		float t = audioInput.speaking[i]*elapsed;
-		talkTime[i] -= talkHistory[i][0];
-		//rotate(talkHistory[i].begin(),talkHistory[i].end()-1,talkHistory[i].end());
-		for (int j=0; j<talkHistory[i].size()-1; j++) {
-			talkHistory[i][j] = talkHistory[i][j+1];
-		}
-		talkHistory[i][talkHistory[i].size()-1] = t;
-		talkTime[i] += t;
+	// update talk history arrays and current time
+	talkHistoryTime.push_back(curUpdate);
+	for(int i = 0; i < 4; i++) {
+		float currentDuration = audioInput.speaking[i] * elapsed;
+		talkHistory[i].push_back(currentDuration);
+		talkTime[i] += currentDuration;
 	}
-	
+
+	// remove all time that is too old
+	float talkHistorySeconds = talkHistoryMinutes * 60;
+	while(curUpdate - talkHistoryTime.front() > talkHistorySeconds) {
+		talkHistoryTime.pop_front();
+		for(int i = 0; i < 4; i++) {
+			talkTime[i] -= talkHistory[i].front();
+			talkHistory[i].pop_front();
+		}
+	}
+
     // track talk time ratios
     float totalTalkTime = 0;
     for (int i=0; i<4; i++) {
@@ -69,7 +73,7 @@ void Analyzer::update() {
         talkRatio[i] = talkTime[i]/totalTalkTime;
     }
     
-		ofLogNotice() << talkHistory[0][0] <<"  " << talkHistory[0][talkHistory[0].size()-1] << " " << talkTime[0];
+		ofLogNotice() << talkHistory[0].front() <<"  " << talkHistory[0].back() << " " << talkTime[0];
     // log relevant things to db for end analysis
     if (curMode == RECORDING) {
         try {

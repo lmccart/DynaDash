@@ -33,7 +33,7 @@ void DebugFeedback::draw(vector<float> normVolume, vector<bool> speaking) {
 	ofFill();
 	ofRect(0, 0, w, ofGetHeight());
 
-    ofTranslate(0, 150);
+    ofTranslate(0, 170);
     
     // SPEAKING LED
 	ofPushStyle();

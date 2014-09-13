@@ -37,10 +37,12 @@ public:
 	DebugFeedback debugFeedback;
     //SQLite::Database db;
 	bool showDebug;
+	float talkHistoryMinutes;
 
 private:
     float lastUpdate;
-	vector<vector<float>> talkHistory;
+	list<float> talkHistoryTime;
+	vector<list<float>> talkHistory;
     vector<float> talkTime;
     vector<float> talkRatio;
 };

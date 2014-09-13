@@ -20,6 +20,7 @@ void ofApp::setup() {
 	// audio stuff
 	gui->addSlider("AUDIO_SMOOTH_AMT", 0, 1.0, 0.2);
 	gui->addSlider("AUDIO_THRESH", 0, 1.0, 0.5);
+	gui->addSlider("AUDIO_HISTORY", 1.0, 10.0, 3.0);
 
 	gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
@@ -33,6 +34,7 @@ void ofApp::initSettings() {
 	gui->loadSettings("guiSettings.xml");
 	analyzer.audioInput.setSmoothing(((ofxUISlider *)gui->getWidget("AUDIO_SMOOTH_AMT"))->getValue());
 	analyzer.audioInput.speakingNormalizedThresh = ((ofxUISlider *)gui->getWidget("AUDIO_THRESH"))->getValue();
+	analyzer.talkHistoryMinutes = ((ofxUISlider *)gui->getWidget("AUDIO_HISTORY"))->getValue();
 }
 
 //--------------------------------------------------------------
@@ -48,7 +50,7 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
-    if (key == 32) {
+    if (key == ' ') {
         //analyzer.setMode(!analyzer.curMode);
 		analyzer.showDebug = !analyzer.showDebug;
 		ofLogNotice() << "debug view: " << analyzer.showDebug;
@@ -116,6 +118,10 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
 		analyzer.audioInput.speakingNormalizedThresh = slider->getValue();
 		ofLogNotice() << "audio speaking norm thresh set to: " << analyzer.audioInput.speakingNormalizedThresh;
+	} else if (e.getName() == "AUDIO_HISTORY") {
+		ofxUISlider *slider = (ofxUISlider *)e.widget;
+		analyzer.talkHistoryMinutes = slider->getValue();
+		ofLogNotice() << "audio history minutes set to: " << analyzer.talkHistoryMinutes;
 	}
     //    } else if (e.getSlider() == interruptionSlider) {
     //

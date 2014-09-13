@@ -15,6 +15,6 @@ void ExpressionInput::setup() {
 
 void ExpressionInput::update() {
     for (int i=0; i<status.size(); i++) {
-        status[i] = ofClamp(status[i]+ofRandom(-0.01, 0.01), 0, 1.0);
+        status[i] = ofClamp(status[i]+ofRandom(-0.01, 0.01), 0.05, 1.0);
     }
 }
