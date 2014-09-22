@@ -6,8 +6,8 @@
 //
 //
 
-#include "AudioInput.h";
-#include "StackedPlot.h";
+#include "AudioInput.h"
+#include "StackedPlot.h"
 
 struct ofSoundDevice {
     unsigned int index;
@@ -35,13 +35,11 @@ vector<ofSoundDevice> getDeviceList() {
     return deviceList;
 }
 
-vector<ofSoundDevice> findMatchingDevices(const vector<ofSoundDevice>& deviceList, string name, int inputChannels, int outputChannels) {
+vector<ofSoundDevice> findMatchingDevices(const vector<ofSoundDevice>& deviceList, string name) {
     vector<ofSoundDevice> matchingDevices;
     for(int i = 0; i < deviceList.size(); i++) {
         const ofSoundDevice& device = deviceList[i];
-        if(device.name.find(name) != string::npos &&
-           device.inputChannels == inputChannels &&
-           device.outputChannels == outputChannels) {
+        if(device.name.find(name) != string::npos) {
             matchingDevices.push_back(device);
         }
     }
@@ -63,17 +61,23 @@ void AudioInput::setup() {
 	interrupting = vector<bool>(4, false);
 
 	vector<ofSoundDevice> devices = getDeviceList();
-	vector<ofSoundDevice> microphones = findMatchingDevices(devices, "C-Media USB Audio Device", 2, 0);
-	sortDeviceList(microphones);
+
+	vector<ofSoundDevice> microphones = findMatchingDevices(devices, "C-Media USB Audio Device");
 	
-	if(microphones.size() != 4) {
-		ofLogError() << "Detected " << microphones.size() << " microphones instead of 4.";
+	if(microphones.size() == 0) {
+        microphones = findMatchingDevices(devices, "Built-in Microphone");
 	}
+    
+    if(microphones.size() != 4) {
+        ofLogError() << "Detected " << microphones.size() << " microphones instead of 4.";
+    }
+    
+    sortDeviceList(microphones);
 
 	mics = vector<AudioAnalyzer>(4);
     for(int i = 0; i < microphones.size(); i++) {
 		const ofSoundDevice& cur = microphones[i];
-		ofLog() << "Connecting to " << cur.name << " at index " << cur.index;
+		ofLog() << "Connecting to " << cur.name << " at index " << cur.index << " " << i;
 		mics[i].setup(cur.index);
     }
 }
@@ -84,7 +88,7 @@ void AudioInput::setSmoothing(float amt) {
 
 void AudioInput::update() {
     for (int i=0; i<4; i++) {
-		volume[i] = mics[i].getVolume();
+        volume[i] = mics[i].getVolume();
     }
 	normalizedVolume = StackedPlot::normalize(volume);
 	analyzeSpeaking();

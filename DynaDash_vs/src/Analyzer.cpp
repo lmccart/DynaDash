@@ -22,7 +22,7 @@ void Analyzer::setup() {
     curMode = TRAINING;
 	talkTime = vector<float>(4, 0);
 	talkRatio = vector<float>(4, 0);
-	talkHistory = vector<list<float>>(4, list<float>());
+	talkHistory = vector<list<float> >(4, list<float>());
 
 	talkHistoryMinutes = 3;
 	showDebug = true;

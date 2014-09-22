@@ -42,7 +42,7 @@ public:
 private:
     float lastUpdate;
 	list<float> talkHistoryTime;
-	vector<list<float>> talkHistory;
+	vector<list<float> > talkHistory;
     vector<float> talkTime;
     vector<float> talkRatio;
 };
