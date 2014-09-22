@@ -9,18 +9,20 @@
 #include "ofMain.h"
 #include "ofxUI.h"
 #include "StackedPlot.h"
+#include "LineGraph.h"
 
 
 class DebugFeedback {
     
 public:
     void setup(float width);
-	void update(vector<float>volume);
+	void update(vector<float>volume, vector<float> smile);
     void draw(vector<float> normVolume, vector<bool> speaking);
     
 private:
 	ofColor ledColor;
-	StackedPlot audioPlot;
+    StackedPlot audioPlot;
+    LineGraph smilePlot;
 	float w;
 
 };

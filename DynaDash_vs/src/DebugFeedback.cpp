@@ -20,8 +20,9 @@ void DebugFeedback::setup(float width) {
 	w = width;
 }
 
-void DebugFeedback::update(vector<float>volume) {
+void DebugFeedback::update(vector<float>volume, vector<float> smile) {
 	audioPlot.addData(volume);
+    smilePlot.add(smile[0]);
 }
 
 void DebugFeedback::draw(vector<float> normVolume, vector<bool> speaking) {
@@ -52,9 +53,12 @@ void DebugFeedback::draw(vector<float> normVolume, vector<bool> speaking) {
     }
 	ofPopStyle();
 
-	ofTranslate(0, 100);
-	audioPlot.draw(w, 100);
+	ofTranslate(0, 75);
+	audioPlot.draw(w, 30);
 	
+    ofTranslate(0, 55);
+    smilePlot.draw(w, 50);
+    
     ofPopMatrix();
 	ofPopStyle();
 }

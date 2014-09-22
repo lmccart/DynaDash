@@ -9,7 +9,8 @@ void ofApp::setup() {
 //    gui->autoSizeToFitWidgets();
 //    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
 
-	ofSetVerticalSync(true);
+    ofSetVerticalSync(true);
+    ofSetFrameRate(120);
 	ofEnableSmoothing();
 	
     

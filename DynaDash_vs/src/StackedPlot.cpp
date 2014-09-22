@@ -1,4 +1,4 @@
-#include "StackedPlot.h";
+#include "StackedPlot.h"
 
 float StackedPlot::sum(const vector<float>& x) {
     float sum = 0;
@@ -90,3 +90,6 @@ void StackedPlot::draw(float width, float height) const {
     ofPopMatrix();
     ofPopStyle();
 }
+
+
+

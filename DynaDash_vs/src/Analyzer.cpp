@@ -44,7 +44,7 @@ void Analyzer::update() {
     audioInput.update();
     expressionInput.update();
 	feedback.update(audioInput.normalizedVolume);
-	debugFeedback.update(audioInput.normalizedVolume);
+	debugFeedback.update(audioInput.normalizedVolume, expressionInput.status);
     
 	// update talk history arrays and current time
 	talkHistoryTime.push_back(curUpdate);
@@ -73,7 +73,7 @@ void Analyzer::update() {
         talkRatio[i] = talkTime[i]/totalTalkTime;
     }
     
-		ofLogNotice() << talkHistory[0].front() <<"  " << talkHistory[0].back() << " " << talkTime[0];
+		//ofLogNotice() << talkHistory[0].front() <<"  " << talkHistory[0].back() << " " << talkTime[0];
     // log relevant things to db for end analysis
     if (curMode == RECORDING) {
         try {
