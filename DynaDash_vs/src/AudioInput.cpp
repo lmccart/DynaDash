@@ -80,6 +80,7 @@ void AudioInput::setup() {
 		ofLog() << "Connecting to " << cur.name << " at index " << cur.index << " " << i;
 		mics[i].setup(cur.index);
     }
+    micsInited = microphones.size();
 }
 
 void AudioInput::setSmoothing(float amt) {
@@ -87,7 +88,7 @@ void AudioInput::setSmoothing(float amt) {
 }
 
 void AudioInput::update() {
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<micsInited; i++) {
         volume[i] = mics[i].getVolume();
     }
 	normalizedVolume = StackedPlot::normalize(volume);
@@ -98,7 +99,7 @@ void AudioInput::update() {
 void AudioInput::analyzeSpeaking() {
 	int maxVolumeIndex = 0;
 	float maxVolume = 0;
-	for(int i = 0; i < 4; i++) {
+	for(int i = 0; i < micsInited; i++) {
 		if(normalizedVolume[i] > maxVolume) {
 			maxVolumeIndex = i;
 			maxVolume = normalizedVolume[i];
@@ -106,13 +107,13 @@ void AudioInput::analyzeSpeaking() {
 	}
 	
 	int lastSpeaker = -1;
-	for (int i=0; i<4; i++) {
+	for (int i=0; i<micsInited; i++) {
 		if (speaking[i]) {
 			lastSpeaker = i;
 		}
 	}
 
-	for (int i=0; i<4; i++) {
+	for (int i=0; i<micsInited; i++) {
 		interrupting[i] = false;
 		if (maxVolume > speakingNormalizedThresh && i == maxVolumeIndex) {
 			speaking[i] = true;

@@ -17,7 +17,9 @@ public:
     void draw();
     vector<float> status;
     
-    ofVideoGrabber cam;
-    SmileDetector smile;
+    vector<ofVideoGrabber> cams;
+    vector<SmileDetector> smiles;
+    
+    int camsInited;
     
 };

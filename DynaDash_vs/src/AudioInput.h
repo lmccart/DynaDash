@@ -25,5 +25,6 @@ public:
 	void setSmoothing(float amt);
     
 private:
+    int micsInited;
 	void analyzeSpeaking();
 };

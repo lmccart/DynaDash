@@ -113,6 +113,7 @@ void Analyzer::draw() {
 	if (showDebug) {
 		debugFeedback.draw(audioInput.normalizedVolume, audioInput.speaking);
 	}
+    expressionInput.draw();
 }
 
 void Analyzer::reset() {
