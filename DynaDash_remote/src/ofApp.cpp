@@ -26,7 +26,6 @@ void ofApp::setup() {
     spacer->setColorFill(ofColor(120));
     
     gui->addTextInput("HOST", "");
-    gui->addTextInput("PORT", "");
     gui->addButton("CONNECT", false);
     
     spacer = gui->addSpacer(400, 15);
@@ -168,14 +167,12 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
         
         if (((ofxUIButton *)e.widget)->getValue()) {
             string host = ((ofxUITextInput *)gui->getWidget("HOST"))->getTextString();
-            int port = ofToInt(((ofxUITextInput *)gui->getWidget("PORT"))->getTextString());
             
-            if (host.length() == 0 || port == 0) {
+            if (host.length() == 0) {
                 host = HOST;
-                port = PORT;
             }
-            sender.setup(host, port);
-            ofLogNotice() << "connected to " << host << ":" << port;
+            sender.setup(host, PORT);
+            ofLogNotice() << "connected to " << host << ":" << PORT;
             
             // show hidden buttons
             for (int i=0; i<hideable.size(); i++) {
