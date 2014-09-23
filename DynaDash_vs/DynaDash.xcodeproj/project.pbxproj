@@ -39,6 +39,18 @@
 		650F19AC19D0CC3B009754F6 /* Utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F199E19D0CC3B009754F6 /* Utilities.cpp */; };
 		650F19AD19D0CC3B009754F6 /* Wrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F199F19D0CC3B009754F6 /* Wrappers.cpp */; };
 		650F19AE19D0CC3B009754F6 /* opencv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 650F19A019D0CC3B009754F6 /* opencv.a */; };
+		650F19DB19D0FA39009754F6 /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19B419D0FA39009754F6 /* ofxOscBundle.cpp */; };
+		650F19DC19D0FA39009754F6 /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19B619D0FA39009754F6 /* ofxOscMessage.cpp */; };
+		650F19DD19D0FA39009754F6 /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19B819D0FA39009754F6 /* ofxOscParameterSync.cpp */; };
+		650F19DE19D0FA39009754F6 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19BA19D0FA39009754F6 /* ofxOscReceiver.cpp */; };
+		650F19DF19D0FA39009754F6 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19BC19D0FA39009754F6 /* ofxOscSender.cpp */; };
+		650F19E019D0FA39009754F6 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19C219D0FA39009754F6 /* IpEndpointName.cpp */; };
+		650F19E119D0FA39009754F6 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19C719D0FA39009754F6 /* NetworkingUtils.cpp */; };
+		650F19E219D0FA39009754F6 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19C819D0FA39009754F6 /* UdpSocket.cpp */; };
+		650F19E319D0FA39009754F6 /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19D219D0FA39009754F6 /* OscOutboundPacketStream.cpp */; };
+		650F19E419D0FA39009754F6 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19D519D0FA39009754F6 /* OscPrintReceivedElements.cpp */; };
+		650F19E519D0FA39009754F6 /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19D719D0FA39009754F6 /* OscReceivedElements.cpp */; };
+		650F19E619D0FA39009754F6 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 650F19D919D0FA39009754F6 /* OscTypes.cpp */; };
 		65E38F4A19D08D4D004D85DA /* Analyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3919D08D4D004D85DA /* Analyzer.cpp */; };
 		65E38F4B19D08D4D004D85DA /* AudioAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */; };
 		65E38F4C19D08D4D004D85DA /* AudioInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3D19D08D4D004D85DA /* AudioInput.cpp */; };
@@ -216,6 +228,38 @@
 		650F199E19D0CC3B009754F6 /* Utilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		650F199F19D0CC3B009754F6 /* Wrappers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wrappers.cpp; sourceTree = "<group>"; };
 		650F19A019D0CC3B009754F6 /* opencv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = opencv.a; path = ../../../addons/ofxOpenCv/libs/opencv/lib/osx/opencv.a; sourceTree = "<group>"; };
+		650F19B219D0FA39009754F6 /* ofxOsc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOsc.h; sourceTree = "<group>"; };
+		650F19B319D0FA39009754F6 /* ofxOscArg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOscArg.h; sourceTree = "<group>"; };
+		650F19B419D0FA39009754F6 /* ofxOscBundle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscBundle.cpp; sourceTree = "<group>"; };
+		650F19B519D0FA39009754F6 /* ofxOscBundle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOscBundle.h; sourceTree = "<group>"; };
+		650F19B619D0FA39009754F6 /* ofxOscMessage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscMessage.cpp; sourceTree = "<group>"; };
+		650F19B719D0FA39009754F6 /* ofxOscMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOscMessage.h; sourceTree = "<group>"; };
+		650F19B819D0FA39009754F6 /* ofxOscParameterSync.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscParameterSync.cpp; sourceTree = "<group>"; };
+		650F19B919D0FA39009754F6 /* ofxOscParameterSync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOscParameterSync.h; sourceTree = "<group>"; };
+		650F19BA19D0FA39009754F6 /* ofxOscReceiver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscReceiver.cpp; sourceTree = "<group>"; };
+		650F19BB19D0FA39009754F6 /* ofxOscReceiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOscReceiver.h; sourceTree = "<group>"; };
+		650F19BC19D0FA39009754F6 /* ofxOscSender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOscSender.cpp; sourceTree = "<group>"; };
+		650F19BD19D0FA39009754F6 /* ofxOscSender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxOscSender.h; sourceTree = "<group>"; };
+		650F19C219D0FA39009754F6 /* IpEndpointName.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IpEndpointName.cpp; sourceTree = "<group>"; };
+		650F19C319D0FA39009754F6 /* IpEndpointName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IpEndpointName.h; sourceTree = "<group>"; };
+		650F19C419D0FA39009754F6 /* NetworkingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkingUtils.h; sourceTree = "<group>"; };
+		650F19C519D0FA39009754F6 /* PacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PacketListener.h; sourceTree = "<group>"; };
+		650F19C719D0FA39009754F6 /* NetworkingUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkingUtils.cpp; sourceTree = "<group>"; };
+		650F19C819D0FA39009754F6 /* UdpSocket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UdpSocket.cpp; sourceTree = "<group>"; };
+		650F19C919D0FA39009754F6 /* TimerListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimerListener.h; sourceTree = "<group>"; };
+		650F19CA19D0FA39009754F6 /* UdpSocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UdpSocket.h; sourceTree = "<group>"; };
+		650F19CF19D0FA39009754F6 /* MessageMappingOscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageMappingOscPacketListener.h; sourceTree = "<group>"; };
+		650F19D019D0FA39009754F6 /* OscException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscException.h; sourceTree = "<group>"; };
+		650F19D119D0FA39009754F6 /* OscHostEndianness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscHostEndianness.h; sourceTree = "<group>"; };
+		650F19D219D0FA39009754F6 /* OscOutboundPacketStream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OscOutboundPacketStream.cpp; sourceTree = "<group>"; };
+		650F19D319D0FA39009754F6 /* OscOutboundPacketStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscOutboundPacketStream.h; sourceTree = "<group>"; };
+		650F19D419D0FA39009754F6 /* OscPacketListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscPacketListener.h; sourceTree = "<group>"; };
+		650F19D519D0FA39009754F6 /* OscPrintReceivedElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OscPrintReceivedElements.cpp; sourceTree = "<group>"; };
+		650F19D619D0FA39009754F6 /* OscPrintReceivedElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscPrintReceivedElements.h; sourceTree = "<group>"; };
+		650F19D719D0FA39009754F6 /* OscReceivedElements.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OscReceivedElements.cpp; sourceTree = "<group>"; };
+		650F19D819D0FA39009754F6 /* OscReceivedElements.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscReceivedElements.h; sourceTree = "<group>"; };
+		650F19D919D0FA39009754F6 /* OscTypes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OscTypes.cpp; sourceTree = "<group>"; };
+		650F19DA19D0FA39009754F6 /* OscTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OscTypes.h; sourceTree = "<group>"; };
 		653CFAE31336DAA04B1F1503 /* ofxUI2DGraph.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUI2DGraph.h; path = ../../../addons/ofxUI/src/ofxUI2DGraph.h; sourceTree = SOURCE_ROOT; };
 		65E38F3919D08D4D004D85DA /* Analyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Analyzer.cpp; sourceTree = "<group>"; };
 		65E38F3A19D08D4D004D85DA /* Analyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analyzer.h; sourceTree = "<group>"; };
@@ -521,6 +565,103 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		650F19B019D0FA39009754F6 /* ofxOsc */ = {
+			isa = PBXGroup;
+			children = (
+				650F19B119D0FA39009754F6 /* src */,
+				650F19BE19D0FA39009754F6 /* libs */,
+			);
+			name = ofxOsc;
+			sourceTree = "<group>";
+		};
+		650F19B119D0FA39009754F6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				650F19B219D0FA39009754F6 /* ofxOsc.h */,
+				650F19B319D0FA39009754F6 /* ofxOscArg.h */,
+				650F19B419D0FA39009754F6 /* ofxOscBundle.cpp */,
+				650F19B519D0FA39009754F6 /* ofxOscBundle.h */,
+				650F19B619D0FA39009754F6 /* ofxOscMessage.cpp */,
+				650F19B719D0FA39009754F6 /* ofxOscMessage.h */,
+				650F19B819D0FA39009754F6 /* ofxOscParameterSync.cpp */,
+				650F19B919D0FA39009754F6 /* ofxOscParameterSync.h */,
+				650F19BA19D0FA39009754F6 /* ofxOscReceiver.cpp */,
+				650F19BB19D0FA39009754F6 /* ofxOscReceiver.h */,
+				650F19BC19D0FA39009754F6 /* ofxOscSender.cpp */,
+				650F19BD19D0FA39009754F6 /* ofxOscSender.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxOsc/src;
+			sourceTree = "<group>";
+		};
+		650F19BE19D0FA39009754F6 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				650F19BF19D0FA39009754F6 /* oscpack */,
+			);
+			name = libs;
+			path = ../../../addons/ofxOsc/libs;
+			sourceTree = "<group>";
+		};
+		650F19BF19D0FA39009754F6 /* oscpack */ = {
+			isa = PBXGroup;
+			children = (
+				650F19C019D0FA39009754F6 /* src */,
+			);
+			path = oscpack;
+			sourceTree = "<group>";
+		};
+		650F19C019D0FA39009754F6 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				650F19C119D0FA39009754F6 /* ip */,
+				650F19CE19D0FA39009754F6 /* osc */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		650F19C119D0FA39009754F6 /* ip */ = {
+			isa = PBXGroup;
+			children = (
+				650F19C219D0FA39009754F6 /* IpEndpointName.cpp */,
+				650F19C319D0FA39009754F6 /* IpEndpointName.h */,
+				650F19C419D0FA39009754F6 /* NetworkingUtils.h */,
+				650F19C519D0FA39009754F6 /* PacketListener.h */,
+				650F19C619D0FA39009754F6 /* posix */,
+				650F19C919D0FA39009754F6 /* TimerListener.h */,
+				650F19CA19D0FA39009754F6 /* UdpSocket.h */,
+			);
+			path = ip;
+			sourceTree = "<group>";
+		};
+		650F19C619D0FA39009754F6 /* posix */ = {
+			isa = PBXGroup;
+			children = (
+				650F19C719D0FA39009754F6 /* NetworkingUtils.cpp */,
+				650F19C819D0FA39009754F6 /* UdpSocket.cpp */,
+			);
+			path = posix;
+			sourceTree = "<group>";
+		};
+		650F19CE19D0FA39009754F6 /* osc */ = {
+			isa = PBXGroup;
+			children = (
+				650F19CF19D0FA39009754F6 /* MessageMappingOscPacketListener.h */,
+				650F19D019D0FA39009754F6 /* OscException.h */,
+				650F19D119D0FA39009754F6 /* OscHostEndianness.h */,
+				650F19D219D0FA39009754F6 /* OscOutboundPacketStream.cpp */,
+				650F19D319D0FA39009754F6 /* OscOutboundPacketStream.h */,
+				650F19D419D0FA39009754F6 /* OscPacketListener.h */,
+				650F19D519D0FA39009754F6 /* OscPrintReceivedElements.cpp */,
+				650F19D619D0FA39009754F6 /* OscPrintReceivedElements.h */,
+				650F19D719D0FA39009754F6 /* OscReceivedElements.cpp */,
+				650F19D819D0FA39009754F6 /* OscReceivedElements.h */,
+				650F19D919D0FA39009754F6 /* OscTypes.cpp */,
+				650F19DA19D0FA39009754F6 /* OscTypes.h */,
+			);
+			path = osc;
+			sourceTree = "<group>";
+		};
 		6E54289412D2D94F45A05113 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -552,6 +693,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				650F19B019D0FA39009754F6 /* ofxOsc */,
 				650F197719D0CC3B009754F6 /* ofxCv */,
 				1F4FB5C423662B96ADFDCC0B /* ofxXmlSettings */,
 				CE7609CF81F132F43DFD17F2 /* ofxSQLiteCpp */,
@@ -864,6 +1006,7 @@
 				D8D8BE08BA2DAAB627D8D862 /* Statement.cpp in Sources */,
 				280FBA9C4789C3A83BF7A01E /* Transaction.cpp in Sources */,
 				9F5C6DD965B4F3A6DB5B88F8 /* ofxUI2DGraph.cpp in Sources */,
+				650F19DC19D0FA39009754F6 /* ofxOscMessage.cpp in Sources */,
 				65E38F5219D08D4D004D85DA /* StackedPlot.cpp in Sources */,
 				4B3ED367CA852D522E2EE996 /* ofxUI2DPad.cpp in Sources */,
 				F1E8DE8734BA6F69A5112FA8 /* ofxUIBaseDraws.cpp in Sources */,
@@ -876,6 +1019,7 @@
 				9BE4AE0AA2B8C436BDFE9D4D /* ofxUIDragableLabelButton.cpp in Sources */,
 				F392A99D83698FC099127880 /* ofxUIDropDownList.cpp in Sources */,
 				65E38F5119D08D4D004D85DA /* ofApp.cpp in Sources */,
+				650F19DE19D0FA39009754F6 /* ofxOscReceiver.cpp in Sources */,
 				084025DA517D8329301FE1B6 /* ofxUIEventArgs.cpp in Sources */,
 				650F19A119D0CC3B009754F6 /* ETF.cpp in Sources */,
 				7252706DA14C1BE63950ADDA /* ofxUIFPS.cpp in Sources */,
@@ -883,13 +1027,18 @@
 				650F19A819D0CC3B009754F6 /* Kalman.cpp in Sources */,
 				650F19AA19D0CC3B009754F6 /* RunningBackground.cpp in Sources */,
 				3D4EA8E172D3E4A30FEFA969 /* ofxUIImage.cpp in Sources */,
+				650F19DD19D0FA39009754F6 /* ofxOscParameterSync.cpp in Sources */,
 				650F19A419D0CC3B009754F6 /* ContourFinder.cpp in Sources */,
+				650F19DF19D0FA39009754F6 /* ofxOscSender.cpp in Sources */,
 				7F2CD93F681F3C1547B3BF2C /* ofxUIImageButton.cpp in Sources */,
 				FBD0CD0AFE3849C14E829CAF /* ofxUIImageSampler.cpp in Sources */,
+				650F19E519D0FA39009754F6 /* OscReceivedElements.cpp in Sources */,
 				26874B150C8535AEA0F24C8C /* ofxUIImageSlider.cpp in Sources */,
 				FB8AA9FA6535767BE31806BC /* ofxUIImageToggle.cpp in Sources */,
+				650F19E419D0FA39009754F6 /* OscPrintReceivedElements.cpp in Sources */,
 				7C3DC84C9BFCBD2866DB2B6C /* ofxUILabel.cpp in Sources */,
 				65E392D619D0C719004D85DA /* SmileDetector.cpp in Sources */,
+				650F19E119D0FA39009754F6 /* NetworkingUtils.cpp in Sources */,
 				65E38F4F19D08D4D004D85DA /* Feedback.cpp in Sources */,
 				FFD1EBFCA24DFB4E4427B4FE /* ofxUILabelButton.cpp in Sources */,
 				650F19AD19D0CC3B009754F6 /* Wrappers.cpp in Sources */,
@@ -899,6 +1048,7 @@
 				650F19AC19D0CC3B009754F6 /* Utilities.cpp in Sources */,
 				222C3AB10FA3158602718602 /* ofxUIMultiImageButton.cpp in Sources */,
 				65E38F4C19D08D4D004D85DA /* AudioInput.cpp in Sources */,
+				650F19E619D0FA39009754F6 /* OscTypes.cpp in Sources */,
 				F9C20834354ACC8337320B8C /* ofxUIMultiImageToggle.cpp in Sources */,
 				650F19A519D0CC3B009754F6 /* Distance.cpp in Sources */,
 				E3D59A6B55F05669B3FBF8BD /* ofxUINumberDialer.cpp in Sources */,
@@ -913,6 +1063,7 @@
 				FE0F1DB69ACCD163E9DA2A15 /* ofxUIRotarySlider.cpp in Sources */,
 				43BADBB2FE0F17D34B57A705 /* ofxUIScrollableCanvas.cpp in Sources */,
 				65E38F4D19D08D4D004D85DA /* DebugFeedback.cpp in Sources */,
+				650F19E319D0FA39009754F6 /* OscOutboundPacketStream.cpp in Sources */,
 				740A58CBFDFE578C83A349AF /* ofxUISlider.cpp in Sources */,
 				ADE7C2AFC51E3F7E5E389026 /* ofxUISortableList.cpp in Sources */,
 				BFEFCE32DAFE10A8EB519F6C /* ofxUISpacer.cpp in Sources */,
@@ -920,6 +1071,9 @@
 				1DAAC3FB4B98B08AE63F4687 /* ofxUISuperCanvas.cpp in Sources */,
 				5AE95ADB5549701423B6DA48 /* ofxUITabBar.cpp in Sources */,
 				C961BE22AB9A8CCF037FC18F /* ofxUITextArea.cpp in Sources */,
+				650F19DB19D0FA39009754F6 /* ofxOscBundle.cpp in Sources */,
+				650F19E019D0FA39009754F6 /* IpEndpointName.cpp in Sources */,
+				650F19E219D0FA39009754F6 /* UdpSocket.cpp in Sources */,
 				F8D05F7C7F785CE323983B47 /* ofxUITextInput.cpp in Sources */,
 				04C82720B149CE576B8CBB06 /* ofxUIToggle.cpp in Sources */,
 				E3A1109F67D711D6C256031E /* ofxUIToggleMatrix.cpp in Sources */,
@@ -1121,7 +1275,7 @@
 					/Users/lmccart/Documents/dynadash/openFrameworks/addons/ofxOpenCv/libs/opencv/lib/osx,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)Debug";
-				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/ofxCv/include/ ../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxOpenCv/libs/opencv/include/";
+				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/ofxCv/include/ ../../../addons/ofxOpenCv/libs/opencv/include/ ../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxOsc/libs/oscpack/src/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1220,7 +1374,7 @@
 					/Users/lmccart/Documents/dynadash/openFrameworks/addons/ofxOpenCv/libs/opencv/lib/osx,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/ofxCv/include/ ../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxOpenCv/libs/opencv/include/";
+				USER_HEADER_SEARCH_PATHS = "../../../addons/ofxCv/libs/ofxCv/include/ ../../../addons/ofxOpenCv/libs/opencv/include/ ../../../addons/ofxCv/libs/CLD/include/ ../../../addons/ofxOsc/libs/oscpack/src/";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

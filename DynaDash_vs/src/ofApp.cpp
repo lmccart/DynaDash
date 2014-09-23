@@ -29,6 +29,11 @@ void ofApp::setup() {
 //    analyzer.audioInput.soundStream.setup(this, 0, 2, 44100, 256, 4);
     initSettings();
     analyzer.setup();
+    
+    
+    // listen on the given port
+    cout << "listening for osc messages on port " << PORT << "\n";
+    receiver.setup(PORT);
 }
 
 void ofApp::initSettings() {
@@ -41,6 +46,32 @@ void ofApp::initSettings() {
 //--------------------------------------------------------------
 void ofApp::update() {
     analyzer.update();
+    
+    
+    // check for waiting messages
+    while(receiver.hasWaitingMessages()){
+        
+        // get the next message
+        ofxOscMessage m;
+        receiver.getNextMessage(&m);
+        
+        if(m.getAddress() == "/control_toggle"){
+            ofLogNotice() << "received toggle " << m.getArgAsInt32(0);
+        }
+        else if(m.getAddress() == "/expression"){
+            // the single argument is a string
+            //mouseButtonState = m.getArgAsString(0);
+        }
+        else if(m.getAddress() == "/dominance"){
+            // the single argument is a string
+            //mouseButtonState = m.getArgAsString(0);
+        }
+        else if(m.getAddress() == "/interruption"){
+            // the single argument is a string
+            //mouseButtonState = m.getArgAsString(0);
+        }
+        
+    }
 }
 
 //--------------------------------------------------------------

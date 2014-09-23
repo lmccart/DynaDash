@@ -1,7 +1,12 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxOsc.h"
 #include "Analyzer.h"
+
+// listen on port 12345
+#define PORT 8080
+
 
 class ofApp : public ofBaseApp{
 
@@ -24,6 +29,7 @@ class ofApp : public ofBaseApp{
         void exit();
         void guiEvent(ofxUIEventArgs &e);
     
+        ofxOscReceiver receiver;
         ofxUICanvas *gui;
         Analyzer analyzer;
 };

@@ -3,6 +3,11 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
     
+    
+    // open an outgoing connection to HOST:PORT
+    sender.setup(HOST, PORT);
+    
+    
     ofShowCursor();
     //    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
     //    gui->addLabelToggle("RECORDING", false);
@@ -114,52 +119,81 @@ void ofApp::exit() {
     delete gui;
 }
 
+void ofApp::sendControlToggleMessage(bool toggle) {
+    ofLogNotice() << "sending control toggle message " << toggle;
+    ofxOscMessage m;
+    m.addIntArg(toggle);
+    m.setAddress("/control_toggle");
+    sender.sendMessage(m, false);
+    
+}
+void ofApp::sendExpressionMessage(float expression) {
+    ofLogNotice() << "sending expression message " << expression;
+    ofxOscMessage m;
+    m.setAddress("/expression");
+    m.addFloatArg(expression);
+    sender.sendMessage(m, false);
+}
 
-void ofApp::sendControlMessage(string name) {
-    ofLogNotice() << "sending message " << name;
+void ofApp::sendDominanceMessage(vector<float> dominance) {
+    ofLogNotice() << "sending dominance message";
+    ofxOscMessage m;
+    m.setAddress("/dominance");
+    for (int i=0; i<dominance.size(); i++) {
+        m.addFloatArg(dominance[i]);
+    }
+    sender.sendMessage(m, false);
+}
+
+void ofApp::sendInterruptionMessage(int interruptor) {
+    ofLogNotice() << "sending interruption message "<< interruptor;
+    ofxOscMessage m;
+    m.setAddress("/interruption");
+    m.addIntArg(interruptor);
+    sender.sendMessage(m, false);
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {
     
     if (e.getName() == "CONTROL_MODE") {
         int mode = ((ofxUIToggle *) e.widget)->getValue();
-        sendControlMessage("TOGGLE_CONTROL");
+        sendControlToggleMessage(mode);
     }
     
     else if (e.getName() == "P1_EXPRESSION") {
         float expression = ((ofxUISlider *) e.widget)->getValue();
-        sendControlMessage("EXPRESSION");
+        sendExpressionMessage(expression);
     }
     
     else if(e.getName() == "P1_DOMINANCE") {
         dominance[0] = ((ofxUISlider *) e.widget)->getValue();
-        sendControlMessage("DOMINANCE");
+        sendDominanceMessage(dominance);
     } else if(e.getName() == "P2_DOMINANCE") {
         dominance[1] = ((ofxUISlider *) e.widget)->getValue();
-        sendControlMessage("DOMINANCE");
+        sendDominanceMessage(dominance);
     } else if(e.getName() == "P3_DOMINANCE") {
         dominance[2] = ((ofxUISlider *) e.widget)->getValue();
-        sendControlMessage("DOMINANCE");
+        sendDominanceMessage(dominance);
     } else if(e.getName() == "P4_DOMINANCE") {
         dominance[3] = ((ofxUISlider *) e.widget)->getValue();
-        sendControlMessage("DOMINANCE");
+        sendDominanceMessage(dominance);
     }
     
     else if (e.getName() == "P1_INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
-            sendControlMessage("INTERRUPTION");
+            sendInterruptionMessage(0);
         }
     } else if (e.getName() == "P2_INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
-            sendControlMessage("INTERRUPTION");
+            sendInterruptionMessage(1);
         }
     } else if (e.getName() == "P3_INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
-            sendControlMessage("INTERRUPTION");
+            sendInterruptionMessage(2);
         }
     } else if (e.getName() == "P4_INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
-            sendControlMessage("INTERRUPTION");
+            sendInterruptionMessage(3);
         }
     }
 }
