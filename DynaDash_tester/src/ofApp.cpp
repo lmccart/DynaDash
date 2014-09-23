@@ -17,7 +17,7 @@ void ofApp::setup() {
     dominance = vector<float>(4, 0);
     
     gui = new ofxUISuperCanvas("TEST CONTROLLER");
-    gui->setWidth(400);
+    gui->setWidth(ofGetWidth());
 
     ofxUISpacer *spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
@@ -49,6 +49,7 @@ void ofApp::setup() {
     spacer->setColorFill(ofColor(120));
     
     gui->autoSizeToFitWidgets();
+    gui->setHeight(ofGetHeight());
     ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
 }
 
@@ -113,34 +114,52 @@ void ofApp::exit() {
     delete gui;
 }
 
+
+void ofApp::sendControlMessage(string name) {
+    ofLogNotice() << "sending message " << name;
+}
+
 void ofApp::guiEvent(ofxUIEventArgs &e) {
     
     if (e.getName() == "CONTROL_MODE") {
         int mode = ((ofxUIToggle *) e.widget)->getValue();
-        
+        sendControlMessage("TOGGLE_CONTROL");
     }
     
     else if (e.getName() == "P1_EXPRESSION") {
         float expression = ((ofxUISlider *) e.widget)->getValue();
+        sendControlMessage("EXPRESSION");
     }
     
     else if(e.getName() == "P1_DOMINANCE") {
         dominance[0] = ((ofxUISlider *) e.widget)->getValue();
+        sendControlMessage("DOMINANCE");
     } else if(e.getName() == "P2_DOMINANCE") {
         dominance[1] = ((ofxUISlider *) e.widget)->getValue();
+        sendControlMessage("DOMINANCE");
     } else if(e.getName() == "P3_DOMINANCE") {
         dominance[2] = ((ofxUISlider *) e.widget)->getValue();
+        sendControlMessage("DOMINANCE");
     } else if(e.getName() == "P4_DOMINANCE") {
         dominance[3] = ((ofxUISlider *) e.widget)->getValue();
+        sendControlMessage("DOMINANCE");
     }
     
     else if (e.getName() == "P1_INTERRUPTION") {
-        
+        if (((ofxUIButton *)e.widget)->getValue()) {
+            sendControlMessage("INTERRUPTION");
+        }
     } else if (e.getName() == "P2_INTERRUPTION") {
-        
+        if (((ofxUIButton *)e.widget)->getValue()) {
+            sendControlMessage("INTERRUPTION");
+        }
     } else if (e.getName() == "P3_INTERRUPTION") {
-        
+        if (((ofxUIButton *)e.widget)->getValue()) {
+            sendControlMessage("INTERRUPTION");
+        }
     } else if (e.getName() == "P4_INTERRUPTION") {
-        
+        if (((ofxUIButton *)e.widget)->getValue()) {
+            sendControlMessage("INTERRUPTION");
+        }
     }
 }

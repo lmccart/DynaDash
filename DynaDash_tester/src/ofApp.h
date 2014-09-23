@@ -20,6 +20,8 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
+    void sendControlMessage(string name);
+    
     void exit();
     void guiEvent(ofxUIEventArgs &e);
     
