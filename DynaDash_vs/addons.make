@@ -1,4 +1,0 @@
-ofxOpenCv
-ofxXmlSettings
-ofxSQLiteCpp
-ofxUI

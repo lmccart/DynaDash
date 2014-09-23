@@ -133,7 +133,7 @@ void ofApp::sendControlToggleMessage(bool toggle) {
     ofxOscMessage m;
     m.addIntArg(toggle);
     m.setAddress("/control_toggle");
-    sender.sendMessage(m, false);
+    sender.sendMessage(m);
     
 }
 void ofApp::sendExpressionMessage(float expression) {
@@ -141,7 +141,7 @@ void ofApp::sendExpressionMessage(float expression) {
     ofxOscMessage m;
     m.setAddress("/expression");
     m.addFloatArg(expression);
-    sender.sendMessage(m, false);
+    sender.sendMessage(m);
 }
 
 void ofApp::sendDominanceMessage(vector<float> dominance) {
@@ -151,7 +151,7 @@ void ofApp::sendDominanceMessage(vector<float> dominance) {
     for (int i=0; i<dominance.size(); i++) {
         m.addFloatArg(dominance[i]);
     }
-    sender.sendMessage(m, false);
+    sender.sendMessage(m);
 }
 
 void ofApp::sendInterruptionMessage(int interruptor) {
@@ -159,7 +159,7 @@ void ofApp::sendInterruptionMessage(int interruptor) {
     ofxOscMessage m;
     m.setAddress("/interruption");
     m.addIntArg(interruptor);
-    sender.sendMessage(m, false);
+    sender.sendMessage(m);
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {

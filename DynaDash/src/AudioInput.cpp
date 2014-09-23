@@ -35,16 +35,19 @@ vector<ofSoundDevice> getDeviceList() {
     return deviceList;
 }
 
-vector<ofSoundDevice> findMatchingDevices(const vector<ofSoundDevice>& deviceList, string name) {
+vector<ofSoundDevice> findMatchingDevices(const vector<ofSoundDevice>& deviceList, string name, int inputChannels, int outputChannels) {
     vector<ofSoundDevice> matchingDevices;
     for(int i = 0; i < deviceList.size(); i++) {
         const ofSoundDevice& device = deviceList[i];
-        if(device.name.find(name) != string::npos) {
+        if(device.name.find(name) != string::npos &&
+           device.inputChannels == inputChannels &&
+           device.outputChannels == outputChannels) {
             matchingDevices.push_back(device);
         }
     }
     return matchingDevices;
 }
+
 
 bool deviceComparator(const ofSoundDevice& a, const ofSoundDevice& b) {
     return a.name < b.name;
@@ -62,10 +65,10 @@ void AudioInput::setup() {
 
 	vector<ofSoundDevice> devices = getDeviceList();
 
-	vector<ofSoundDevice> microphones = findMatchingDevices(devices, "C-Media USB Audio Device");
+	vector<ofSoundDevice> microphones = findMatchingDevices(devices, "C-Media USB Audio Device", 2, 0);
 	
 	if(microphones.size() == 0) {
-        microphones = findMatchingDevices(devices, "Built-in Microphone");
+        microphones = findMatchingDevices(devices, "Built-in Microphone", 1, 2);
 	}
     
     if(microphones.size() != 4) {
