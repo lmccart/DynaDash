@@ -31,7 +31,7 @@ void Feedback::update(vector<float>volume) {
 	audioPlot.addData(volume);
 }
 
-void Feedback::draw(vector<float> expression, vector<float> normVolume, vector<bool> speaking, vector<bool> interrupting, vector<float> dominance) {
+void Feedback::draw(vector<float> expression, vector<bool> interrupting, vector<float> dominance) {
     
     ofBackground(ofColor(40));
 

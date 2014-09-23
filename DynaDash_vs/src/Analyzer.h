@@ -25,11 +25,17 @@ public:
     void reset();
     void setMode(int mode);
     
+    // remote control
+    void setDominance(float d0, float d1, float d2, float d3);
+    void setInterruption(int i);
+    void setExpression(float expression);
+    
     enum {
         TRAINING = 0,
-        RECORDING = 1
+        RECORDING = 1,
+        REMOTE_CONTROL = 2
     };
-    bool curMode;
+    int curMode;
     
     AudioInput audioInput;
     ExpressionInput expressionInput;

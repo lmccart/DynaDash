@@ -15,7 +15,8 @@ void ofApp::setup() {
 	
     
     gui = new ofxUISuperCanvas("DEBUG VIEW");
-    gui->addLabelToggle("RECORDING", false);
+    //gui->addLabelToggle("RECORDING", false);
+    remoteControlLabel = gui->addLabel("REMOTE CONTROL OFF");
 	gui->setWidth(215);
 	
 	// audio stuff
@@ -56,19 +57,33 @@ void ofApp::update() {
         receiver.getNextMessage(&m);
         
         if(m.getAddress() == "/control_toggle"){
-            ofLogNotice() << "received toggle " << m.getArgAsInt32(0);
+            int toggle = m.getArgAsInt32(0);
+            ofLogNotice() << "received toggle " << toggle;
+            if (toggle) {
+                remoteControlLabel->setLabel("REMOTE CONTROL ON");
+                analyzer.setMode(Analyzer::REMOTE_CONTROL);
+            } else {
+                remoteControlLabel->setLabel("REMOTE CONTROL OFF");
+                analyzer.setMode(Analyzer::TRAINING);
+            }
         }
         else if(m.getAddress() == "/expression"){
-            // the single argument is a string
-            //mouseButtonState = m.getArgAsString(0);
+            float val = m.getArgAsFloat(0);
+            ofLogNotice() << "received expression " << val;
+            analyzer.setExpression(val);
         }
         else if(m.getAddress() == "/dominance"){
-            // the single argument is a string
-            //mouseButtonState = m.getArgAsString(0);
+            float d0 = m.getArgAsFloat(0);
+            float d1 = m.getArgAsFloat(1);
+            float d2 = m.getArgAsFloat(2);
+            float d3 = m.getArgAsFloat(3);
+            ofLogNotice() << "received dominance " << d0 << " " << d1 << " " << d2 << " " << d3;
+            analyzer.setDominance(d0, d1, d2, d3);
         }
         else if(m.getAddress() == "/interruption"){
-            // the single argument is a string
-            //mouseButtonState = m.getArgAsString(0);
+            float i = m.getArgAsInt32(0);
+            ofLogNotice() << "received interruption " << i;
+            analyzer.setInterruption(i);
         }
         
     }

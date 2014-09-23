@@ -36,44 +36,46 @@ void Analyzer::setup() {
 
 void Analyzer::update() {
 
-	float curUpdate = ofGetElapsedTimef();
-    float elapsed = curUpdate - lastUpdate;
-    lastUpdate = curUpdate;
-    
-    // update inputs
-    audioInput.update();
-    expressionInput.update();
-	feedback.update(audioInput.normalizedVolume);
-	debugFeedback.update(audioInput.normalizedVolume, expressionInput.status);
-    
-	// update talk history arrays and current time
-	talkHistoryTime.push_back(curUpdate);
-	for(int i = 0; i < 4; i++) {
-		float currentDuration = audioInput.speaking[i] * elapsed;
-		talkHistory[i].push_back(currentDuration);
-		talkTime[i] += currentDuration;
-	}
+    if (curMode != REMOTE_CONTROL) {
+        float curUpdate = ofGetElapsedTimef();
+        float elapsed = curUpdate - lastUpdate;
+        lastUpdate = curUpdate;
+        
+        // update inputs
+        audioInput.update();
+        expressionInput.update();
+        feedback.update(audioInput.normalizedVolume);
+        debugFeedback.update(audioInput.normalizedVolume, expressionInput.status);
+        
+        // update talk history arrays and current time
+        talkHistoryTime.push_back(curUpdate);
+        for(int i = 0; i < 4; i++) {
+            float currentDuration = audioInput.speaking[i] * elapsed;
+            talkHistory[i].push_back(currentDuration);
+            talkTime[i] += currentDuration;
+        }
 
-	// remove all time that is too old
-	float talkHistorySeconds = talkHistoryMinutes * 60;
-	while(curUpdate - talkHistoryTime.front() > talkHistorySeconds) {
-		talkHistoryTime.pop_front();
-		for(int i = 0; i < 4; i++) {
-			talkTime[i] -= talkHistory[i].front();
-			talkHistory[i].pop_front();
-		}
-	}
+        // remove all time that is too old
+        float talkHistorySeconds = talkHistoryMinutes * 60;
+        while(curUpdate - talkHistoryTime.front() > talkHistorySeconds) {
+            talkHistoryTime.pop_front();
+            for(int i = 0; i < 4; i++) {
+                talkTime[i] -= talkHistory[i].front();
+                talkHistory[i].pop_front();
+            }
+        }
 
-    // track talk time ratios
-    float totalTalkTime = 0;
-    for (int i=0; i<4; i++) {
-		totalTalkTime += talkTime[i];
+        // track talk time ratios
+        float totalTalkTime = 0;
+        for (int i=0; i<4; i++) {
+            totalTalkTime += talkTime[i];
+        }
+        for (int i=0; i<talkTime.size(); i++) {
+            talkRatio[i] = talkTime[i]/totalTalkTime;
+        }
+        
     }
-    for (int i=0; i<talkTime.size(); i++) {
-        talkRatio[i] = talkTime[i]/totalTalkTime;
-    }
-    
-		//ofLogNotice() << talkHistory[0].front() <<"  " << talkHistory[0].back() << " " << talkTime[0];
+        //ofLogNotice() << talkHistory[0].front() <<"  " << talkHistory[0].back() << " " << talkTime[0];
     // log relevant things to db for end analysis
     if (curMode == RECORDING) {
         try {
@@ -109,11 +111,19 @@ void Analyzer::update() {
 }
 
 void Analyzer::draw() {
-    feedback.draw(expressionInput.status, audioInput.normalizedVolume, audioInput.speaking, audioInput.interrupting, talkRatio);
+    feedback.draw(expressionInput.status, audioInput.interrupting, talkRatio);
+    
+    // reset interruptions after drawn
+    if (curMode == REMOTE_CONTROL) {
+        for (int i=0; i<4; i++) {
+            audioInput.interrupting[i] = 0;
+        }
+    }
+    
 	if (showDebug) {
 		debugFeedback.draw(audioInput.normalizedVolume, audioInput.speaking);
 	}
-    expressionInput.draw();
+    //expressionInput.draw();
 }
 
 void Analyzer::reset() {
@@ -141,3 +151,21 @@ void Analyzer::setMode(int mode) {
     curMode = mode;
     reset();
 }
+
+
+// remote control
+void Analyzer::setDominance(float d0, float d1, float d2, float d3) {
+    talkRatio[0] = d0;
+    talkRatio[1] = d1;
+    talkRatio[2] = d2;
+    talkRatio[3] = d3;
+}
+
+void Analyzer::setInterruption(int i) {
+    audioInput.interrupting[i] = true;
+}
+void Analyzer::setExpression(float expression) {
+    expressionInput.status[0] = expression;
+}
+
+

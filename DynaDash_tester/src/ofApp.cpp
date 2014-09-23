@@ -32,28 +32,28 @@ void ofApp::setup() {
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    hideable.push_back(gui->addLabelToggle("CONTROL_MODE", false));
+    hideable.push_back(gui->addLabelToggle("REMOTE CONTROL MODE", false));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    hideable.push_back(gui->addSlider("P1_EXPRESSION", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P1 EXPRESSION", 0, 1.0, 0.0));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    hideable.push_back(gui->addSlider("P1_DOMINANCE", 0, 1.0, 0.0));
-    hideable.push_back(gui->addSlider("P2_DOMINANCE", 0, 1.0, 0.0));
-    hideable.push_back(gui->addSlider("P3_DOMINANCE", 0, 1.0, 0.0));
-    hideable.push_back(gui->addSlider("P4_DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P1 DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P2 DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P3 DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P4 DOMINANCE", 0, 1.0, 0.0));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    hideable.push_back(gui->addButton("P1_INTERRUPTION", true));
-    hideable.push_back(gui->addButton("P2_INTERRUPTION", true));
-    hideable.push_back(gui->addButton("P3_INTERRUPTION", true));
-    hideable.push_back(gui->addButton("P4_INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P1 INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P2 INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P3 INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P4 INTERRUPTION", true));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
@@ -184,43 +184,43 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
         }
     }
     
-    else if (e.getName() == "CONTROL_MODE") {
+    else if (e.getName() == "REMOTE CONTROL MODE") {
         float value = ((ofxUIToggle *) e.widget)->getValue();
         sendControlToggleMessage(value);
     }
     
-    else if (e.getName() == "P1_EXPRESSION") {
+    else if (e.getName() == "P1 EXPRESSION") {
         float expression = ((ofxUISlider *) e.widget)->getValue();
         sendExpressionMessage(expression);
     }
     
-    else if(e.getName() == "P1_DOMINANCE") {
+    else if(e.getName() == "P1 DOMINANCE") {
         dominance[0] = ((ofxUISlider *) e.widget)->getValue();
         sendDominanceMessage(dominance);
-    } else if(e.getName() == "P2_DOMINANCE") {
+    } else if(e.getName() == "P2 DOMINANCE") {
         dominance[1] = ((ofxUISlider *) e.widget)->getValue();
         sendDominanceMessage(dominance);
-    } else if(e.getName() == "P3_DOMINANCE") {
+    } else if(e.getName() == "P3 DOMINANCE") {
         dominance[2] = ((ofxUISlider *) e.widget)->getValue();
         sendDominanceMessage(dominance);
-    } else if(e.getName() == "P4_DOMINANCE") {
+    } else if(e.getName() == "P4 DOMINANCE") {
         dominance[3] = ((ofxUISlider *) e.widget)->getValue();
         sendDominanceMessage(dominance);
     }
     
-    else if (e.getName() == "P1_INTERRUPTION") {
+    else if (e.getName() == "P1 INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
             sendInterruptionMessage(0);
         }
-    } else if (e.getName() == "P2_INTERRUPTION") {
+    } else if (e.getName() == "P2 INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
             sendInterruptionMessage(1);
         }
-    } else if (e.getName() == "P3_INTERRUPTION") {
+    } else if (e.getName() == "P3 INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
             sendInterruptionMessage(2);
         }
-    } else if (e.getName() == "P4_INTERRUPTION") {
+    } else if (e.getName() == "P4 INTERRUPTION") {
         if (((ofxUIButton *)e.widget)->getValue()) {
             sendInterruptionMessage(3);
         }

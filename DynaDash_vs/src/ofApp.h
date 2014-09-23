@@ -31,5 +31,6 @@ class ofApp : public ofBaseApp{
     
         ofxOscReceiver receiver;
         ofxUICanvas *gui;
+        ofxUILabel *remoteControlLabel;
         Analyzer analyzer;
 };
