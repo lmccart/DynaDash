@@ -34,5 +34,6 @@ public:
     
     ofxOscSender sender;
     ofxUICanvas *gui;
+    vector<ofxUIWidget *> hideable;
     vector<float> dominance;
 };

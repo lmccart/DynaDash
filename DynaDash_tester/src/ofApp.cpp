@@ -4,10 +4,7 @@
 void ofApp::setup() {
     
     
-    // open an outgoing connection to HOST:PORT
-    sender.setup(HOST, PORT);
-    
-    
+    //sender.setup(HOST, PORT);
     ofShowCursor();
     //    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
     //    gui->addLabelToggle("RECORDING", false);
@@ -18,6 +15,7 @@ void ofApp::setup() {
     ofSetFrameRate(120);
     ofEnableSmoothing();
     
+    hideable = vector<ofxUIWidget *>();
     
     dominance = vector<float>(4, 0);
     
@@ -27,31 +25,42 @@ void ofApp::setup() {
     ofxUISpacer *spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    gui->addLabelToggle("CONTROL_MODE", false);
+    gui->addTextInput("HOST", "");
+    gui->addTextInput("PORT", "");
+    gui->addButton("CONNECT", false);
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    gui->addSlider("P1_EXPRESSION", 0, 1.0, 0.0);
+    hideable.push_back(gui->addLabelToggle("CONTROL_MODE", false));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    gui->addSlider("P1_DOMINANCE", 0, 1.0, 0.0);
-    gui->addSlider("P2_DOMINANCE", 0, 1.0, 0.0);
-    gui->addSlider("P3_DOMINANCE", 0, 1.0, 0.0);
-    gui->addSlider("P4_DOMINANCE", 0, 1.0, 0.0);
+    hideable.push_back(gui->addSlider("P1_EXPRESSION", 0, 1.0, 0.0));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
     
-    gui->addButton("P1_INTERRUPTION", true);
-    gui->addButton("P2_INTERRUPTION", true);
-    gui->addButton("P3_INTERRUPTION", true);
-    gui->addButton("P4_INTERRUPTION", true);
+    hideable.push_back(gui->addSlider("P1_DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P2_DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P3_DOMINANCE", 0, 1.0, 0.0));
+    hideable.push_back(gui->addSlider("P4_DOMINANCE", 0, 1.0, 0.0));
     
     spacer = gui->addSpacer(400, 15);
     spacer->setColorFill(ofColor(120));
+    
+    hideable.push_back(gui->addButton("P1_INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P2_INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P3_INTERRUPTION", true));
+    hideable.push_back(gui->addButton("P4_INTERRUPTION", true));
+    
+    spacer = gui->addSpacer(400, 15);
+    spacer->setColorFill(ofColor(120));
+    
+    for (int i=0; i<hideable.size(); i++) {
+        hideable[i]->setVisible(false);
+    }
     
     gui->autoSizeToFitWidgets();
     gui->setHeight(ofGetHeight());
@@ -155,9 +164,29 @@ void ofApp::sendInterruptionMessage(int interruptor) {
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {
     
-    if (e.getName() == "CONTROL_MODE") {
-        int mode = ((ofxUIToggle *) e.widget)->getValue();
-        sendControlToggleMessage(mode);
+    if (e.getName() == "CONNECT") {
+        
+        if (((ofxUIButton *)e.widget)->getValue()) {
+            string host = ((ofxUITextInput *)gui->getWidget("HOST"))->getTextString();
+            int port = ofToInt(((ofxUITextInput *)gui->getWidget("PORT"))->getTextString());
+            
+            if (host.length() == 0 || port == 0) {
+                host = HOST;
+                port = PORT;
+            }
+            sender.setup(host, port);
+            ofLogNotice() << "connected to " << host << ":" << port;
+            
+            // show hidden buttons
+            for (int i=0; i<hideable.size(); i++) {
+                hideable[i]->setVisible(true);
+            }
+        }
+    }
+    
+    else if (e.getName() == "CONTROL_MODE") {
+        float value = ((ofxUIToggle *) e.widget)->getValue();
+        sendControlToggleMessage(value);
     }
     
     else if (e.getName() == "P1_EXPRESSION") {
