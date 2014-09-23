@@ -161,6 +161,14 @@ void ofApp::sendInterruptionMessage(int interruptor) {
     sender.sendMessage(m);
 }
 
+void ofApp::resetGui() {
+	((ofxUISlider *)gui->getWidget("P1 DOMINANCE"))->setValue(0.0);
+	((ofxUISlider *)gui->getWidget("P2 DOMINANCE"))->setValue(0.0);
+	((ofxUISlider *)gui->getWidget("P3 DOMINANCE"))->setValue(0.0);
+	((ofxUISlider *)gui->getWidget("P4 DOMINANCE"))->setValue(0.0);
+
+}
+
 void ofApp::guiEvent(ofxUIEventArgs &e) {
     
     if (e.getName() == "CONNECT") {
@@ -183,6 +191,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
     
     else if (e.getName() == "REMOTE CONTROL MODE") {
         float value = ((ofxUIToggle *) e.widget)->getValue();
+		resetGui();
         sendControlToggleMessage(value);
     }
     

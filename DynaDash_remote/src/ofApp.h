@@ -28,6 +28,7 @@ public:
     void sendExpressionMessage(float expression);
     void sendDominanceMessage(vector<float> dominance);
     void sendInterruptionMessage(int interruptor);
+	void resetGui();
     
     void exit();
     void guiEvent(ofxUIEventArgs &e);
