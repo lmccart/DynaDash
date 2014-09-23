@@ -16,6 +16,7 @@ public:
     void update();
     void draw();
     vector<float> status;
+	vector <float> maxStatus;
     
     vector<ofVideoGrabber> cams;
     vector<SmileDetector> smiles;

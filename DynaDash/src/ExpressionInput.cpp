@@ -10,7 +10,7 @@
 
 void ExpressionInput::setup() {
 	status = vector<float>(4, 0);
-	status[0] = 0;
+	maxStatus = vector<float>(4, 100.0);
 
     cams = vector<ofVideoGrabber>(4);
     smiles = vector<SmileDetector>(4);
@@ -47,7 +47,8 @@ void ExpressionInput::update() {
             smiles[i].update(cams[i]);
             if(smiles[i].getFaceFound()) {
                 float cur = smiles[i].getSmileAmount();
-                status[i] = ofClamp(ofMap(cur, 0, 800, 0, 1.0), 0, 1.0);
+				//maxStatus[i] = max(maxStatus[i], cur);
+                status[i] = ofLerp(status[i], cur/maxStatus[i], 0.2);
             }
         }
     }
