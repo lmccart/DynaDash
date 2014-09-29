@@ -9,7 +9,7 @@
 #include "ofMain.h"
 #include "ofxUI.h"
 #include "StackedPlot.h"
-
+#include "ofxESCPOS.h"
 
 class Feedback {
     
@@ -17,6 +17,7 @@ public:
     void setup();
 	void update(vector<float>volume);
     void draw(vector<float> expression, vector<bool> interrupting, vector<float> dominance);
+    void printResults();
     
 private:
     void drawArc(float amt);
@@ -27,6 +28,8 @@ private:
     vector<ofVec2f> ledCenters;
     float easing;
 
-	StackedPlot audioPlot;
+    StackedPlot audioPlot;
+    
+    vector<ofx::ESCPOS::DefaultSerialPrinter> printers;
 
 };
