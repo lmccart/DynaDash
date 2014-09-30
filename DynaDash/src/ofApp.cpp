@@ -4,10 +4,6 @@
 void ofApp::setup() {
 
     ofShowCursor();
-//    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
-//    gui->addLabelToggle("RECORDING", false);
-//    gui->autoSizeToFitWidgets();
-//    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
 
     ofSetVerticalSync(true);
     ofSetFrameRate(120);
@@ -18,7 +14,11 @@ void ofApp::setup() {
     //gui->addLabelToggle("RECORDING", false);
     remoteControlLabel = gui->addLabel("REMOTE CONTROL OFF");
 	gui->setWidth(215);
-	
+    
+    gui->addLabelToggle("RECORDING", false);
+    gui->autoSizeToFitWidgets();
+    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
+    
 	// audio stuff
 	gui->addSlider("AUDIO_SMOOTH_AMT", 0, 1.0, 0.2);
 	gui->addSlider("AUDIO_THRESH", 0, 1.0, 0.5);

@@ -61,7 +61,8 @@ void AudioInput::setup() {
     volume = vector<float>(4, 0);
     normalizedVolume = vector<float>(4, 0);
 	speaking = vector<bool>(4, false);
-	interrupting = vector<bool>(4, false);
+    interrupting = vector<bool>(4, false);
+    curSpeaker = -1;
 
 	vector<ofSoundDevice> devices = getDeviceList();
 
@@ -108,11 +109,11 @@ void AudioInput::analyzeSpeaking() {
 			maxVolume = normalizedVolume[i];
 		}
 	}
-	
-	int lastSpeaker = -1;
+    
+    curSpeaker = -1;
 	for (int i=0; i<micsInited; i++) {
 		if (speaking[i]) {
-			lastSpeaker = i;
+			curSpeaker = i;
 		}
 	}
 
@@ -120,7 +121,7 @@ void AudioInput::analyzeSpeaking() {
 		interrupting[i] = false;
 		if (maxVolume > speakingNormalizedThresh && i == maxVolumeIndex) {
 			speaking[i] = true;
-			if (lastSpeaker != -1 && i != lastSpeaker) {
+			if (curSpeaker != -1 && i != curSpeaker) {
 				interrupting[i] = true;
 			}
 		} else {

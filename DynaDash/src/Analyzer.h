@@ -7,7 +7,7 @@
 //
 
 #include "ofMain.h"
-//#include "SQLiteC++.h"
+#include "ofxESCPOS.h"
 #include "Feedback.h"
 #include "DebugFeedback.h"
 #include "AudioInput.h"
@@ -16,8 +16,6 @@
 class Analyzer {
     
 public:
-    //Analyzer();
-    //~Analyzer();
     
     void setup();
     void update();
@@ -41,14 +39,27 @@ public:
     ExpressionInput expressionInput;
     Feedback feedback;
 	DebugFeedback debugFeedback;
-    //SQLite::Database db;
 	bool showDebug;
 	float talkHistoryMinutes;
 
 private:
     float lastUpdate;
+    vector<ofx::ESCPOS::DefaultSerialPrinter> printers;
+    
+    // floating history
 	list<float> talkHistoryTime;
-	vector<list<float> > talkHistory;
+	vector< list<float> > talkHistory;
     vector<float> talkTime;
     vector<float> talkRatio;
+    
+    // session history
+    float smileThresh;
+    vector< vector<int> > interruptions; // [person][giving, receiving]
+    vector<float> totalTalkTime;
+    vector< vector<float> > totalSmileTime; // [person][person]
+    
+    void beginRecording();
+    void endRecording();
 };
+
+
