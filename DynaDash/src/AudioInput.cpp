@@ -43,7 +43,7 @@ vector<ofSoundDevice> findMatchingDevices(const vector<ofSoundDevice>& deviceLis
            device.inputChannels == inputChannels &&
            device.outputChannels == outputChannels) {
             matchingDevices.push_back(device);
-        }
+        } //else ofLogNotice() << device.inputChannels << " " << device.outputChannels << " " << device.name;
     }
     return matchingDevices;
 }
@@ -69,7 +69,7 @@ void AudioInput::setup() {
 	vector<ofSoundDevice> microphones = findMatchingDevices(devices, "C-Media USB Audio Device", 2, 0);
 	
 	if(microphones.size() == 0) {
-        microphones = findMatchingDevices(devices, "Built-in Microphone", 1, 2);
+        microphones = findMatchingDevices(devices, "Built-in Microphone", 2, 0);
 	}
     
     if(microphones.size() != 4) {
