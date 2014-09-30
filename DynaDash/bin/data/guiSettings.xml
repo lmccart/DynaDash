@@ -6,6 +6,11 @@
     <YPosition>0.000000000</YPosition>
 </Canvas>
 <Widget>
+    <Kind>17</Kind>
+    <Name>RECORDING</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
     <Kind>4</Kind>
     <Name>AUDIO_SMOOTH_AMT</Name>
     <Value>0.734299541</Value>

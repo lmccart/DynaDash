@@ -272,7 +272,7 @@ void Analyzer::endRecording() {
     
     vector<string> labels = vector<string>(4, "");
     
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<1; i++) { //4; i++) {
         
         labels[0] = "PERSON A";
         labels[1] = "PERSON B";
@@ -281,20 +281,32 @@ void Analyzer::endRecording() {
         labels[i] = "YOU";
         
         ofLogNotice() << "You interrupted people " << interruptions[i][0] << " times";
-        ofLogNotice() << labels[mostInterrupting] << "interrupted the most (" << mostInterruptingVal << " times)";
-        ofLogNotice() << labels[leastInterrupting] << "interrupted the least (" << leastInterruptingVal << " times)";
+        if (mostInterrupting != -1)
+            ofLogNotice() << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times)";
+        if (leastInterrupting != -1)
+            ofLogNotice() << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times)";
         
         ofLogNotice() << "You were interrupted " << interruptions[i][1] << " times";
-        ofLogNotice() << labels[mostInterrupted] << "was interrupted the most (" << mostInterruptedVal << " times)";
-        ofLogNotice() << labels[leastInterrupted] << "was interrupted the least (" << leastInterruptedVal << " times)";
+        if (mostInterrupted != -1)
+            ofLogNotice() << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times)";
+        if (leastInterrupted != -1)
+            ofLogNotice() << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times)";
         
-        ofLogNotice() << "You spoke " << int(totalTalkTime[i]/groupTotalTalk*100) << "% of the time.";
-        ofLogNotice() << labels[mostSpeaking] << "talked the most (" << int(mostSpeakingVal/groupTotalTalk*100) << " % of the time)";
-        ofLogNotice() << labels[leastSpeaking] << "talked the least (" << int(leastSpeakingVal/groupTotalTalk*100) << " % of the time)";
+        if (groupTotalTalk > 0) {
+            ofLogNotice() << "You spoke " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time.";
+            if (mostSpeaking != -1)
+                ofLogNotice() << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << " % of the time)";
+            if (leastSpeaking != -1)
+                ofLogNotice() << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << " % of the time)";
+        }
         
-        ofLogNotice() << "You were smiling " << int(individualTotalSmile[i]/groupTotalSmile*100) << "% of the time.";
-        ofLogNotice() << labels[mostSmiling] << "smiled the most (" << int(mostSmilingVal/groupTotalSmile*100) << " % of the time)";
-        ofLogNotice() << labels[leastSmiling] << "smiled the least (" << int(leastSmilingVal/groupTotalSmile*100) << " % of the time)";
+        if (groupTotalSmile > 0) {
+            ofLogNotice() << "You were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time.";
+            if (mostSmiling != -1)
+                ofLogNotice() << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << " % of the time)";
+            if (leastSmiling != -1)
+                ofLogNotice() << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << " % of the time)";
+        }
     }
     
     

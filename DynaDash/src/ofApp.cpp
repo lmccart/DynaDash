@@ -8,7 +8,12 @@ void ofApp::setup() {
     ofSetVerticalSync(true);
     ofSetFrameRate(120);
 	ofEnableSmoothing();
-	
+    
+    analyzer.setup();
+    
+    // listen on the given port
+    cout << "listening for osc messages on port " << PORT << "\n";
+    receiver.setup(PORT);
     
     gui = new ofxUISuperCanvas("DEBUG VIEW");
     //gui->addLabelToggle("RECORDING", false);
@@ -27,14 +32,7 @@ void ofApp::setup() {
 	gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
     
-//    analyzer.audioInput.soundStream.setup(this, 0, 2, 44100, 256, 4);
     initSettings();
-    analyzer.setup();
-    
-    
-    // listen on the given port
-    cout << "listening for osc messages on port " << PORT << "\n";
-    receiver.setup(PORT);
 }
 
 void ofApp::initSettings() {
