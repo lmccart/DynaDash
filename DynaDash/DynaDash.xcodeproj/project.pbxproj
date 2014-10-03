@@ -92,6 +92,7 @@
 		6593735B19DA1A69001E56D4 /* snappy-sinksource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6593733E19DA1A69001E56D4 /* snappy-sinksource.cc */; };
 		6593735C19DA1A69001E56D4 /* snappy-stubs-internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6593734019DA1A69001E56D4 /* snappy-stubs-internal.cc */; };
 		6593735D19DA1A69001E56D4 /* snappy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6593734319DA1A69001E56D4 /* snappy.cc */; };
+		65BC6B5819DF28F700430169 /* Serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65BC6B5619DF28F700430169 /* Serial.cpp */; };
 		65E38F4A19D08D4D004D85DA /* Analyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3919D08D4D004D85DA /* Analyzer.cpp */; };
 		65E38F4B19D08D4D004D85DA /* AudioAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */; };
 		65E38F4C19D08D4D004D85DA /* AudioInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3D19D08D4D004D85DA /* AudioInput.cpp */; };
@@ -401,6 +402,8 @@
 		6593734219DA1A69001E56D4 /* snappy-stubs-public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-stubs-public.h"; sourceTree = "<group>"; };
 		6593734319DA1A69001E56D4 /* snappy.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = snappy.cc; sourceTree = "<group>"; };
 		6593734419DA1A69001E56D4 /* snappy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = snappy.h; sourceTree = "<group>"; };
+		65BC6B5619DF28F700430169 /* Serial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serial.cpp; sourceTree = "<group>"; };
+		65BC6B5719DF28F700430169 /* Serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serial.h; sourceTree = "<group>"; };
 		65E38F3919D08D4D004D85DA /* Analyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Analyzer.cpp; sourceTree = "<group>"; };
 		65E38F3A19D08D4D004D85DA /* Analyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analyzer.h; sourceTree = "<group>"; };
 		65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioAnalyzer.cpp; sourceTree = "<group>"; };
@@ -1411,6 +1414,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				65BC6B5619DF28F700430169 /* Serial.cpp */,
+				65BC6B5719DF28F700430169 /* Serial.h */,
 				65E38F3919D08D4D004D85DA /* Analyzer.cpp */,
 				65E38F3A19D08D4D004D85DA /* Analyzer.h */,
 				65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */,
@@ -1589,6 +1594,7 @@
 				650F19E119D0FA39009754F6 /* NetworkingUtils.cpp in Sources */,
 				65E38F4F19D08D4D004D85DA /* Feedback.cpp in Sources */,
 				FFD1EBFCA24DFB4E4427B4FE /* ofxUILabelButton.cpp in Sources */,
+				65BC6B5819DF28F700430169 /* Serial.cpp in Sources */,
 				650F19AD19D0CC3B009754F6 /* Wrappers.cpp in Sources */,
 				C30B3A2A37F8F32EE7318718 /* ofxUILabelToggle.cpp in Sources */,
 				9A83D1B3FB64456BC907667F /* ofxUIMinimalSlider.cpp in Sources */,
