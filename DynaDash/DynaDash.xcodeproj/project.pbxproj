@@ -404,6 +404,13 @@
 		6593734419DA1A69001E56D4 /* snappy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = snappy.h; sourceTree = "<group>"; };
 		65BC6B5619DF28F700430169 /* Serial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serial.cpp; sourceTree = "<group>"; };
 		65BC6B5719DF28F700430169 /* Serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serial.h; sourceTree = "<group>"; };
+		65BC6B5B19DF701300430169 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+		65BC6B5C19DF701300430169 /* guiSettings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = guiSettings.xml; sourceTree = "<group>"; };
+		65BC6B5D19DF701300430169 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
+		65BC6B5E19DF701300430169 /* smiled_05.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = smiled_05.xml; sourceTree = "<group>"; };
+		65BC6B5F19DF701300430169 /* DynaDash.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = DynaDash.app; sourceTree = "<group>"; };
+		65BC6B6019DF701300430169 /* DynaDashDebug.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; path = DynaDashDebug.app; sourceTree = "<group>"; };
+		65BC6B6119DF704A00430169 /* settings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = settings.xml; sourceTree = "<group>"; };
 		65E38F3919D08D4D004D85DA /* Analyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Analyzer.cpp; sourceTree = "<group>"; };
 		65E38F3A19D08D4D004D85DA /* Analyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Analyzer.h; sourceTree = "<group>"; };
 		65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AudioAnalyzer.cpp; sourceTree = "<group>"; };
@@ -1209,6 +1216,28 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		65BC6B5919DF701300430169 /* bin */ = {
+			isa = PBXGroup;
+			children = (
+				65BC6B5A19DF701300430169 /* data */,
+				65BC6B5F19DF701300430169 /* DynaDash.app */,
+				65BC6B6019DF701300430169 /* DynaDashDebug.app */,
+			);
+			path = bin;
+			sourceTree = "<group>";
+		};
+		65BC6B5A19DF701300430169 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				65BC6B5B19DF701300430169 /* .gitkeep */,
+				65BC6B5C19DF701300430169 /* guiSettings.xml */,
+				65BC6B5D19DF701300430169 /* haarcascade_frontalface_default.xml */,
+				65BC6B5E19DF701300430169 /* smiled_05.xml */,
+				65BC6B6119DF704A00430169 /* settings.xml */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
 		6E54289412D2D94F45A05113 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1401,6 +1430,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				65BC6B5919DF701300430169 /* bin */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,

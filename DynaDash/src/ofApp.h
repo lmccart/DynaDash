@@ -3,9 +3,8 @@
 #include "ofMain.h"
 #include "ofxOsc.h"
 #include "Analyzer.h"
+#include "Serial.h"
 
-// listen on port 12345
-#define PORT 8080
 
 
 class ofApp : public ofBaseApp{
@@ -29,8 +28,10 @@ class ofApp : public ofBaseApp{
         void exit();
         void guiEvent(ofxUIEventArgs &e);
     
+        ofxXmlSettings xml;
         ofxOscReceiver receiver;
         ofxUICanvas *gui;
         ofxUILabel *remoteControlLabel;
         Analyzer analyzer;
+        Serial serial;
 };

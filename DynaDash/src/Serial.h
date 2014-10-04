@@ -11,16 +11,16 @@
 class Serial {
     
 public:
-    void setup();
-	void update();
+    
+    bool setup(const char *portName, int baudRate, int nBytesInSegment, unsigned char begByte, unsigned char endByte);
+    void update();
+    bool serialHasGoodData(void);
+    unsigned char readSerialByte(int byteNo);
+    bool writeSerialByte(unsigned char aByte);
+    void confirmSerialDataProcessingComplete(void);
+    void close();
+    
     
 private:
-    
-    ofSerial serial;
-    char bytesRead[14];				// data from serial, we will be trying to read 14
-    char bytesReadString[15];		// a string needs a null terminator, so we need 14 + 1 bytes
-    
-    char bytesToSend[14];
-    bool sendBytes;
-
+    ofSerial	serialPort;
 };

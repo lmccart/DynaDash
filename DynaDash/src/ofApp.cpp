@@ -9,12 +9,26 @@ void ofApp::setup() {
     ofSetFrameRate(120);
 	ofEnableSmoothing();
     
+    
+    // load settings from xml file
+    xml.loadFile("settings.xml");
+    
+    // setup serial
+    int comPort = xml.getValue("COM_PORT", 0);
+    cout << "listening for serial data on port " << comPort << "\n";
+    char str[10];
+    sprintf(str,"COM%d", comPort);
+    //serial.setup(str, 57600, 15, 0xFE, 0xFF);
+    
+    // setup analyzer
     analyzer.setup();
     
-    // listen on the given port
-    cout << "listening for osc messages on port " << PORT << "\n";
-    receiver.setup(PORT);
+    // setup osc
+    int oscPort = xml.getValue("OSC_PORT", 8080);
+    cout << "listening for osc messages on port " << oscPort << "\n";
+    receiver.setup(oscPort);
     
+    // setup gui
     gui = new ofxUISuperCanvas("DEBUG VIEW");
     //gui->addLabelToggle("RECORDING", false);
     remoteControlLabel = gui->addLabel("REMOTE CONTROL OFF");
@@ -44,10 +58,12 @@ void ofApp::initSettings() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
+ 
     analyzer.update();
     
+    //serial.update();
     
-    // check for waiting messages
+    // check for waiting messages from remote
     while(receiver.hasWaitingMessages()){
         
         // get the next message
@@ -147,7 +163,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo) {
 
 void ofApp::exit() {
 	
-    gui->saveSettings("guiSettings.xml"); 
+    gui->saveSettings("guiSettings.xml");
+    //serial.close();
     delete gui;
 }
 
