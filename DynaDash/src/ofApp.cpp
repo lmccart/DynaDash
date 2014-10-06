@@ -13,15 +13,9 @@ void ofApp::setup() {
     // load settings from xml file
     xml.loadFile("settings.xml");
     
-    // setup serial
-    int comPort = xml.getValue("COM_PORT", 0);
-    cout << "listening for serial data on port " << comPort << "\n";
-    char str[10];
-    sprintf(str,"COM%d", comPort);
-    //serial.setup(str, 57600, 15, 0xFE, 0xFF);
-    
     // setup analyzer
-    analyzer.setup();
+    string comPort = xml.getValue("COM_PORT", "COM0");
+    analyzer.setup(comPort);
     
     // setup osc
     int oscPort = xml.getValue("OSC_PORT", 8080);
@@ -34,7 +28,8 @@ void ofApp::setup() {
     remoteControlLabel = gui->addLabel("REMOTE CONTROL OFF");
 	gui->setWidth(215);
     
-    gui->addLabelToggle("RECORDING", false);
+    gui->addLabelToggle("PRACTICE", false);
+    gui->addLabelToggle("ANALYSIS", false);
     gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
     
@@ -58,10 +53,10 @@ void ofApp::initSettings() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
- 
-    analyzer.update();
     
-    //serial.update();
+    analyzer.update();
+    ((ofxUIToggle *)gui->getWidget("PRACTICE"))->setValue(analyzer.curMode == Analyzer::PRACTICE);
+    ((ofxUIToggle *)gui->getWidget("ANALYSIS"))->setValue(analyzer.curMode == Analyzer::ANALYSIS);
     
     // check for waiting messages from remote
     while(receiver.hasWaitingMessages()){
@@ -78,7 +73,7 @@ void ofApp::update() {
                 analyzer.setMode(Analyzer::REMOTE_CONTROL);
             } else {
                 remoteControlLabel->setLabel("REMOTE CONTROL OFF");
-                analyzer.setMode(Analyzer::TRAINING);
+                analyzer.setMode(Analyzer::OFF);
             }
         }
         else if(m.getAddress() == "/expression"){
@@ -122,44 +117,8 @@ void ofApp::keyPressed(int key) {
 	ofLogNotice() << "key pressed: " << key;
 }
 
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-}
 
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ) {
 
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) { 
-
-}
 
 void ofApp::exit() {
 	
@@ -169,9 +128,22 @@ void ofApp::exit() {
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {
-    if(e.getName() == "RECORDING") {
+    if(e.getName() == "PRACTICE") {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
-        analyzer.setMode(toggle->getValue());
+        int val = toggle->getValue();
+        if (val) {
+            analyzer.setMode(Analyzer::PRACTICE);
+        } else {
+            analyzer.setMode(Analyzer::OFF);
+        }
+    } else if(e.getName() == "ANALYSIS") {
+        ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
+        int val = toggle->getValue();
+        if (val) {
+            analyzer.setMode(Analyzer::ANALYSIS);
+        } else {
+            analyzer.setMode(Analyzer::OFF);
+        }
     } else if (e.getName() == "AUDIO_SMOOTH_AMT") {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
 		analyzer.audioInput.setSmoothing(slider->getValue());
@@ -185,9 +157,4 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
 		analyzer.talkHistoryMinutes = slider->getValue();
 		ofLogNotice() << "audio history minutes set to: " << analyzer.talkHistoryMinutes;
 	}
-    //    } else if (e.getSlider() == interruptionSlider) {
-    //
-    //    } else if (e.getSlider() == expressionSlider) {
-    //
-    //    }
 }

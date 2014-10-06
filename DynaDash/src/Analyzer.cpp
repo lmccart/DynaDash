@@ -14,11 +14,14 @@ using namespace ESCPOS;
 
 
 
-void Analyzer::setup() {
+void Analyzer::setup(string comPort) {
+
     
-    
-    curMode = TRAINING;
+    curMode = OFF;
     smileThresh = 0.5; // pend, might need to be pp
+    
+    stats = vector<vector<int> >(4, vector<int>(3, 0)); // [person][dominance, interruptions, expression]
+    
     
     // floating history
     talkHistoryMinutes = 3;
@@ -67,13 +70,20 @@ void Analyzer::setup() {
         ofLogNotice() << printDevices[i].getDescription() << " " << printDevices[i].getHardwareId() << " " << printDevices[i].getPort();
     }
     
+    // setup serial
+    cout << "listening for serial data on port " << comPort << "\n";
+    serial.setup(comPort.c_str(), 57600, 15, 0xFE, 0xFF);
+    
     showDebug = true;
     reset();
 }
 
 void Analyzer::update() {
+    
+    handleSerialMessage(serial.update());
 
-    if (curMode != REMOTE_CONTROL) {
+    
+    if (curMode == PRACTICE || curMode == ANALYSIS) {
         float curUpdate = ofGetElapsedTimef();
         float elapsed = curUpdate - lastUpdate;
         lastUpdate = curUpdate;
@@ -97,10 +107,14 @@ void Analyzer::update() {
             if (expressionInput.status[i] > smileThresh) {
                 float ind = audioInput.curSpeaker == -1 ? i : audioInput.curSpeaker; // stick it in self if no cur speaker
                 totalSmileTime[i][ind] += elapsed;
+            } else {
             }
             
             // check for interrupting
-            if (audioInput.interrupting[i]) interruptions[i][0] += 1;
+            if (audioInput.interrupting[i]) {
+                interruptions[i][0] += 1;
+            }
+            
             
             // check for interrupted
             if (i == audioInput.curSpeaker) {
@@ -132,12 +146,40 @@ void Analyzer::update() {
             talkRatio[i] = talkTime[i]/totalTalkTime;
         }
         
+        // send stats
+        for (int i=0; i<4; i++) {
+            stats[i][0] = talkRatio[i];
+            stats[i][1] = interruptions[i][0];
+            stats[i][2] = expressionInput.status[i] > smileThresh ? 1 : 0;
+        }
+        serial.sendStats(stats);
     }
-        //ofLogNotice() << talkHistory[0].front() <<"  " << talkHistory[0].back() << " " << talkTime[0];
+}
 
-    if (curMode == RECORDING) {
-
-
+void Analyzer::handleSerialMessage(int msg) {
+    if (msg != -1) {
+        switch (msg) {
+            case 0:
+                ofLogNotice() << "Received message: begin practice session";
+                setMode(PRACTICE);
+                break;
+            case 1:
+                ofLogNotice() << "Received message: begin analysis session";
+                setMode(ANALYSIS);
+                break;
+            case 4:
+                ofLogNotice() << "Received message: end practice session";
+                setMode(OFF);
+                break;
+            case 5:
+                ofLogNotice() << "Received message: end analysis session";
+                setMode(OFF);
+                break;
+            default:
+                ofLogNotice() << "Received unknown message: " << msg;
+                break;
+        }
+        
     }
 }
 
@@ -179,7 +221,7 @@ void Analyzer::reset() {
 }
 
 void Analyzer::setMode(int mode) {
-    if (curMode == RECORDING && mode != RECORDING) {
+    if (curMode == ANALYSIS && mode != ANALYSIS) {
         endRecording();
     }
     

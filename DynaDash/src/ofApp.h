@@ -3,8 +3,6 @@
 #include "ofMain.h"
 #include "ofxOsc.h"
 #include "Analyzer.h"
-#include "Serial.h"
-
 
 
 class ofApp : public ofBaseApp{
@@ -14,18 +12,8 @@ class ofApp : public ofBaseApp{
 		void initSettings();
 		void update();
 		void draw();
-
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
-		
         void exit();
+		void keyPressed(int key);
         void guiEvent(ofxUIEventArgs &e);
     
         ofxXmlSettings xml;
@@ -33,5 +21,4 @@ class ofApp : public ofBaseApp{
         ofxUICanvas *gui;
         ofxUILabel *remoteControlLabel;
         Analyzer analyzer;
-        Serial serial;
 };

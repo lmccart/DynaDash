@@ -26,8 +26,8 @@ bool            hasGoodData;                // true if good data pending retriev
 
 
 
-bool Serial::setup(const char *portName, int baudRate, int nBytesInSegment,
-                         unsigned char begByte, unsigned char endByte) {
+void Serial::setup(const char *portName, int baudRate, int nBytesInSegment,
+                       unsigned char begByte, unsigned char endByte) {
     
     hasGoodData = false;
     bytesInBuffer = 0;
@@ -42,17 +42,33 @@ bool Serial::setup(const char *portName, int baudRate, int nBytesInSegment,
     serialPort.setup(portName, baudRate);
 }
 
-void Serial::update() {
 
-    unsigned char msgTypeByte;
-
+int Serial::update() {
+    int msgTypeByte;
+    
     if (serialHasGoodData()) {
+        
         msgTypeByte = readSerialByte(1);
         confirmSerialDataProcessingComplete();
         
-//        if ((tmpByte1=='H') && (tmpByte2=='I'))
-//            goodDataCount++;
+        ofLogNotice() << "type " << msgTypeByte;
+        
+        //        if ((tmpByte1=='H') && (tmpByte2=='I'))
+        //            goodDataCount++;
+        return msgTypeByte;
     }
+    return -1;
+}
+
+void Serial::sendStats(vector< vector<int> > stats) {
+    // serial out test bytes to Arduino
+    writeSerialByte(0xFE);
+    for (int i=0; i<stats.size(); i++) {
+        for (int j=0; j<stats[i].size(); j++) {
+            writeSerialByte(stats[i][j]);
+        }
+    }
+    writeSerialByte(0xFF);
 }
 
 

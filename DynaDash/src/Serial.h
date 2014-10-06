@@ -12,8 +12,9 @@ class Serial {
     
 public:
     
-    bool setup(const char *portName, int baudRate, int nBytesInSegment, unsigned char begByte, unsigned char endByte);
-    void update();
+    void setup(const char *portName, int baudRate, int nBytesInSegment, unsigned char begByte, unsigned char endByte);
+    void sendStats(vector< vector<int> > stats);
+    int update();
     bool serialHasGoodData(void);
     unsigned char readSerialByte(int byteNo);
     bool writeSerialByte(unsigned char aByte);

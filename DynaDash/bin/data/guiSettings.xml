@@ -7,7 +7,12 @@
 </Canvas>
 <Widget>
     <Kind>17</Kind>
-    <Name>RECORDING</Name>
+    <Name>PRACTICE</Name>
+    <Value>0</Value>
+</Widget>
+<Widget>
+    <Kind>17</Kind>
+    <Name>ANALYSIS</Name>
     <Value>0</Value>
 </Widget>
 <Widget>
