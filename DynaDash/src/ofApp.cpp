@@ -4,21 +4,35 @@
 void ofApp::setup() {
 
     ofShowCursor();
-//    gui = new ofxUICanvas(0, 0, ofGetWidth(), ofGetHeight());           // create a canvas at (0,0) using the default width
-//    gui->addLabelToggle("RECORDING", false);
-//    gui->autoSizeToFitWidgets();
-//    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
 
     ofSetVerticalSync(true);
     ofSetFrameRate(120);
 	ofEnableSmoothing();
-	
     
+    
+    // load settings from xml file
+    xml.loadFile("settings.xml");
+    
+    // setup analyzer
+    string comPort = xml.getValue("COM_PORT", "COM0");
+    analyzer.setup(comPort);
+    
+    // setup osc
+    int oscPort = xml.getValue("OSC_PORT", 8080);
+    cout << "listening for osc messages on port " << oscPort << "\n";
+    receiver.setup(oscPort);
+    
+    // setup gui
     gui = new ofxUISuperCanvas("DEBUG VIEW");
     //gui->addLabelToggle("RECORDING", false);
     remoteControlLabel = gui->addLabel("REMOTE CONTROL OFF");
 	gui->setWidth(215);
-	
+    
+    gui->addLabelToggle("PRACTICE", false);
+    gui->addLabelToggle("ANALYSIS", false);
+    gui->autoSizeToFitWidgets();
+    ofAddListener(gui->newGUIEvent, this, &ofApp::guiEvent);
+    
 	// audio stuff
 	gui->addSlider("AUDIO_SMOOTH_AMT", 0, 1.0, 0.2);
 	gui->addSlider("AUDIO_THRESH", 0, 1.0, 0.5);
@@ -27,14 +41,7 @@ void ofApp::setup() {
 	gui->autoSizeToFitWidgets();
     ofAddListener(gui->newGUIEvent,this,&ofApp::guiEvent);
     
-//    analyzer.audioInput.soundStream.setup(this, 0, 2, 44100, 256, 4);
     initSettings();
-    analyzer.setup();
-    
-    
-    // listen on the given port
-    cout << "listening for osc messages on port " << PORT << "\n";
-    receiver.setup(PORT);
 }
 
 void ofApp::initSettings() {
@@ -46,10 +53,12 @@ void ofApp::initSettings() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
+    
     analyzer.update();
+    ((ofxUIToggle *)gui->getWidget("PRACTICE"))->setValue(analyzer.curMode == Analyzer::PRACTICE);
+    ((ofxUIToggle *)gui->getWidget("ANALYSIS"))->setValue(analyzer.curMode == Analyzer::ANALYSIS);
     
-    
-    // check for waiting messages
+    // check for waiting messages from remote
     while(receiver.hasWaitingMessages()){
         
         // get the next message
@@ -64,7 +73,7 @@ void ofApp::update() {
                 analyzer.setMode(Analyzer::REMOTE_CONTROL);
             } else {
                 remoteControlLabel->setLabel("REMOTE CONTROL OFF");
-                analyzer.setMode(Analyzer::TRAINING);
+                analyzer.setMode(Analyzer::OFF);
             }
         }
         else if(m.getAddress() == "/expression"){
@@ -108,55 +117,33 @@ void ofApp::keyPressed(int key) {
 	ofLogNotice() << "key pressed: " << key;
 }
 
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-}
 
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ) {
 
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) { 
-
-}
 
 void ofApp::exit() {
 	
-    gui->saveSettings("guiSettings.xml"); 
+    gui->saveSettings("guiSettings.xml");
+    //serial.close();
     delete gui;
 }
 
 void ofApp::guiEvent(ofxUIEventArgs &e) {
-    if(e.getName() == "RECORDING") {
+    if(e.getName() == "PRACTICE") {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
-        analyzer.setMode(toggle->getValue());
+        int val = toggle->getValue();
+        if (val) {
+            analyzer.setMode(Analyzer::PRACTICE);
+        } else {
+            analyzer.setMode(Analyzer::OFF);
+        }
+    } else if(e.getName() == "ANALYSIS") {
+        ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
+        int val = toggle->getValue();
+        if (val) {
+            analyzer.setMode(Analyzer::ANALYSIS);
+        } else {
+            analyzer.setMode(Analyzer::OFF);
+        }
     } else if (e.getName() == "AUDIO_SMOOTH_AMT") {
 		ofxUISlider *slider = (ofxUISlider *)e.widget;
 		analyzer.audioInput.setSmoothing(slider->getValue());
@@ -170,9 +157,4 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
 		analyzer.talkHistoryMinutes = slider->getValue();
 		ofLogNotice() << "audio history minutes set to: " << analyzer.talkHistoryMinutes;
 	}
-    //    } else if (e.getSlider() == interruptionSlider) {
-    //
-    //    } else if (e.getSlider() == expressionSlider) {
-    //
-    //    }
 }

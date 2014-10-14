@@ -7,23 +7,23 @@
 //
 
 #include "ofMain.h"
-//#include "SQLiteC++.h"
+#include "ofxESCPOS.h"
 #include "Feedback.h"
 #include "DebugFeedback.h"
 #include "AudioInput.h"
 #include "ExpressionInput.h"
+#include "Serial.h"
 
 class Analyzer {
     
 public:
-    //Analyzer();
-    //~Analyzer();
     
-    void setup();
+    void setup(string comPort);
     void update();
     void draw();
     void reset();
     void setMode(int mode);
+    vector< vector<int> > stats;
     
     // remote control
     void setDominance(float d0, float d1, float d2, float d3);
@@ -31,9 +31,10 @@ public:
     void setExpression(float expression);
     
     enum {
-        TRAINING = 0,
-        RECORDING = 1,
-        REMOTE_CONTROL = 2
+        OFF = 0,
+        PRACTICE = 1,
+        ANALYSIS = 2,
+        REMOTE_CONTROL = 3
     };
     int curMode;
     
@@ -41,14 +42,30 @@ public:
     ExpressionInput expressionInput;
     Feedback feedback;
 	DebugFeedback debugFeedback;
-    //SQLite::Database db;
 	bool showDebug;
 	float talkHistoryMinutes;
+    
 
 private:
     float lastUpdate;
+    vector<ofx::ESCPOS::DefaultSerialPrinter> printers;
+    Serial serial;
+    
+    // floating history
 	list<float> talkHistoryTime;
-	vector<list<float> > talkHistory;
+	vector< list<float> > talkHistory;
     vector<float> talkTime;
     vector<float> talkRatio;
+    
+    // session history
+    float smileThresh;
+    vector< vector<int> > interruptions; // [person][giving, receiving]
+    vector<float> totalTalkTime;
+    vector< vector<float> > totalSmileTime; // [person][person]
+    
+    void beginRecording();
+    void endRecording();
+    void handleSerialMessage(int msg);
 };
+
+

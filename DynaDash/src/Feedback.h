@@ -10,7 +10,6 @@
 #include "ofxUI.h"
 #include "StackedPlot.h"
 
-
 class Feedback {
     
 public:
@@ -27,6 +26,7 @@ private:
     vector<ofVec2f> ledCenters;
     float easing;
 
-	StackedPlot audioPlot;
+    StackedPlot audioPlot;
+    
 
 };

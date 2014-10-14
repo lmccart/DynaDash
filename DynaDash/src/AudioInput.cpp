@@ -43,7 +43,7 @@ vector<ofSoundDevice> findMatchingDevices(const vector<ofSoundDevice>& deviceLis
            device.inputChannels == inputChannels &&
            device.outputChannels == outputChannels) {
             matchingDevices.push_back(device);
-        }
+        } //else ofLogNotice() << device.inputChannels << " " << device.outputChannels << " " << device.name;
     }
     return matchingDevices;
 }
@@ -61,14 +61,15 @@ void AudioInput::setup() {
     volume = vector<float>(4, 0);
     normalizedVolume = vector<float>(4, 0);
 	speaking = vector<bool>(4, false);
-	interrupting = vector<bool>(4, false);
+    interrupting = vector<bool>(4, false);
+    curSpeaker = -1;
 
 	vector<ofSoundDevice> devices = getDeviceList();
 
 	vector<ofSoundDevice> microphones = findMatchingDevices(devices, "C-Media USB Audio Device", 2, 0);
 	
 	if(microphones.size() == 0) {
-        microphones = findMatchingDevices(devices, "Built-in Microphone", 1, 2);
+        microphones = findMatchingDevices(devices, "Built-in Microphone", 2, 0);
 	}
     
     if(microphones.size() != 4) {
@@ -108,11 +109,11 @@ void AudioInput::analyzeSpeaking() {
 			maxVolume = normalizedVolume[i];
 		}
 	}
-	
-	int lastSpeaker = -1;
+    
+    curSpeaker = -1;
 	for (int i=0; i<micsInited; i++) {
 		if (speaking[i]) {
-			lastSpeaker = i;
+			curSpeaker = i;
 		}
 	}
 
@@ -120,7 +121,7 @@ void AudioInput::analyzeSpeaking() {
 		interrupting[i] = false;
 		if (maxVolume > speakingNormalizedThresh && i == maxVolumeIndex) {
 			speaking[i] = true;
-			if (lastSpeaker != -1 && i != lastSpeaker) {
+			if (curSpeaker != -1 && i != curSpeaker) {
 				interrupting[i] = true;
 			}
 		} else {

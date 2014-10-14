@@ -25,6 +25,8 @@ void Feedback::setup() {
     audioPlot.addColor(ofColor::fromHex(0x05A180));
     audioPlot.addColor(ofColor::fromHex(0xE25D48));
     audioPlot.addColor(ofColor::fromHex(0x055D48));
+    
+
 }
 
 void Feedback::update(vector<float>volume) {
@@ -100,4 +102,6 @@ void Feedback::drawArc(float amt) {
 
 	ofPopStyle();
 }
+
+
 

@@ -17,6 +17,7 @@ public:
     vector<float>volume;
 	vector<float>normalizedVolume;
 	vector<bool>speaking;
+    int curSpeaker;
 	vector<bool>interrupting;
 	float speakingNormalizedThresh;
     ofSoundStream soundStream;
