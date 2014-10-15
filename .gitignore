@@ -32,5 +32,8 @@ xcuserdata/
 *.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
 *.tlog
 
+obj/*
+*/obj/*
+*.exp
+*.zip
 *.txt
-
