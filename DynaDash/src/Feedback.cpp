@@ -33,7 +33,7 @@ void Feedback::update(vector<float>volume) {
 	audioPlot.addData(volume);
 }
 
-void Feedback::draw(vector<float> expression, vector<bool> interrupting, vector<float> dominance) {
+void Feedback::draw(vector<bool> participants, vector<float> expression, vector<bool> interrupting, vector<float> dominance) {
     
     ofBackground(ofColor(40));
 
@@ -49,26 +49,28 @@ void Feedback::draw(vector<float> expression, vector<bool> interrupting, vector<
 	ofPushStyle();
 	ofSetLineWidth(2.5);
     for (int i=0; i<4; i++) {
-        float nextAlpha = 255*dominance[i];
-        ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
-        ofNoFill();
-        ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
+        if (participants[i]) {
+            float nextAlpha = 255*dominance[i];
+            ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
+            ofNoFill();
+            ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
 
-        ofSetColor(ledColor[0], ledColor[1], ledColor[2], ofLerp(ledAlpha[i], nextAlpha, easing));
-        ofFill();
-        ledAlpha[i] = nextAlpha;
-        ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
+            ofSetColor(ledColor[0], ledColor[1], ledColor[2], ofLerp(ledAlpha[i], nextAlpha, easing));
+            ofFill();
+            ledAlpha[i] = nextAlpha;
+            ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
 
-		float warnAlpha = 0;
-		if (interrupting[i]) {
-			warnAlpha = 255.0;
-		} else {
-			warnAlpha = ofLerp(ledWarnAlpha[i], 0, easing);
-		}
-		ledWarnAlpha[i] = warnAlpha;
-		ofSetColor(ledWarnColor[0], ledWarnColor[1], ledWarnColor[2], warnAlpha);
-		ofFill();
-		ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
+            float warnAlpha = 0;
+            if (interrupting[i]) {
+                warnAlpha = 255.0;
+            } else {
+                warnAlpha = ofLerp(ledWarnAlpha[i], 0, easing);
+            }
+            ledWarnAlpha[i] = warnAlpha;
+            ofSetColor(ledWarnColor[0], ledWarnColor[1], ledWarnColor[2], warnAlpha);
+            ofFill();
+            ofCircle(ledCenters[i].x, ledCenters[i].y, 25);
+        }
     }
 	ofPopStyle();
 	

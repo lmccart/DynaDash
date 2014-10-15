@@ -25,7 +25,7 @@ void DebugFeedback::update(vector<float>volume, vector<float> smile) {
     smilePlot.add(smile[0]);
 }
 
-void DebugFeedback::draw(vector<float> normVolume, vector<bool> speaking) {
+void DebugFeedback::draw(vector<bool> participants, vector<float> normVolume, vector<bool> speaking) {
 
 	ofPushStyle();
     ofPushMatrix();
@@ -40,15 +40,17 @@ void DebugFeedback::draw(vector<float> normVolume, vector<bool> speaking) {
 	ofPushStyle();
 	float x;
     for (int i=0; i<4; i++) {
-        ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
-        ofNoFill();
-		ofSetLineWidth(normVolume[i] * 12);
-		x = 45*i + 40;
-        ofCircle(x, 30, 15);
-        if (speaking[i]) {
-            ofSetColor(ledColor);
-            ofFill();
+        if (participants[i]) {
+            ofSetColor(ledColor[0], ledColor[1], ledColor[2], 100);
+            ofNoFill();
+            ofSetLineWidth(normVolume[i] * 12);
+            x = 45*i + 40;
             ofCircle(x, 30, 15);
+            if (speaking[i]) {
+                ofSetColor(ledColor);
+                ofFill();
+                ofCircle(x, 30, 15);
+            }
         }
     }
 	ofPopStyle();

@@ -15,7 +15,7 @@ class Feedback {
 public:
     void setup();
 	void update(vector<float>volume);
-    void draw(vector<float> expression, vector<bool> interrupting, vector<float> dominance);
+    void draw(vector<bool> participants, vector<float> expression, vector<bool> interrupting, vector<float> dominance);
     
 private:
     void drawArc(float amt);

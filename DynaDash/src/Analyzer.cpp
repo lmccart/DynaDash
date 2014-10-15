@@ -195,7 +195,7 @@ void Analyzer::handleSerialMessage(int msg) {
 }
 
 void Analyzer::draw() {
-    feedback.draw(faceInput.status, audioInput.interrupting, talkRatio);
+    feedback.draw(participantStatus, faceInput.status, audioInput.interrupting, talkRatio);
     
     // reset interruptions after drawn
     if (curMode == REMOTE_CONTROL) {
@@ -205,7 +205,7 @@ void Analyzer::draw() {
     }
     
 	if (showDebug) {
-		debugFeedback.draw(audioInput.normalizedVolume, audioInput.speaking);
+		debugFeedback.draw(participantStatus, audioInput.normalizedVolume, audioInput.speaking);
 	}
     //expressionInput.draw();
 }

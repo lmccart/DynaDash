@@ -17,7 +17,7 @@ class DebugFeedback {
 public:
     void setup(float width);
 	void update(vector<float>volume, vector<float> smile);
-    void draw(vector<float> normVolume, vector<bool> speaking);
+    void draw(vector<bool> participants, vector<float> normVolume, vector<bool> speaking);
     
 private:
 	ofColor ledColor;
