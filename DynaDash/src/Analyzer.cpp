@@ -21,7 +21,8 @@ void Analyzer::setup(string comPort) {
     smileThresh = 0.5; // pend, might need to be pp
     
     stats = vector<vector<int> >(4, vector<int>(3, 0)); // [person][dominance, interruptions, expression]
-    
+    participantStatus = vector<bool>(4, false);
+
     
     // floating history
     talkHistoryMinutes = 3;
@@ -37,7 +38,7 @@ void Analyzer::setup(string comPort) {
     
     // setup things
     audioInput.setup();
-    expressionInput.setup();
+    faceInput.setup();
     feedback.setup();
 	debugFeedback.setup(215);
     
@@ -90,38 +91,40 @@ void Analyzer::update() {
         
         // update inputs
         audioInput.update();
-        expressionInput.update();
+        faceInput.update();
         feedback.update(audioInput.normalizedVolume);
-        debugFeedback.update(audioInput.normalizedVolume, expressionInput.status);
+        debugFeedback.update(audioInput.normalizedVolume, faceInput.status);
         
         // update talk history arrays and current time
         // update smile time
         talkHistoryTime.push_back(curUpdate);
         for(int i = 0; i < 4; i++) {
-            float audioDuration = audioInput.curSpeaker == i ? elapsed : 0.0;
-            talkHistory[i].push_back(audioDuration);
-            talkTime[i] += audioDuration;
-            
-            // session history stats
-            totalTalkTime[i] += audioDuration;
-            if (expressionInput.status[i] > smileThresh) {
-                float ind = audioInput.curSpeaker == -1 ? i : audioInput.curSpeaker; // stick it in self if no cur speaker
-                totalSmileTime[i][ind] += elapsed;
-            } else {
-            }
-            
-            // check for interrupting
-            if (audioInput.interrupting[i]) {
-                interruptions[i][0] += 1;
-            }
-            
-            
-            // check for interrupted
-            if (i == audioInput.curSpeaker) {
-                for (int j=0; j<4; j++) {
-                    if (j != i) {
-                        int val = audioInput.interrupting[j] ? 1 : 0;
-                        interruptions[i][1] += val;
+            if (participantStatus[i]) {
+                float audioDuration = audioInput.curSpeaker == i ? elapsed : 0.0;
+                talkHistory[i].push_back(audioDuration);
+                talkTime[i] += audioDuration;
+                
+                // session history stats
+                totalTalkTime[i] += audioDuration;
+                if (faceInput.status[i] > smileThresh) {
+                    float ind = audioInput.curSpeaker == -1 ? i : audioInput.curSpeaker; // stick it in self if no cur speaker
+                    totalSmileTime[i][ind] += elapsed;
+                } else {
+                }
+                
+                // check for interrupting
+                if (audioInput.interrupting[i]) {
+                    interruptions[i][0] += 1;
+                }
+                
+                
+                // check for interrupted
+                if (i == audioInput.curSpeaker) {
+                    for (int j=0; j<4; j++) {
+                        if (j != i) {
+                            int val = audioInput.interrupting[j] ? 1 : 0;
+                            interruptions[i][1] += val;
+                        }
                     }
                 }
             }
@@ -132,25 +135,33 @@ void Analyzer::update() {
         while(curUpdate - talkHistoryTime.front() > talkHistorySeconds) {
             talkHistoryTime.pop_front();
             for(int i = 0; i < 4; i++) {
-                talkTime[i] -= talkHistory[i].front();
-                talkHistory[i].pop_front();
+                if (participantStatus[i]) {
+                    talkTime[i] -= talkHistory[i].front();
+                    talkHistory[i].pop_front();
+                }
             }
         }
 
         // track talk time ratios
         float totalTalkTime = 0;
         for (int i=0; i<4; i++) {
-            totalTalkTime += talkTime[i];
+            if (participantStatus[i]) {
+                totalTalkTime += talkTime[i];
+            }
         }
-        for (int i=0; i<talkTime.size(); i++) {
-            talkRatio[i] = talkTime[i]/totalTalkTime;
+        for (int i=0; i<4; i++) {
+            if (participantStatus[i]) {
+                talkRatio[i] = talkTime[i]/totalTalkTime;
+            }
         }
         
         // send stats
         for (int i=0; i<4; i++) {
-            stats[i][0] = talkRatio[i];
-            stats[i][1] = interruptions[i][0];
-            stats[i][2] = expressionInput.status[i] > smileThresh ? 1 : 0;
+            if (participantStatus[i]) {
+                stats[i][0] = talkRatio[i];
+                stats[i][1] = interruptions[i][0];
+                stats[i][2] = faceInput.status[i] > smileThresh ? 1 : 0;
+            }
         }
         serial.sendStats(stats);
     }
@@ -184,7 +195,7 @@ void Analyzer::handleSerialMessage(int msg) {
 }
 
 void Analyzer::draw() {
-    feedback.draw(expressionInput.status, audioInput.interrupting, talkRatio);
+    feedback.draw(faceInput.status, audioInput.interrupting, talkRatio);
     
     // reset interruptions after drawn
     if (curMode == REMOTE_CONTROL) {
@@ -217,12 +228,20 @@ void Analyzer::reset() {
         }
     }
     
+    // clear stats
+     stats = vector<vector<int> >(4, vector<int>(3, 0));
+    
     lastUpdate = ofGetElapsedTimef();
 }
 
 void Analyzer::setMode(int mode) {
+    
+    if (mode == PRACTICE || mode == ANALYSIS) {
+        beginSession();
+    }
+    
     if (curMode == ANALYSIS && mode != ANALYSIS) {
-        endRecording();
+        endAnalysisSession();
     }
     
     curMode = mode;
@@ -231,7 +250,16 @@ void Analyzer::setMode(int mode) {
     
 }
 
-void Analyzer::endRecording() {
+void Analyzer::beginSession() {
+    participantStatus = faceInput.detectFaces();
+    serial.sendParticipants(participantStatus);
+    for (int i=0; i<4; i++) {
+        ofLog() << i << " " << participantStatus[i];
+    }
+}
+
+
+void Analyzer::endAnalysisSession() {
     
     ofLogNotice() << "Processing end of conversation";
     
@@ -261,224 +289,128 @@ void Analyzer::endRecording() {
     float groupTotalSmile = 0;
     
     for (int i=0; i<4; i++) {
+        if (participantStatus[i]) {
         
-        // interrupting
-        if (interruptions[i][0] > mostInterruptingVal) {
-            mostInterrupting = i;
-            mostInterruptingVal = interruptions[i][0];
+            // interrupting
+            if (interruptions[i][0] > mostInterruptingVal) {
+                mostInterrupting = i;
+                mostInterruptingVal = interruptions[i][0];
+            }
+            else if (interruptions[i][0] < leastInterruptingVal || leastInterrupting == -1) {
+                leastInterrupting = i;
+                leastInterruptingVal = interruptions[i][0];
+            }
+            
+            // interrupted
+            if (interruptions[i][1] > mostInterruptedVal) {
+                mostInterrupted = i;
+                mostInterruptedVal = interruptions[i][1];
+            }
+            else if (interruptions[i][1] < leastInterruptedVal || leastInterrupted == -1) {
+                leastInterrupted = i;
+                leastInterruptedVal = interruptions[i][1];
+            }
+            
+            // talking
+            if (totalTalkTime[i] > mostSpeakingVal) {
+                mostSpeaking = i;
+                mostSpeakingVal = totalTalkTime[i];
+            }
+            else if (totalTalkTime[i] < leastSpeakingVal || leastSpeaking == -1) {
+                leastSpeaking = i;
+                leastSpeakingVal = totalTalkTime[i];
+            }
+            groupTotalTalk += totalTalkTime[i];
+            
+            
+            // smiling
+            for (int j=0; j<4; j++) {
+                if (participantStatus[j]) {
+                    individualTotalSmile[i] += totalSmileTime[i][j];
+                }
+            }
+            
+            if (individualTotalSmile[i] > mostSmilingVal) {
+                mostSmiling = i;
+                mostSmilingVal = individualTotalSmile[i];
+            }
+            else if (individualTotalSmile[i] < leastSmilingVal || leastSmiling == -1) {
+                leastSmiling = i;
+                leastSmilingVal = individualTotalSmile[i];
+            }
+            
+            groupTotalSmile += individualTotalSmile[i];
         }
-        else if (interruptions[i][0] < leastInterruptingVal || leastInterrupting == -1) {
-            leastInterrupting = i;
-            leastInterruptingVal = interruptions[i][0];
-        }
-        
-        // interrupted
-        if (interruptions[i][1] > mostInterruptedVal) {
-            mostInterrupted = i;
-            mostInterruptedVal = interruptions[i][1];
-        }
-        else if (interruptions[i][1] < leastInterruptedVal || leastInterrupted == -1) {
-            leastInterrupted = i;
-            leastInterruptedVal = interruptions[i][1];
-        }
-        
-        // talking
-        if (totalTalkTime[i] > mostSpeakingVal) {
-            mostSpeaking = i;
-            mostSpeakingVal = totalTalkTime[i];
-        }
-        else if (totalTalkTime[i] < leastSpeakingVal || leastSpeaking == -1) {
-            leastSpeaking = i;
-            leastSpeakingVal = totalTalkTime[i];
-        }
-        groupTotalTalk += totalTalkTime[i];
-        
-        
-        // smiling
-        for (int j=0; j<4; j++) {
-            individualTotalSmile[i] += totalSmileTime[i][j];
-        }
-        
-        if (individualTotalSmile[i] > mostSmilingVal) {
-            mostSmiling = i;
-            mostSmilingVal = individualTotalSmile[i];
-        }
-        else if (individualTotalSmile[i] < leastSmilingVal || leastSmiling == -1) {
-            leastSmiling = i;
-            leastSmilingVal = individualTotalSmile[i];
-        }
-        
-        groupTotalSmile += individualTotalSmile[i];
-        
     }
     
     vector<string> labels = vector<string>(4, "");
     
-    for (int i=0; i<4; i++) { //4; i++) {
+    for (int i=0; i<4; i++) {
+        if (participantStatus[i]) {
         
-        std::stringstream ss;
-        ss << "results" << i << ".txt";
-        ofFile file(ss.str(), ofFile::WriteOnly);
-        
-        labels[0] = "Person A";
-        labels[1] = "Person B";
-        labels[2] = "Person C";
-        labels[3] = "Person D";
-        labels[i] = "You";
-        
-        // INTERRUPTED
-        file << "You interrupted people " << interruptions[i][0] << " times";
-        if (i == mostInterrupting) file << ", the most of anyone.\n";
-        else if (i == leastInterrupting) file << ", the least of anyone.\n";
-        else file << ".\n";
-        
-        if (mostInterrupting != -1 && mostInterrupting != i)
-            file << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times).\n";
-        if (leastInterrupting != -1 && leastInterrupting != i)
-            file << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times).\n";
-        
-        // WAS INTERRUPTED
-        file << "\nYou were interrupted " << interruptions[i][1] << " times";
-        if (i == mostInterrupted) file << ", the most of anyone.\n";
-        else if (i == leastInterrupted) file << ", the least of anyone.\n";
-        else file << ".\n";
-        
-        if (mostInterrupted != -1 && mostInterrupted != i) {
-            file << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times).\n";
-        }
-        if (leastInterrupted != -1 && leastInterrupted != i) {
-            file << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times).\n";
-        }
-        
-        // TALKED
-        if (groupTotalTalk > 0) {
-            file << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
-            if (i == mostSpeaking) file << ", the most of anyone.\n";
-            else if (i == leastSpeaking) file << ", the least of anyone.\n";
+            std::stringstream ss;
+            ss << "results" << i << ".txt";
+            ofFile file(ss.str(), ofFile::WriteOnly);
+            
+            labels[0] = "Person A";
+            labels[1] = "Person B";
+            labels[2] = "Person C";
+            labels[3] = "Person D";
+            labels[i] = "You";
+            
+            // INTERRUPTED
+            file << "You interrupted people " << interruptions[i][0] << " times";
+            if (i == mostInterrupting) file << ", the most of anyone.\n";
+            else if (i == leastInterrupting) file << ", the least of anyone.\n";
             else file << ".\n";
             
-            if (mostSpeaking != -1 && mostSpeaking != i)
-                file << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << "% of the time).\n";
-            if (leastSpeaking != -1 && leastSpeaking != i)
-                file << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << "% of the time).\n";
-        }
-        
-        // SMILED
-        if (groupTotalSmile > 0) {
-            file << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
-            if (i == mostSpeaking) file << ", the most of anyone.\n";
-            else if (i == leastSpeaking) file << ", the least of anyone.\n";
+            if (mostInterrupting != -1 && mostInterrupting != i)
+                file << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times).\n";
+            if (leastInterrupting != -1 && leastInterrupting != i)
+                file << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times).\n";
+            
+            // WAS INTERRUPTED
+            file << "\nYou were interrupted " << interruptions[i][1] << " times";
+            if (i == mostInterrupted) file << ", the most of anyone.\n";
+            else if (i == leastInterrupted) file << ", the least of anyone.\n";
             else file << ".\n";
             
-            if (mostSmiling != -1 && mostSmiling != i)
-                file << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of the time).\n";
-            if (leastSmiling != -1 && leastSmiling != i)
-                file << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
+            if (mostInterrupted != -1 && mostInterrupted != i) {
+                file << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times).\n";
+            }
+            if (leastInterrupted != -1 && leastInterrupted != i) {
+                file << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times).\n";
+            }
+            
+            // TALKED
+            if (groupTotalTalk > 0) {
+                file << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
+                if (i == mostSpeaking) file << ", the most of anyone.\n";
+                else if (i == leastSpeaking) file << ", the least of anyone.\n";
+                else file << ".\n";
+                
+                if (mostSpeaking != -1 && mostSpeaking != i)
+                    file << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << "% of the time).\n";
+                if (leastSpeaking != -1 && leastSpeaking != i)
+                    file << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << "% of the time).\n";
+            }
+            
+            // SMILED
+            if (groupTotalSmile > 0) {
+                file << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
+                if (i == mostSpeaking) file << ", the most of anyone.\n";
+                else if (i == leastSpeaking) file << ", the least of anyone.\n";
+                else file << ".\n";
+                
+                if (mostSmiling != -1 && mostSmiling != i)
+                    file << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of the time).\n";
+                if (leastSmiling != -1 && leastSmiling != i)
+                    file << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
+            }
+            
+            file.close();
         }
-        
-        file.close();
     }
-    
-    
-//    for (int i=0; i<printers.size(); i++) {
-//        
-//        
-//        printers[i].setInvert(true);
-//        printers[i].println("Inverted");
-//        printers[i].setInvert(false);
-//        
-//        printers[i].setUnderline(ofx::ESCPOS::BaseCodes::UNDERLINE_NORMAL);
-//        printers[i].println("Normal Underline");
-//        printers[i].setUnderline(ofx::ESCPOS::BaseCodes::UNDERLINE_THICK);
-//        printers[i].println("Thick Underline");
-//        printers[i].setUnderline(ofx::ESCPOS::BaseCodes::UNDERLINE_OFF);
-//        
-//        printers[i].setEmphasis(true);
-//        printers[i].println("Emphasis");
-//        printers[i].setEmphasis(false);
-//        
-//        printers[i].setDoubleStrike(true);
-//        printers[i].println("Double Strike");
-//        printers[i].setDoubleStrike(true);
-//        
-//        printers[i].setFont(ofx::ESCPOS::BaseCodes::FONT_A);
-//        printers[i].println("FONT_A");
-//        printers[i].setFont(ofx::ESCPOS::BaseCodes::FONT_B);
-//        printers[i].println("FONT_B");
-//        printers[i].setFont(ofx::ESCPOS::BaseCodes::FONT_C);
-//        printers[i].println("FONT_C");
-//        printers[i].setFont(ofx::ESCPOS::BaseCodes::FONT_A);
-//        
-//        printers[i].setColor(ofx::ESCPOS::BaseCodes::COLOR_1);
-//        printers[i].println("COLOR_1");
-//        printers[i].setColor(ofx::ESCPOS::BaseCodes::COLOR_2);
-//        printers[i].println("COLOR_2");
-//        printers[i].setColor(ofx::ESCPOS::BaseCodes::COLOR_1);
-//        
-//        printers[i].setUpsideDown(true);
-//        printers[i].println("UPSIDE DOWN");
-//        printers[i].setUpsideDown(false);
-//        
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_1X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_1X);
-//        printers[i].println("MAGNIFICATION_1X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_2X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_2X);
-//        printers[i].println("MAGNIFICATION_2X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_3X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_3X);
-//        printers[i].println("MAGNIFICATION_3X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_4X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_4X);
-//        printers[i].println("MAGNIFICATION_4X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_5X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_5X);
-//        printers[i].println("MAGNIFICATION_5X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_6X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_6X);
-//        printers[i].println("MAGNIFICATION_6X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_7X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_7X);
-//        printers[i].println("MAGNIFICATION_7X");
-//        printers[i].setCharacterSize(ofx::ESCPOS::BaseCodes::MAGNIFICATION_1X,
-//                                     ofx::ESCPOS::BaseCodes::MAGNIFICATION_1X);
-//        printers[i].println("MAGNIFICATION_1X");
-//        
-//        printers[i].setCharacterSmoothing(true);
-//        printers[i].println("Smooth");
-//        printers[i].setCharacterSmoothing(false);
-//        
-//        printers[i].setRotation(ofx::ESCPOS::BaseCodes::ROTATE_90_CW);
-//        printers[i].println("ROTATE_90_CW");
-//        printers[i].setRotation(ofx::ESCPOS::BaseCodes::ROTATE_OFF);
-//        printers[i].println("ROTATE_OFF");
-//        
-//        printers[i].setAlign(ofx::ESCPOS::BaseCodes::TextAlignment(2));
-//        printers[i].println("right_align");
-//        printers[i].setAlign(ofx::ESCPOS::BaseCodes::TextAlignment(1));
-//        printers[i].println("center_align");
-//        printers[i].setAlign(ofx::ESCPOS::BaseCodes::TextAlignment(0));
-//        printers[i].println("left_align");
-//        
-//        printers[i].setLineSpacing(0);
-//        printers[i].println("Tight line spacing.");
-//        printers[i].println("Tight line spacing.");
-//        printers[i].println("Tight line spacing.");
-//        printers[i].setDefaultLineSpacing();
-//        
-//        printers[i].println("Normal line spacing.");
-//        printers[i].println("Normal line spacing.");
-//        printers[i].println("Normal line spacing.");
-//        printers[i].println("Normal line spacing.println");
-//        printers[i].println("-------");
-//        
-//        printers[i].cut(ofx::ESCPOS::BaseCodes::CUT_PARTIAL);
-//        printers[i].println("Partial cut.");
-//        printers[i].cut(ofx::ESCPOS::BaseCodes::CUT_FULL);
-//        printers[i].println("Full cut with 90 dots fed.");
-//    }
-    
-    reset();
 }
 
 
@@ -494,7 +426,7 @@ void Analyzer::setInterruption(int i) {
     audioInput.interrupting[i] = true;
 }
 void Analyzer::setExpression(float expression) {
-    expressionInput.status[0] = expression;
+    faceInput.status[0] = expression;
 }
 
 

@@ -1,14 +1,14 @@
 //
-//  ExpressionInput.cpp
+//  FaceInput.cpp
 //  DynaDash
 //
 //  Created by Lauren McCarthy on 8/17/14.
 //
 //
 
-#include "ExpressionInput.h"
+#include "FaceInput.h"
 
-void ExpressionInput::setup() {
+void FaceInput::setup() {
 	status = vector<float>(4, 0);
 	maxStatus = vector<float>(4, 100.0);
 
@@ -40,7 +40,7 @@ void ExpressionInput::setup() {
     
 }
 
-void ExpressionInput::update() {
+void FaceInput::update() {
     for (int i=0; i<camsInited; i++) {
         cams[i].update();
         if(cams[i].isFrameNew()) {
@@ -54,7 +54,7 @@ void ExpressionInput::update() {
     }
 }
 
-void ExpressionInput::draw() {
+void FaceInput::draw() {
     ofPushMatrix();
     ofScale(0.25, 0.25);
     for (int i=0; i<camsInited; i++) {
@@ -63,4 +63,13 @@ void ExpressionInput::draw() {
         ofTranslate(200, 0);
     }
     ofPopMatrix();
+}
+
+vector<bool> FaceInput::detectFaces() {
+    // pend todo
+    vector<bool>detected = vector<bool>(4, false);
+    for (int i=0; i<4; i++) {
+        detected[i] = ofRandom(1.0) < 0.5;
+    }
+    return detected;
 }

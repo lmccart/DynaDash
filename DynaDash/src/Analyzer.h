@@ -11,7 +11,7 @@
 #include "Feedback.h"
 #include "DebugFeedback.h"
 #include "AudioInput.h"
-#include "ExpressionInput.h"
+#include "FaceInput.h"
 #include "Serial.h"
 
 class Analyzer {
@@ -23,7 +23,6 @@ public:
     void draw();
     void reset();
     void setMode(int mode);
-    vector< vector<int> > stats;
     
     // remote control
     void setDominance(float d0, float d1, float d2, float d3);
@@ -38,8 +37,11 @@ public:
     };
     int curMode;
     
+    vector< vector<int> > stats;
+    vector<bool> participantStatus;
+    
     AudioInput audioInput;
-    ExpressionInput expressionInput;
+    FaceInput faceInput;
     Feedback feedback;
 	DebugFeedback debugFeedback;
 	bool showDebug;
@@ -63,8 +65,8 @@ private:
     vector<float> totalTalkTime;
     vector< vector<float> > totalSmileTime; // [person][person]
     
-    void beginRecording();
-    void endRecording();
+    void beginSession();
+    void endAnalysisSession();
     void handleSerialMessage(int msg);
 };
 
