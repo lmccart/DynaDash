@@ -50,23 +50,23 @@ void Analyzer::setup(string comPort) {
     }
     
     for (int i=0; i<printDevices.size(); i++) {
-        //        //printDevices[i].getDescription();
-        //        if (!printers[i].setup(printDevices[i].getPort(),
-        //                               38400,
-        //                               SerialDevice::DATA_BITS_EIGHT,
-        //                               SerialDevice::PAR_NONE,
-        //                               SerialDevice::STOP_ONE,
-        //                               SerialDevice::FLOW_CTRL_HARDWARE)) {
-        //            ofLogError("ofApp::setup") << "Unable to connect to: " << printDevices[i].getPort();
-        //        }
-        //
-        //
-        //        // Set up hardware flow control if needed.
-        //        printers[i].setDataTerminalReady();
-        //        printers[i].setRequestToSend();
-        //
-        //        // Initialize the printer.
-        //        printers[i].initialize();
+                //printDevices[i].getDescription();
+//                if (!printers[i].setup(printDevices[i].getPort(),
+//                                       38400,
+//                                       SerialDevice::DATA_BITS_EIGHT,
+//                                       SerialDevice::PAR_NONE,
+//                                       SerialDevice::STOP_ONE,
+//                                       SerialDevice::FLOW_CTRL_HARDWARE)) {
+//                    ofLogError("ofApp::setup") << "Unable to connect to: " << printDevices[i].getPort();
+//                }
+//        
+//        
+//                // Set up hardware flow control if needed.
+//                printers[i].setDataTerminalReady();
+//                printers[i].setRequestToSend();
+//        
+//                // Initialize the printer.
+//                printers[i].initialize();
         ofLogNotice() << printDevices[i].getDescription() << " " << printDevices[i].getHardwareId() << " " << printDevices[i].getPort();
     }
     
@@ -80,7 +80,7 @@ void Analyzer::setup(string comPort) {
 
 void Analyzer::update() {
     
-    handleSerialMessage(serial.update());
+    //handleSerialMessage(serial.update());
 
     
     if (curMode == PRACTICE || curMode == ANALYSIS) {
@@ -314,41 +314,69 @@ void Analyzer::endRecording() {
     
     vector<string> labels = vector<string>(4, "");
     
-    for (int i=0; i<1; i++) { //4; i++) {
+    for (int i=0; i<4; i++) { //4; i++) {
         
-        labels[0] = "PERSON A";
-        labels[1] = "PERSON B";
-        labels[2] = "PERSON C";
-        labels[3] = "PERSON D";
-        labels[i] = "YOU";
+        std::stringstream ss;
+        ss << "results" << i << ".txt";
+        ofFile file(ss.str(), ofFile::WriteOnly);
         
-        ofLogNotice() << "You interrupted people " << interruptions[i][0] << " times";
-        if (mostInterrupting != -1)
-            ofLogNotice() << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times)";
-        if (leastInterrupting != -1)
-            ofLogNotice() << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times)";
+        labels[0] = "Person A";
+        labels[1] = "Person B";
+        labels[2] = "Person C";
+        labels[3] = "Person D";
+        labels[i] = "You";
         
-        ofLogNotice() << "You were interrupted " << interruptions[i][1] << " times";
-        if (mostInterrupted != -1)
-            ofLogNotice() << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times)";
-        if (leastInterrupted != -1)
-            ofLogNotice() << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times)";
+        // INTERRUPTED
+        file << "You interrupted people " << interruptions[i][0] << " times";
+        if (i == mostInterrupting) file << ", the most of anyone.\n";
+        else if (i == leastInterrupting) file << ", the least of anyone.\n";
+        else file << ".\n";
         
+        if (mostInterrupting != -1 && mostInterrupting != i)
+            file << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times).\n";
+        if (leastInterrupting != -1 && leastInterrupting != i)
+            file << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times).\n";
+        
+        // WAS INTERRUPTED
+        file << "\nYou were interrupted " << interruptions[i][1] << " times";
+        if (i == mostInterrupted) file << ", the most of anyone.\n";
+        else if (i == leastInterrupted) file << ", the least of anyone.\n";
+        else file << ".\n";
+        
+        if (mostInterrupted != -1 && mostInterrupted != i) {
+            file << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times).\n";
+        }
+        if (leastInterrupted != -1 && leastInterrupted != i) {
+            file << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times).\n";
+        }
+        
+        // TALKED
         if (groupTotalTalk > 0) {
-            ofLogNotice() << "You spoke " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time.";
-            if (mostSpeaking != -1)
-                ofLogNotice() << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << " % of the time)";
-            if (leastSpeaking != -1)
-                ofLogNotice() << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << " % of the time)";
+            file << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
+            if (i == mostSpeaking) file << ", the most of anyone.\n";
+            else if (i == leastSpeaking) file << ", the least of anyone.\n";
+            else file << ".\n";
+            
+            if (mostSpeaking != -1 && mostSpeaking != i)
+                file << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << "% of the time).\n";
+            if (leastSpeaking != -1 && leastSpeaking != i)
+                file << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << "% of the time).\n";
         }
         
+        // SMILED
         if (groupTotalSmile > 0) {
-            ofLogNotice() << "You were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time.";
-            if (mostSmiling != -1)
-                ofLogNotice() << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << " % of the time)";
-            if (leastSmiling != -1)
-                ofLogNotice() << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << " % of the time)";
+            file << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
+            if (i == mostSpeaking) file << ", the most of anyone.\n";
+            else if (i == leastSpeaking) file << ", the least of anyone.\n";
+            else file << ".\n";
+            
+            if (mostSmiling != -1 && mostSmiling != i)
+                file << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of the time).\n";
+            if (leastSmiling != -1 && leastSmiling != i)
+                file << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
         }
+        
+        file.close();
     }
     
     
