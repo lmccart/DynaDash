@@ -97,7 +97,7 @@
 		65E38F4B19D08D4D004D85DA /* AudioAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */; };
 		65E38F4C19D08D4D004D85DA /* AudioInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3D19D08D4D004D85DA /* AudioInput.cpp */; };
 		65E38F4D19D08D4D004D85DA /* DebugFeedback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3F19D08D4D004D85DA /* DebugFeedback.cpp */; };
-		65E38F4E19D08D4D004D85DA /* ExpressionInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F4119D08D4D004D85DA /* ExpressionInput.cpp */; };
+		65E38F4E19D08D4D004D85DA /* FaceInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F4119D08D4D004D85DA /* FaceInput.cpp */; };
 		65E38F4F19D08D4D004D85DA /* Feedback.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F4319D08D4D004D85DA /* Feedback.cpp */; };
 		65E38F5019D08D4D004D85DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F4519D08D4D004D85DA /* main.cpp */; };
 		65E38F5119D08D4D004D85DA /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F4619D08D4D004D85DA /* ofApp.cpp */; };
@@ -419,8 +419,8 @@
 		65E38F3E19D08D4D004D85DA /* AudioInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioInput.h; sourceTree = "<group>"; };
 		65E38F3F19D08D4D004D85DA /* DebugFeedback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DebugFeedback.cpp; sourceTree = "<group>"; };
 		65E38F4019D08D4D004D85DA /* DebugFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugFeedback.h; sourceTree = "<group>"; };
-		65E38F4119D08D4D004D85DA /* ExpressionInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExpressionInput.cpp; sourceTree = "<group>"; };
-		65E38F4219D08D4D004D85DA /* ExpressionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpressionInput.h; sourceTree = "<group>"; };
+		65E38F4119D08D4D004D85DA /* FaceInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FaceInput.cpp; sourceTree = "<group>"; };
+		65E38F4219D08D4D004D85DA /* FaceInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FaceInput.h; sourceTree = "<group>"; };
 		65E38F4319D08D4D004D85DA /* Feedback.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Feedback.cpp; sourceTree = "<group>"; };
 		65E38F4419D08D4D004D85DA /* Feedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Feedback.h; sourceTree = "<group>"; };
 		65E38F4519D08D4D004D85DA /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -1454,8 +1454,8 @@
 				65E38F3E19D08D4D004D85DA /* AudioInput.h */,
 				65E38F3F19D08D4D004D85DA /* DebugFeedback.cpp */,
 				65E38F4019D08D4D004D85DA /* DebugFeedback.h */,
-				65E38F4119D08D4D004D85DA /* ExpressionInput.cpp */,
-				65E38F4219D08D4D004D85DA /* ExpressionInput.h */,
+				65E38F4119D08D4D004D85DA /* FaceInput.cpp */,
+				65E38F4219D08D4D004D85DA /* FaceInput.h */,
 				65E38F4319D08D4D004D85DA /* Feedback.cpp */,
 				65E38F4419D08D4D004D85DA /* Feedback.h */,
 				65E38F4519D08D4D004D85DA /* main.cpp */,
@@ -1588,7 +1588,7 @@
 				4B3ED367CA852D522E2EE996 /* ofxUI2DPad.cpp in Sources */,
 				F1E8DE8734BA6F69A5112FA8 /* ofxUIBaseDraws.cpp in Sources */,
 				6593735119DA1A69001E56D4 /* DirectoryWatcherManager.cpp in Sources */,
-				65E38F4E19D08D4D004D85DA /* ExpressionInput.cpp in Sources */,
+				65E38F4E19D08D4D004D85DA /* FaceInput.cpp in Sources */,
 				C381F2B7CFD84C0E540EB4BC /* ofxUIBiLabelSlider.cpp in Sources */,
 				7D393646FB859A930EF58917 /* ofxUIButton.cpp in Sources */,
 				65E38F4B19D08D4D004D85DA /* AudioAnalyzer.cpp in Sources */,

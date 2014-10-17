@@ -3,6 +3,7 @@
 *.lo
 *.o
 *.obj
+obj/*
 
 # Compiled Dynamic libraries
 *.so
@@ -30,7 +31,9 @@ xcuserdata/
 *.xcodeproj/xcuserdata/*.xcuserdatad
 *.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
 *.tlog
+
 obj/*
 */obj/*
 *.exp
 *.zip
+*.txt

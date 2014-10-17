@@ -219,7 +219,7 @@
     <ClCompile Include="src\AudioAnalyzer.cpp" />
     <ClCompile Include="src\AudioInput.cpp" />
     <ClCompile Include="src\DebugFeedback.cpp" />
-    <ClCompile Include="src\ExpressionInput.cpp" />
+    <ClCompile Include="src\FaceInput.cpp" />
     <ClCompile Include="src\Feedback.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
@@ -475,7 +475,7 @@
     <ClInclude Include="src\AudioAnalyzer.h" />
     <ClInclude Include="src\AudioInput.h" />
     <ClInclude Include="src\DebugFeedback.h" />
-    <ClInclude Include="src\ExpressionInput.h" />
+    <ClInclude Include="src\FaceInput.h" />
     <ClInclude Include="src\Feedback.h" />
     <ClInclude Include="src\LineGraph.h" />
     <ClInclude Include="src\ofApp.h" />

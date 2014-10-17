@@ -60,12 +60,24 @@ int SerialCom::update() {
 }
 
 void SerialCom::sendStats(vector< vector<int> > stats) {
-    // serial out test bytes to Arduino
     writeSerialByte(0xFE);
+    writeSerialByte(3);
     for (int i=0; i<stats.size(); i++) {
         for (int j=0; j<stats[i].size(); j++) {
             writeSerialByte(stats[i][j]);
         }
+    }
+    writeSerialByte(0xFF);
+}
+
+void SerialCom::sendParticipants(vector<bool> detected) {
+    writeSerialByte(0xFE);
+    writeSerialByte(2);
+    for (int i=0; i<4; i++) {
+        writeSerialByte(int(detected[i]));
+    }
+    for (int i=0; i<8; i++) {
+        writeSerialByte(0);
     }
     writeSerialByte(0xFF);
 }
@@ -116,10 +128,9 @@ bool SerialCom::serialHasGoodData(void) {
         // Or else will keep looping here and lock up the app.
     }
     
-    if (bytesInBuffer<bytesInSegment)
+    if (bytesInBuffer<bytesInSegment) {
         return false;                                         // not enough data bytes yet
-    else
-    {
+	} else {
         if (dataBuffer[bytesInSegment-1] != trailByte)        // bad data segment
         {
             bytesInBuffer = 0;                                // discard all bytes in buffer

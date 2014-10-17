@@ -388,9 +388,6 @@
     <ClCompile Include="src\DebugFeedback.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ExpressionInput.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Feedback.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -407,6 +404,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\SerialCom.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FaceInput.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1424,9 +1424,6 @@
     <ClInclude Include="src\DebugFeedback.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\ExpressionInput.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Feedback.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1443,6 +1440,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\SerialCom.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FaceInput.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
