@@ -1,5 +1,5 @@
 //
-//  Serial.cpp
+//  SerialCom.cpp
 //  DynaDash
 //
 //  Created by Lauren McCarthy on 10/1/14.
@@ -9,7 +9,7 @@
 //   Data validation basically extract data out of this pattern only. 
 //
 
-#include "Serial.h"
+#include "SerialCom.h"
 
 // Private constants
 const bool  IS_FLUSH_LENGTHY_LEAD = true;   // true if flushing lengthy leading bytes, longer than may be two packets of bytesInSegment
@@ -26,9 +26,8 @@ bool            hasGoodData;                // true if good data pending retriev
 
 
 
-void Serial::setup(const char *portName, int baudRate, int nBytesInSegment,
-                       unsigned char begByte, unsigned char endByte) {
-    
+void SerialCom::setup(const char *portName, int baudRate, int nBytesInSegment, unsigned char begByte, unsigned char endByte) {
+
     hasGoodData = false;
     bytesInBuffer = 0;
     
@@ -43,7 +42,7 @@ void Serial::setup(const char *portName, int baudRate, int nBytesInSegment,
 }
 
 
-int Serial::update() {
+int SerialCom::update() {
     int msgTypeByte;
     
     if (serialHasGoodData()) {
@@ -60,7 +59,7 @@ int Serial::update() {
     return -1;
 }
 
-void Serial::sendStats(vector< vector<int> > stats) {
+void SerialCom::sendStats(vector< vector<int> > stats) {
     // serial out test bytes to Arduino
     writeSerialByte(0xFE);
     for (int i=0; i<stats.size(); i++) {
@@ -72,7 +71,7 @@ void Serial::sendStats(vector< vector<int> > stats) {
 }
 
 
-void Serial::close() {
+void SerialCom::close() {
     serialPort.flush();
     serialPort.close();
 }
@@ -80,7 +79,7 @@ void Serial::close() {
 
 
 /*  Read serial port, validate data segment, and return true if data segment is good and ready to be retrieved. */
-bool Serial::serialHasGoodData(void) {
+bool SerialCom::serialHasGoodData(void) {
     unsigned char   flushByte;      // dummy byte to flush lengthy leading bytes
     unsigned int    flushCount;     // number of bytes to flush
     unsigned int    i;
@@ -138,7 +137,7 @@ bool Serial::serialHasGoodData(void) {
 /*  To allow good serial data to be read bytewise by other applications.  When done reading all data bytes,
  need to call confirmSerialDataProcessingComplete() to signal the completion of serial data processing.  */
 
-unsigned char Serial::readSerialByte(int byteNo) {
+unsigned char SerialCom::readSerialByte(int byteNo) {
     if ((byteNo < 0) || (byteNo >= bytesInSegment))          // prevent index to array out of range
         return 0;
     else
@@ -148,14 +147,14 @@ unsigned char Serial::readSerialByte(int byteNo) {
 
 
 /*  Write a byte to the serial port */
-bool Serial::writeSerialByte(unsigned char aByte) {
+bool SerialCom::writeSerialByte(unsigned char aByte) {
     return serialPort.writeByte(aByte);
 }
 
 
 /*  To confirm that last good serial data set has been processed by main application,
  or else serialHasGoodData() won't read in and validate new set of data.     */
-void Serial::confirmSerialDataProcessingComplete(void) {
+void SerialCom::confirmSerialDataProcessingComplete(void) {
     hasGoodData = false;
     bytesInBuffer = 0;
 }

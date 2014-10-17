@@ -72,7 +72,7 @@ void Analyzer::setup(string comPort) {
     
     // setup serial
     cout << "listening for serial data on port " << comPort << "\n";
-    serial.setup(comPort.c_str(), 57600, 15, 0xFE, 0xFF);
+    serialCom.setup(comPort.c_str(), 57600, 15, 0xFE, 0xFF);
     
     showDebug = true;
     reset();
@@ -80,7 +80,7 @@ void Analyzer::setup(string comPort) {
 
 void Analyzer::update() {
     
-    handleSerialMessage(serial.update());
+    handleSerialMessage(serialCom.update());
 
     
     if (curMode == PRACTICE || curMode == ANALYSIS) {
@@ -152,7 +152,7 @@ void Analyzer::update() {
             stats[i][1] = interruptions[i][0];
             stats[i][2] = expressionInput.status[i] > smileThresh ? 1 : 0;
         }
-        serial.sendStats(stats);
+        serialCom.sendStats(stats);
     }
 }
 

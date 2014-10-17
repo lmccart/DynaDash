@@ -12,7 +12,7 @@
 #include "DebugFeedback.h"
 #include "AudioInput.h"
 #include "ExpressionInput.h"
-#include "Serial.h"
+#include "SerialCom.h"
 
 class Analyzer {
     
@@ -49,7 +49,7 @@ public:
 private:
     float lastUpdate;
     vector<ofx::ESCPOS::DefaultSerialPrinter> printers;
-    Serial serial;
+    SerialCom serialCom;
     
     // floating history
 	list<float> talkHistoryTime;

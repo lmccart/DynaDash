@@ -1,5 +1,5 @@
 //
-//  Serial.h
+//  SerialCom.h
 //  DynaDash
 //
 //  Created by Lauren McCarthy on 10/1/14.
@@ -8,7 +8,7 @@
 
 #include "ofMain.h"
 
-class Serial {
+class SerialCom {
     
 public:
     

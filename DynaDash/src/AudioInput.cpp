@@ -58,6 +58,7 @@ void sortDeviceList(vector<ofSoundDevice>& deviceList) {
 }
 
 void AudioInput::setup() {   
+
     volume = vector<float>(4, 0);
     normalizedVolume = vector<float>(4, 0);
 	speaking = vector<bool>(4, false);
@@ -75,7 +76,7 @@ void AudioInput::setup() {
     if(microphones.size() != 4) {
         ofLogError() << "Detected " << microphones.size() << " microphones instead of 4.";
     }
-    
+
     sortDeviceList(microphones);
 
 	mics = vector<AudioAnalyzer>(4);
