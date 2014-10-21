@@ -68,6 +68,8 @@ private:
     void beginSession();
     void endAnalysisSession();
     void handleSerialMessage(int msg);
+
+	bool printerAttached;
 };
 
 

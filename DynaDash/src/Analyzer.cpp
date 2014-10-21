@@ -46,30 +46,37 @@ void Analyzer::setup(string comPort) {
     printers = vector<DefaultSerialPrinter>(4);
     vector<SerialDeviceInfo> printDevices = SerialDeviceUtils::listDevices();
     
-    if (printDevices.size() < 4) {
-        ofLogError() << "Detected " << printDevices.size() << " printers instead of 4.";
-    }
-    
+	printerAttached = false;
+    int printersInited = 0;
     for (int i=0; i<printDevices.size(); i++) {
                 //printDevices[i].getDescription();
-//                if (!printers[i].setup(printDevices[i].getPort(),
-//                                       38400,
-//                                       SerialDevice::DATA_BITS_EIGHT,
-//                                       SerialDevice::PAR_NONE,
-//                                       SerialDevice::STOP_ONE,
-//                                       SerialDevice::FLOW_CTRL_HARDWARE)) {
-//                    ofLogError("ofApp::setup") << "Unable to connect to: " << printDevices[i].getPort();
-//                }
-//        
-//        
-//                // Set up hardware flow control if needed.
-//                printers[i].setDataTerminalReady();
-//                printers[i].setRequestToSend();
-//        
-//                // Initialize the printer.
-//                printers[i].initialize();
-        ofLogNotice() << printDevices[i].getDescription() << " " << printDevices[i].getHardwareId() << " " << printDevices[i].getPort();
+		if (printDevices[i].getHardwareId().find("Epson") != -1) {
+			if (!printers[printersInited].setup(printDevices[i].getPort(),
+									38400,
+									SerialDevice::DATA_BITS_EIGHT,
+									SerialDevice::PAR_NONE,
+									SerialDevice::STOP_ONE,
+									SerialDevice::FLOW_CTRL_HARDWARE)) {
+				ofLogError("ofApp::setup") << "Unable to connect to: " << printDevices[i].getPort();
+			}
+        
+        
+			// Set up hardware flow control if needed.
+			printers[printersInited].setDataTerminalReady();
+			printers[printersInited].setRequestToSend();
+        
+			// Initialize the printer.
+			printers[printersInited].initialize();
+			printersInited++;
+			printerAttached = true;
+			ofLogNotice() << printDevices[i].getDescription() << " " << printDevices[i].getHardwareId() << " " << printDevices[i].getPort();
+		}
     }
+	
+		
+	if (printersInited < 4) {
+		ofLogError() << "Detected " << printersInited << " printers instead of 4.";
+	}
     
     // setup serial
     cout << "listening for serial data on port " << comPort << "\n";
@@ -351,6 +358,9 @@ void Analyzer::endAnalysisSession() {
             std::stringstream ss;
             ss << "results" << i << ".txt";
             ofFile file(ss.str(), ofFile::WriteOnly);
+
+			
+            std::stringstream results;
             
             labels[0] = "Person A";
             labels[1] = "Person B";
@@ -359,56 +369,62 @@ void Analyzer::endAnalysisSession() {
             labels[i] = "You";
             
             // INTERRUPTED
-            file << "You interrupted people " << interruptions[i][0] << " times";
-            if (i == mostInterrupting) file << ", the most of anyone.\n";
-            else if (i == leastInterrupting) file << ", the least of anyone.\n";
-            else file << ".\n";
+            results << "You interrupted people " << interruptions[i][0] << " times";
+            if (i == mostInterrupting) results << ", the most of anyone.\n";
+            else if (i == leastInterrupting) results << ", the least of anyone.\n";
+            else results << ".\n";
             
             if (mostInterrupting != -1 && mostInterrupting != i)
-                file << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times).\n";
+                results << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times).\n";
             if (leastInterrupting != -1 && leastInterrupting != i)
-                file << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times).\n";
+                results << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times).\n";
             
             // WAS INTERRUPTED
-            file << "\nYou were interrupted " << interruptions[i][1] << " times";
-            if (i == mostInterrupted) file << ", the most of anyone.\n";
-            else if (i == leastInterrupted) file << ", the least of anyone.\n";
-            else file << ".\n";
+            results << "\nYou were interrupted " << interruptions[i][1] << " times";
+            if (i == mostInterrupted) results << ", the most of anyone.\n";
+            else if (i == leastInterrupted) results << ", the least of anyone.\n";
+            else results << ".\n";
             
             if (mostInterrupted != -1 && mostInterrupted != i) {
-                file << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times).\n";
+                results << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times).\n";
             }
             if (leastInterrupted != -1 && leastInterrupted != i) {
-                file << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times).\n";
+                results << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times).\n";
             }
             
             // TALKED
             if (groupTotalTalk > 0) {
-                file << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
-                if (i == mostSpeaking) file << ", the most of anyone.\n";
-                else if (i == leastSpeaking) file << ", the least of anyone.\n";
-                else file << ".\n";
+                results << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
+                if (i == mostSpeaking) results << ", the most of anyone.\n";
+                else if (i == leastSpeaking) results << ", the least of anyone.\n";
+                else results << ".\n";
                 
                 if (mostSpeaking != -1 && mostSpeaking != i)
-                    file << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << "% of the time).\n";
+                    results << labels[mostSpeaking] << " talked the most (" << int(100*mostSpeakingVal/groupTotalTalk) << "% of the time).\n";
                 if (leastSpeaking != -1 && leastSpeaking != i)
-                    file << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << "% of the time).\n";
+                    results << labels[leastSpeaking] << " talked the least (" << int(100*leastSpeakingVal/groupTotalTalk) << "% of the time).\n";
             }
             
             // SMILED
             if (groupTotalSmile > 0) {
-                file << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
-                if (i == mostSpeaking) file << ", the most of anyone.\n";
-                else if (i == leastSpeaking) file << ", the least of anyone.\n";
-                else file << ".\n";
+                results << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
+                if (i == mostSpeaking) results << ", the most of anyone.\n";
+                else if (i == leastSpeaking) results << ", the least of anyone.\n";
+                else results << ".\n";
                 
                 if (mostSmiling != -1 && mostSmiling != i)
-                    file << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of the time).\n";
+                    results << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of the time).\n";
                 if (leastSmiling != -1 && leastSmiling != i)
-                    file << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
+                    results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
             }
             
+			// write to file
+			file << results.str();
             file.close();
+			
+			// print
+			ofLogNotice() << "PRINTING";
+			printers[i].println(results.str());
         }
     }
 }
