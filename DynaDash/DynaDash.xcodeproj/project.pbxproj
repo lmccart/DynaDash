@@ -14,6 +14,7 @@
 		22030CBDCC25D815E7ED6757 /* ofxUIFPSSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7E592342D8B7FB73A6F64D /* ofxUIFPSSlider.cpp */; };
 		222C3AB10FA3158602718602 /* ofxUIMultiImageButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17E06821FB98542FDB806E50 /* ofxUIMultiImageButton.cpp */; };
 		26874B150C8535AEA0F24C8C /* ofxUIImageSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2689C5C8A97002C218125F2F /* ofxUIImageSlider.cpp */; };
+		273FEB1E1A07E6A900A03C98 /* SerialCom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 273FEB1C1A07E6A900A03C98 /* SerialCom.cpp */; };
 		3D4EA8E172D3E4A30FEFA969 /* ofxUIImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 938F5A098A216B403906129C /* ofxUIImage.cpp */; };
 		43BADBB2FE0F17D34B57A705 /* ofxUIScrollableCanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFD3387AA9EFA53E1B4F087B /* ofxUIScrollableCanvas.cpp */; };
 		4B3ED367CA852D522E2EE996 /* ofxUI2DPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1553D7111BCBE7834BCC0784 /* ofxUI2DPad.cpp */; };
@@ -92,7 +93,6 @@
 		6593735B19DA1A69001E56D4 /* snappy-sinksource.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6593733E19DA1A69001E56D4 /* snappy-sinksource.cc */; };
 		6593735C19DA1A69001E56D4 /* snappy-stubs-internal.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6593734019DA1A69001E56D4 /* snappy-stubs-internal.cc */; };
 		6593735D19DA1A69001E56D4 /* snappy.cc in Sources */ = {isa = PBXBuildFile; fileRef = 6593734319DA1A69001E56D4 /* snappy.cc */; };
-		65BC6B5819DF28F700430169 /* Serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65BC6B5619DF28F700430169 /* Serial.cpp */; };
 		65E38F4A19D08D4D004D85DA /* Analyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3919D08D4D004D85DA /* Analyzer.cpp */; };
 		65E38F4B19D08D4D004D85DA /* AudioAnalyzer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */; };
 		65E38F4C19D08D4D004D85DA /* AudioInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65E38F3D19D08D4D004D85DA /* AudioInput.cpp */; };
@@ -202,6 +202,8 @@
 		23FA31CAEA236B2C1E218497 /* ofxUIWidgets.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIWidgets.h; path = ../../../addons/ofxUI/src/ofxUIWidgets.h; sourceTree = SOURCE_ROOT; };
 		2556100026B425E8370BCF75 /* ofxUICircleSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUICircleSlider.cpp; path = ../../../addons/ofxUI/src/ofxUICircleSlider.cpp; sourceTree = SOURCE_ROOT; };
 		2689C5C8A97002C218125F2F /* ofxUIImageSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIImageSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIImageSlider.cpp; sourceTree = SOURCE_ROOT; };
+		273FEB1C1A07E6A900A03C98 /* SerialCom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialCom.cpp; sourceTree = "<group>"; };
+		273FEB1D1A07E6A900A03C98 /* SerialCom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialCom.h; sourceTree = "<group>"; };
 		28155024C27152A66926B553 /* ofxUIBaseDraws.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIBaseDraws.cpp; path = ../../../addons/ofxUI/src/ofxUIBaseDraws.cpp; sourceTree = SOURCE_ROOT; };
 		2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
 		2BE7216430113F333B8351ED /* ofxUIMinimalSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIMinimalSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIMinimalSlider.cpp; sourceTree = SOURCE_ROOT; };
@@ -402,8 +404,6 @@
 		6593734219DA1A69001E56D4 /* snappy-stubs-public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "snappy-stubs-public.h"; sourceTree = "<group>"; };
 		6593734319DA1A69001E56D4 /* snappy.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = snappy.cc; sourceTree = "<group>"; };
 		6593734419DA1A69001E56D4 /* snappy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = snappy.h; sourceTree = "<group>"; };
-		65BC6B5619DF28F700430169 /* Serial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serial.cpp; sourceTree = "<group>"; };
-		65BC6B5719DF28F700430169 /* Serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serial.h; sourceTree = "<group>"; };
 		65BC6B5B19DF701300430169 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		65BC6B5C19DF701300430169 /* guiSettings.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = guiSettings.xml; sourceTree = "<group>"; };
 		65BC6B5D19DF701300430169 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
@@ -1444,8 +1444,8 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				65BC6B5619DF28F700430169 /* Serial.cpp */,
-				65BC6B5719DF28F700430169 /* Serial.h */,
+				273FEB1C1A07E6A900A03C98 /* SerialCom.cpp */,
+				273FEB1D1A07E6A900A03C98 /* SerialCom.h */,
 				65E38F3919D08D4D004D85DA /* Analyzer.cpp */,
 				65E38F3A19D08D4D004D85DA /* Analyzer.h */,
 				65E38F3B19D08D4D004D85DA /* AudioAnalyzer.cpp */,
@@ -1624,7 +1624,6 @@
 				650F19E119D0FA39009754F6 /* NetworkingUtils.cpp in Sources */,
 				65E38F4F19D08D4D004D85DA /* Feedback.cpp in Sources */,
 				FFD1EBFCA24DFB4E4427B4FE /* ofxUILabelButton.cpp in Sources */,
-				65BC6B5819DF28F700430169 /* Serial.cpp in Sources */,
 				650F19AD19D0CC3B009754F6 /* Wrappers.cpp in Sources */,
 				C30B3A2A37F8F32EE7318718 /* ofxUILabelToggle.cpp in Sources */,
 				9A83D1B3FB64456BC907667F /* ofxUIMinimalSlider.cpp in Sources */,
@@ -1672,6 +1671,7 @@
 				6593734919DA1A69001E56D4 /* ByteBufferUtils.cpp in Sources */,
 				6593734C19DA1A69001E56D4 /* Compression.cpp in Sources */,
 				1DAAC3FB4B98B08AE63F4687 /* ofxUISuperCanvas.cpp in Sources */,
+				273FEB1E1A07E6A900A03C98 /* SerialCom.cpp in Sources */,
 				659372C319DA1A4E001E56D4 /* DefaultPrinterStatusCommands.cpp in Sources */,
 				6593735319DA1A69001E56D4 /* HexBinaryEncoding.cpp in Sources */,
 				659372EC19DA1A58001E56D4 /* BufferedSerialDevice.cpp in Sources */,
