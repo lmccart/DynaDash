@@ -66,10 +66,9 @@ void FaceInput::draw() {
 }
 
 vector<bool> FaceInput::detectFaces() {
-    // pend todo
     vector<bool>detected = vector<bool>(4, false);
     for (int i=0; i<4; i++) {
-        detected[i] = ofRandom(1.0) < 0.5;
+        detected[i] = smiles[i].getFaceFound();
     }
     return detected;
 }

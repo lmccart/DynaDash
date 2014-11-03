@@ -13,8 +13,9 @@ using namespace ofxCv;
 void SmileDetector::setup() {
     faceFinder.setup("haarcascade_frontalface_default.xml");
     faceFinder.setPreset(ofxCv::ObjectFinder::Fast);
+    faceFinder.setMinSizeScale(.25);
     faceFinder.setFindBiggestObject(true);
-    faceFinder.setRescale(.25);
+    
     smileFinder.setup("smiled_05.xml");
     smileFinder.setPreset(ofxCv::ObjectFinder::Sensitive);
     smileFinder.setMinNeighbors(0);
