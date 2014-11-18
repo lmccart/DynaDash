@@ -80,7 +80,8 @@ void Analyzer::setup(string comPort) {
     
     // setup serial
     cout << "listening for serial data on port " << comPort << "\n";
-    serialCom.setup(comPort.c_str(), 57600, 15, 0xFE, 0xFF);
+    serialCom.setup(comPort.c_str(), 250000, 3, 0xFE, 0xFF);
+	lastSerialStatsTime = 0;
     
     showDebug = true;
     reset();
@@ -161,16 +162,23 @@ void Analyzer::update() {
                 talkRatio[i] = talkTime[i]/totalTalkTime;
             }
         }
-        
-        // send stats
-        for (int i=0; i<4; i++) {
-            if (participantStatus[i]) {
-                stats[i][0] = talkRatio[i];
-                stats[i][1] = interruptions[i][0];
-                stats[i][2] = faceInput.status[i] > smileThresh ? 1 : 0;
-            }
-        }
-        serialCom.sendStats(stats);
+
+		// send stats every second while in practice or analysis mode
+		float serialElapsed = ofGetElapsedTimef() - lastSerialStatsTime;
+		if (serialElapsed > 1.0) {
+			        
+			for (int i=0; i<4; i++) {
+				if (participantStatus[i]) {
+					stats[i][0] = talkRatio[i];
+					stats[i][1] = interruptions[i][0];
+					stats[i][2] = faceInput.status[i] > smileThresh ? 1 : 0;
+				}
+			}
+
+			//ofLogNotice() << "send stats " << serialElapsed << " " << lastSerialStatsTime;
+	        serialCom.sendStats(stats);
+			lastSerialStatsTime += serialElapsed;
+		}
     }
 }
 
@@ -239,6 +247,7 @@ void Analyzer::reset() {
      stats = vector<vector<int> >(4, vector<int>(3, 0));
     
     lastUpdate = ofGetElapsedTimef();
+	lastSerialStatsTime = 0;
 }
 
 void Analyzer::setMode(int mode) {

@@ -52,6 +52,7 @@ private:
     float lastUpdate;
     vector<ofx::ESCPOS::DefaultSerialPrinter> printers;
     SerialCom serialCom;
+	float lastSerialStatsTime;
     
     // floating history
 	list<float> talkHistoryTime;
