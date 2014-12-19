@@ -428,7 +428,7 @@ void Analyzer::endAnalysisSession() {
                 if (leastSmiling != -1 && leastSmiling != i)
                     results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
             }
-            results << "\n"; // tear off clearance
+            //results << "\n"; // tear off clearance
 
 			// write to file
 			file << results.str();
@@ -437,6 +437,7 @@ void Analyzer::endAnalysisSession() {
 			// print
 			ofLogNotice() << "PRINTING";
 			printers[i].println(results.str());
+			printers[i].cut();
         }
     }
 }
