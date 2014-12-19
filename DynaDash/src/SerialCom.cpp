@@ -60,11 +60,12 @@ int SerialCom::update() {
 }
 
 void SerialCom::sendStats(vector< vector<int> > stats) {
+	// ofLog() << "sending packet";
     writeSerialByte(0xFE);
     writeSerialByte(3);
     for (int i=0; i<stats.size(); i++) {
         for (int j=0; j<stats[i].size(); j++) {
-			ofLog() << stats[i][j];
+			//ofLog() << stats[i][j];
             writeSerialByte(stats[i][j]);
         }
     }

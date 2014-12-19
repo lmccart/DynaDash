@@ -381,8 +381,8 @@ void Analyzer::endAnalysisSession() {
             
             // INTERRUPTED
             results << "You interrupted people " << interruptions[i][0] << " times";
-            if (i == mostInterrupting) results << ", the most of anyone.\n";
-            else if (i == leastInterrupting) results << ", the least of anyone.\n";
+            if (i == mostInterrupting) results << ",\nthe most of anyone.\n";
+            else if (i == leastInterrupting) results << ",\nthe least of anyone.\n";
             else results << ".\n";
             
             if (mostInterrupting != -1 && mostInterrupting != i)
@@ -392,8 +392,8 @@ void Analyzer::endAnalysisSession() {
             
             // WAS INTERRUPTED
             results << "\nYou were interrupted " << interruptions[i][1] << " times";
-            if (i == mostInterrupted) results << ", the most of anyone.\n";
-            else if (i == leastInterrupted) results << ", the least of anyone.\n";
+            if (i == mostInterrupted) results << ",\nthe most of anyone.\n";
+            else if (i == leastInterrupted) results << ",\nthe least of anyone.\n";
             else results << ".\n";
             
             if (mostInterrupted != -1 && mostInterrupted != i) {
@@ -406,8 +406,8 @@ void Analyzer::endAnalysisSession() {
             // TALKED
             if (groupTotalTalk > 0) {
                 results << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
-                if (i == mostSpeaking) results << ", the most of anyone.\n";
-                else if (i == leastSpeaking) results << ", the least of anyone.\n";
+                if (i == mostSpeaking) results << ",\nthe most of anyone.\n";
+                else if (i == leastSpeaking) results << ",\nthe least of anyone.\n";
                 else results << ".\n";
                 
                 if (mostSpeaking != -1 && mostSpeaking != i)
@@ -419,8 +419,8 @@ void Analyzer::endAnalysisSession() {
             // SMILED
             if (groupTotalSmile > 0) {
                 results << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
-                if (i == mostSpeaking) results << ", the most of anyone.\n";
-                else if (i == leastSpeaking) results << ", the least of anyone.\n";
+                if (i == mostSpeaking) results << ",\nthe most of anyone.\n";
+                else if (i == leastSpeaking) results << ",\nthe least of anyone.\n";
                 else results << ".\n";
                 
                 if (mostSmiling != -1 && mostSmiling != i)
