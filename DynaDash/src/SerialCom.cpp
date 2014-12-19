@@ -64,6 +64,7 @@ void SerialCom::sendStats(vector< vector<int> > stats) {
     writeSerialByte(3);
     for (int i=0; i<stats.size(); i++) {
         for (int j=0; j<stats[i].size(); j++) {
+			ofLog() << stats[i][j];
             writeSerialByte(stats[i][j]);
         }
     }
