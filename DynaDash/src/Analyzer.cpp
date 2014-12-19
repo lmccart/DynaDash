@@ -169,7 +169,7 @@ void Analyzer::update() {
 			        
 			for (int i=0; i<4; i++) {
 				if (participantStatus[i]) {
-					stats[i][0] = talkRatio[i];
+					stats[i][0] = talkRatio[i]*255;
 					stats[i][1] = interruptions[i][0];
 					stats[i][2] = faceInput.status[i] > smileThresh ? 1 : 0;
 				}
@@ -269,6 +269,7 @@ void Analyzer::setMode(int mode) {
 void Analyzer::beginSession() {
     participantStatus = faceInput.detectFaces();
     serialCom.sendParticipants(participantStatus);
+	ofLog() << "Faces detected";
     for (int i=0; i<4; i++) {
         ofLog() << i << " " << participantStatus[i];
     }
@@ -362,7 +363,8 @@ void Analyzer::endAnalysisSession() {
     vector<string> labels = vector<string>(4, "");
     
     for (int i=0; i<4; i++) {
-        if (participantStatus[i]) {
+		if (true) {
+        //if (participantStatus[i]) {
         
             std::stringstream ss;
             ss << "results" << i << ".txt";
@@ -370,7 +372,7 @@ void Analyzer::endAnalysisSession() {
 
 			
             std::stringstream results;
-            
+
             labels[0] = "Person A";
             labels[1] = "Person B";
             labels[2] = "Person C";
@@ -426,7 +428,8 @@ void Analyzer::endAnalysisSession() {
                 if (leastSmiling != -1 && leastSmiling != i)
                     results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
             }
-            
+            results << "\n"; // tear off clearance
+
 			// write to file
 			file << results.str();
             file.close();
