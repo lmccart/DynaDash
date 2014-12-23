@@ -55,16 +55,13 @@ int SerialCom::update() {
         confirmSerialDataProcessingComplete();
         
         ofLogNotice() << "type " << msgTypeByte;
-        
-        //        if ((tmpByte1=='H') && (tmpByte2=='I'))
-        //            goodDataCount++;
         return msgTypeByte;
     }
     return -1;
 }
 
 void SerialCom::sendStats(vector< vector<int> > stats) {
-	ofLogNotice() << "STATS 0: " << stats[0][0] << " " << stats[0][1] << " " << stats[0][2] << " 1: " << stats[1][0] << " " << stats[1][1] << " " << stats[1][2] << " 2: " << stats[2][0] << " " << stats[2][1] << " " << stats[2][2] << " 3: " << stats[3][0] << " " << stats[3][1] << " " << stats[3][2];
+	//ofLogNotice() << "STATS 0: " << stats[0][0] << " " << stats[0][1] << " " << stats[0][2] << " 1: " << stats[1][0] << " " << stats[1][1] << " " << stats[1][2] << " 2: " << stats[2][0] << " " << stats[2][1] << " " << stats[2][2] << " 3: " << stats[3][0] << " " << stats[3][1] << " " << stats[3][2];
 
 	// ofLog() << "sending packet";
     writeSerialByte(0xFE);
