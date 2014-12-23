@@ -1,39 +1,61 @@
-# Compiled Object files
-*.slo
-*.lo
+#########################
+# general
+#########################
+
+[Bb]uild/
+[Oo]bj/
 *.o
-*.obj
-obj/*
+[Dd]ebug*/
+[Rr]elease*/
+*.mode*
+*.app/
+*.pyc
+.svn/
+*.log
+*.cpp.eep
+*.cpp.elf
+*.cpp.hex
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+#########################
+# IDE
+#########################
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+# XCode
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+# XCode 4
+xcuserdata
+*.xcworkspace
 
-# Executables
-*.exe
-*.out
-*.app
+# Code::Blocks
+*.depend
+*.layout
 
-#Compiled apps
-*.app*
-*.DS_*
-*.xcuserstate
-*.xcworkspacedata
-xcshareddata/
-xcuserdata/
-*.xcodeproj/xcuserdata/*.xcuserdatad
-*.xcodeproj/project.xcworkspace/xcuserdata/*.xcuserdatad
-*.tlog
+# Visual Studio
+*.sdf
+*.opensdf
+*.suo
+*.pdb
+*.ilk
+*.aps
+ipch/
 
-obj/*
-*/obj/*
-*.exp
-*.zip
-*.txt
+#########################
+# operating system
+#########################
+
+# OSX
+.DS_Store
+*.swp
+*~.nib
+# Thumbnails
+._*
+
+# Windows
+# Windows image file caches
+Thumbs.db
+# Folder config file
+Desktop.ini

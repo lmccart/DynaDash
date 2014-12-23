@@ -9,6 +9,10 @@
 #include "FaceInput.h"
 
 void FaceInput::setup() {
+    const float minTimeFace = .1; // .1s until a face is recognized
+    const float maxTimeNoFace = 10; // 10s until the face is not present
+    
+    faceHysteresis = vector<Hysteresis>(4);
 	status = vector<float>(4, 0);
 	maxStatus = vector<float>(4, 100.0);
 
@@ -27,6 +31,7 @@ void FaceInput::setup() {
                 cams[i].setDeviceID(devices[i].id);
                 cams[i].initGrabber(640, 480);
                 smiles[i].setup();
+                faceHysteresis[i].setDelay(minTimeFace, maxTimeNoFace);
                 camsInited++;
             }else{
                 cout << " - unavailable " << endl;
@@ -45,10 +50,18 @@ void FaceInput::update() {
         cams[i].update();
         if(cams[i].isFrameNew()) {
             smiles[i].update(cams[i]);
-            if(smiles[i].getFaceFound()) {
+            bool faceFound = smiles[i].getFaceFound();
+            if(faceFound) {
                 float cur = smiles[i].getSmileAmount();
 				//maxStatus[i] = max(maxStatus[i], cur);
                 status[i] = ofLerp(status[i], cur/maxStatus[i], 0.2);
+            }
+            faceHysteresis[i].update(faceFound);
+            if(faceHysteresis[i].wasTriggered()) {
+                ofLogNotice("FaceInput") << "Face " << i << " entered.";
+            }
+            if(faceHysteresis[i].wasUntriggered()) {
+                ofLogNotice("FaceInput") << "Face " << i << " exited.";
             }
         }
     }
@@ -68,7 +81,7 @@ void FaceInput::draw() {
 vector<bool> FaceInput::detectFaces() {
     vector<bool>detected = vector<bool>(4, false);
     for (int i=0; i<4; i++) {
-        detected[i] = smiles[i].getFaceFound();
+        detected[i] = faceHysteresis[i].get();
     }
     return detected;
 }

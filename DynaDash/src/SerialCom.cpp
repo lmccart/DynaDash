@@ -43,6 +43,10 @@ void SerialCom::setup(const char *portName, int baudRate, int nBytesInSegment, u
 
 
 int SerialCom::update() {
+    if(!serialPort.isInitialized()) {
+        return -1;
+    }
+    
     int msgTypeByte;
     
     if (serialHasGoodData()) {
@@ -163,6 +167,9 @@ unsigned char SerialCom::readSerialByte(int byteNo) {
 
 /*  Write a byte to the serial port */
 bool SerialCom::writeSerialByte(unsigned char aByte) {
+    if(!serialPort.isInitialized()) {
+        return false;
+    }
     return serialPort.writeByte(aByte);
 }
 
