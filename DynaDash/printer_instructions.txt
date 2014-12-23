@@ -1,0 +1,18 @@
+1. Use screwdriver to remove plate over USB outlet.
+
+2. Change printer over to USB mode:
+   * Hold down Feed button.
+   * Hold down FB again to get to menu.
+   * Press FB 17 times (Interface selection), then hold FB.
+   * Press FB 2 times (USB), then hold FB. You should see confirmation.
+   * Restart printer.
+
+3. Download APD_501_T20II. Run installer.
+
+4. Download TMVirtualPortDriver830b. Run application.
+   * Highlight a port (ex: COM1).
+   * Click "Assign Port" button at the bottom of the window.
+   * The printers plugged in should show up in the menu (ex: ESDPRT001). Highlight it and select "OK".
+   * Repeat for each printer.
+
+
