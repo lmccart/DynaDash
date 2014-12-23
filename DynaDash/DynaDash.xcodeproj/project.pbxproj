@@ -204,6 +204,11 @@
 		2689C5C8A97002C218125F2F /* ofxUIImageSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIImageSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIImageSlider.cpp; sourceTree = SOURCE_ROOT; };
 		273FEB1C1A07E6A900A03C98 /* SerialCom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SerialCom.cpp; sourceTree = "<group>"; };
 		273FEB1D1A07E6A900A03C98 /* SerialCom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SerialCom.h; sourceTree = "<group>"; };
+		2753C7601A4A17E00045E5A5 /* DelayTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DelayTimer.h; sourceTree = "<group>"; };
+		2753C7611A4A17E00045E5A5 /* FadeTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FadeTimer.h; sourceTree = "<group>"; };
+		2753C7621A4A17E00045E5A5 /* Hysteresis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hysteresis.h; sourceTree = "<group>"; };
+		2753C7631A4A17E00045E5A5 /* ofxTiming.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxTiming.h; sourceTree = "<group>"; };
+		2753C7641A4A17E00045E5A5 /* RateTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RateTimer.h; sourceTree = "<group>"; };
 		28155024C27152A66926B553 /* ofxUIBaseDraws.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIBaseDraws.cpp; path = ../../../addons/ofxUI/src/ofxUIBaseDraws.cpp; sourceTree = SOURCE_ROOT; };
 		2B40EDA85BEB63E46785BC29 /* tinyxml.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxml.cpp; path = ../../../addons/ofxXmlSettings/libs/tinyxml.cpp; sourceTree = SOURCE_ROOT; };
 		2BE7216430113F333B8351ED /* ofxUIMinimalSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxUIMinimalSlider.cpp; path = ../../../addons/ofxUI/src/ofxUIMinimalSlider.cpp; sourceTree = SOURCE_ROOT; };
@@ -542,6 +547,27 @@
 				6E54289412D2D94F45A05113 /* libs */,
 			);
 			name = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		2753C75E1A4A17E00045E5A5 /* ofxTiming */ = {
+			isa = PBXGroup;
+			children = (
+				2753C75F1A4A17E00045E5A5 /* src */,
+			);
+			name = ofxTiming;
+			sourceTree = "<group>";
+		};
+		2753C75F1A4A17E00045E5A5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2753C7601A4A17E00045E5A5 /* DelayTimer.h */,
+				2753C7611A4A17E00045E5A5 /* FadeTimer.h */,
+				2753C7621A4A17E00045E5A5 /* Hysteresis.h */,
+				2753C7631A4A17E00045E5A5 /* ofxTiming.h */,
+				2753C7641A4A17E00045E5A5 /* RateTimer.h */,
+			);
+			name = src;
+			path = ../../../addons/ofxTiming/src;
 			sourceTree = "<group>";
 		};
 		650F197719D0CC3B009754F6 /* ofxCv */ = {
@@ -1269,6 +1295,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				2753C75E1A4A17E00045E5A5 /* ofxTiming */,
 				659372F519DA1A69001E56D4 /* ofxIO */,
 				659372C819DA1A58001E56D4 /* ofxSerial */,
 				6593729C19DA1A4E001E56D4 /* ofxESCPOS */,

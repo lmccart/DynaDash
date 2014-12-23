@@ -8,6 +8,7 @@
 
 #include "ofMain.h"
 #include "SmileDetector.h"
+#include "Hysteresis.h"
 
 class FaceInput {
     
@@ -15,7 +16,9 @@ public:
     void setup();
     void update();
     void draw();
+    
     vector<bool> detectFaces();
+    vector<Hysteresis> faceHysteresis;
     vector<float> status;
 	vector <float> maxStatus;
     
