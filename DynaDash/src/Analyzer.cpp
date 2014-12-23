@@ -93,9 +93,13 @@ void Analyzer::update() {
     handleSerialMessage(serialCom.update());
 
 	// start analysis
-	if (curMode == DETECT && ofGetElapsedTimef() - modeStart > detectDuration) {
-		ofLogNotice() << ofGetElapsedTimef() << " " << modeStart;
-		setMode(ANALYSIS);
+	if (curMode == DETECT) {
+        faceInput.update();
+		detectParticipants(curMode);
+		if (ofGetElapsedTimef() - modeStart > detectDuration) {
+			ofLogNotice() << ofGetElapsedTimef() << " " << modeStart;
+			setMode(ANALYSIS);
+		}
 	}
     
     if (curMode == PRACTICE || curMode == ANALYSIS) {
@@ -121,7 +125,7 @@ void Analyzer::update() {
                 // session history stats
                 totalTalkTime[i] += audioDuration;
                 if (faceInput.status[i] > smileThresh) {
-                    if (audioInput.curSpeaker) { // per person
+                    if (audioInput.curSpeaker != -1) { // per person
 						personSmileTime[i][audioInput.curSpeaker] += elapsed;
 					}
 					totalSmileTime[i] += elapsed; // total
@@ -191,37 +195,36 @@ void Analyzer::update() {
 				}
 			}
 	        serialCom.sendStats(stats);
-			ofLogNotice() << " cur mode " << curMode;
 			lastSerialStatsTime += serialElapsed;
 		}
     }
 }
 
 void Analyzer::handleSerialMessage(int msg) {
-    if (msg != -1) {
-        switch (msg) {
-            case 0:
-                ofLogNotice() << "Received message: begin practice session";
-                setMode(PRACTICE);
-                break;
-            case 1:
-                ofLogNotice() << "Received message: begin analysis session";
-                setMode(DETECT);
-                break;
-            case 4:
-                ofLogNotice() << "Received message: end practice session";
-                setMode(OFF);
-                break;
-            case 5:
-                ofLogNotice() << "Received message: end analysis session";
-                setMode(OFF);
-                break;
-            default:
-                ofLogNotice() << "Received unknown message: " << msg;
-                break;
-        }
-        
-    }
+    //if (msg != -1) {
+    //    switch (msg) {
+    //        case 0:
+    //            ofLogNotice() << "Received message: begin practice session";
+    //            setMode(PRACTICE);
+    //            break;
+    //        case 1:
+    //            ofLogNotice() << "Received message: begin analysis session";
+    //            setMode(DETECT);
+    //            break;
+    //        case 4:
+    //            ofLogNotice() << "Received message: end practice session";
+    //            setMode(OFF);
+    //            break;
+    //        case 5:
+    //            ofLogNotice() << "Received message: end analysis session";
+    //            setMode(OFF);
+    //            break;
+    //        default:
+    //            ofLogNotice() << "Received unknown message: " << msg;
+    //            break;
+    //    }
+    //    
+    //}
 }
 
 void Analyzer::draw() {
@@ -241,15 +244,15 @@ void Analyzer::draw() {
 }
 
 void Analyzer::reset() {
-
+	
+	ofLogNotice() << "reset";
+    
+    // clear session history
     for (int i=0; i<4; i++) {
         talkTime[i] = 0;
         talkRatio[i] = 0;
         talkHistory[i].clear();
-    }
-    
-    // clear session history
-    for (int i=0; i<4; i++) {
+   
         interruptions[i][0] = 0;
         interruptions[i][1] = 0;
         totalTalkTime[i] = 0;
@@ -268,30 +271,50 @@ void Analyzer::reset() {
 
 void Analyzer::setMode(int mode) {
 	
-    if (mode == PRACTICE || mode == ANALYSIS) {
-        beginSession(mode);
+    if (mode == PRACTICE) {
+        detectParticipants(mode);
     }
 
     if (curMode == ANALYSIS && mode != ANALYSIS) {
         endAnalysisSession();
     }
+	
+	if (mode == OFF) {
+		for (int i=0; i<4; i++) {
+			participantStatus[i] = false;
+		}
+	}
     
-    reset();
+	reset();
 	modeStart = ofGetElapsedTimef();
     curMode = mode;
     ofLogNotice() << "mode set to " << curMode;
 }
 
-void Analyzer::beginSession(int mode) {
+void Analyzer::detectParticipants(int mode) {
 	if (mode == PRACTICE) {
 		for (int i=0; i<4; i++) {
 			participantStatus[i] = true;
 		}
-	} else if (mode == ANALYSIS) {
-		participantStatus = faceInput.detectFaces();
+		serialCom.sendParticipants(participantStatus);
+		ofLog() << "Faces detected " << participantStatus[0] << " " << participantStatus[1] << " " << participantStatus[2] << " " << participantStatus[3];
 	}
-    serialCom.sendParticipants(participantStatus);
-	ofLog() << "Faces detected " << participantStatus[0] << " " << participantStatus[1] << " " << participantStatus[2] << " " << participantStatus[3];
+
+	else if (mode == DETECT) {
+		vector<bool> newStatus = faceInput.detectFaces();
+		bool changed = false;
+		for (int i=0; i<4; i++) {
+			if (!participantStatus[i] && newStatus[i]) {
+				participantStatus[i] = true;
+				changed = true;
+			}
+		}
+		// ofLogNotice() << "detected " << participantStatus[0] << " " << newStatus[0] << " " <<  faceInput.detectFaces()[0];
+		if (changed) {
+			serialCom.sendParticipants(participantStatus);
+			ofLog() << "Faces detected " << participantStatus[0] << " " << participantStatus[1] << " " << participantStatus[2] << " " << participantStatus[3];
+		}
+	}
 }
 
 

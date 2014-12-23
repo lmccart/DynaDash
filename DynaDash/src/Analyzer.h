@@ -71,9 +71,9 @@ private:
     vector< vector<float> > personSmileTime; // [person][person]
 	vector<float> totalSmileTime;
     
-    void beginSession(int mode);
     void endAnalysisSession();
     void handleSerialMessage(int msg);
+	void detectParticipants(int mode);
 
 	bool printerAttached;
 };

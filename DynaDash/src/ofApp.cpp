@@ -56,7 +56,7 @@ void ofApp::update() {
     
     analyzer.update();
     ((ofxUIToggle *)gui->getWidget("PRACTICE"))->setValue(analyzer.curMode == Analyzer::PRACTICE);
-    ((ofxUIToggle *)gui->getWidget("ANALYSIS"))->setValue(analyzer.curMode == Analyzer::ANALYSIS);
+    ((ofxUIToggle *)gui->getWidget("ANALYSIS"))->setValue(analyzer.curMode == Analyzer::ANALYSIS || analyzer.curMode == Analyzer::DETECT);
     
     // check for waiting messages from remote
     while(receiver.hasWaitingMessages()){

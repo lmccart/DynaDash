@@ -681,6 +681,12 @@
     <Filter Include="addons\ofxUI\src">
       <UniqueIdentifier>{A00C2D23-6C11-BC86-3993-2CF0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxTiming">
+      <UniqueIdentifier>{b9357eaf-061c-4cb7-8612-6e53d6a4d0fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxTiming\src">
+      <UniqueIdentifier>{2ac03c6c-435e-444a-8fd3-b885476b5396}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\addons\ofxOpenCv\src\ofxCvBlob.h">
@@ -1444,6 +1450,21 @@
     </ClInclude>
     <ClInclude Include="src\FaceInput.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxTiming\src\DelayTimer.h">
+      <Filter>addons\ofxTiming\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxTiming\src\FadeTimer.h">
+      <Filter>addons\ofxTiming\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxTiming\src\Hysteresis.h">
+      <Filter>addons\ofxTiming\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxTiming\src\ofxTiming.h">
+      <Filter>addons\ofxTiming\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\addons\ofxTiming\src\RateTimer.h">
+      <Filter>addons\ofxTiming\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
