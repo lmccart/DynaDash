@@ -33,7 +33,8 @@ void Analyzer::setup(string comPort) {
     // session history
     interruptions = vector<vector<int> >(4, vector<int>(2, 0)); // [person][giving, receiving]
     totalTalkTime = vector<float>(4,0);
-    totalSmileTime = vector<vector<float> >(4, vector<float>(4, 0)); // [person][person]
+    totalSmileTime = vector<float>(4,0);
+    personSmileTime = vector<vector<float> >(4, vector<float>(4, 0)); // [person][person]
     
     
     // setup things
@@ -42,16 +43,14 @@ void Analyzer::setup(string comPort) {
     feedback.setup();
 	debugFeedback.setup(215);
     
-    // setup printers
-    printers = vector<DefaultSerialPrinter>(4);
+    // setup printer
     vector<SerialDeviceInfo> printDevices = SerialDeviceUtils::listDevices();
     
 	printerAttached = false;
-    int printersInited = 0;
     for (int i=0; i<printDevices.size(); i++) {
                 //printDevices[i].getDescription();
 		if (printDevices[i].getHardwareId().find("Epson") != -1) {
-			if (!printers[printersInited].setup(printDevices[i].getPort(),
+			if (!printer.setup(printDevices[i].getPort(),
 									38400,
 									SerialDevice::DATA_BITS_EIGHT,
 									SerialDevice::PAR_NONE,
@@ -62,26 +61,28 @@ void Analyzer::setup(string comPort) {
         
         
 			// Set up hardware flow control if needed.
-			printers[printersInited].setDataTerminalReady();
-			printers[printersInited].setRequestToSend();
+			printer.setDataTerminalReady();
+			printer.setRequestToSend();
         
 			// Initialize the printer.
-			printers[printersInited].initialize();
-			printersInited++;
+			printer.initialize();
 			printerAttached = true;
 			ofLogNotice() << printDevices[i].getDescription() << " " << printDevices[i].getHardwareId() << " " << printDevices[i].getPort();
 		}
     }
 	
 		
-	if (printersInited < 4) {
-		ofLogError() << "Detected " << printersInited << " printers instead of 4.";
+	if (!printerAttached) {
+		ofLogError() << "Printer not detected";
 	}
     
     // setup serial
     cout << "listening for serial data on port " << comPort << "\n";
     serialCom.setup(comPort.c_str(), 250000, 3, 0xFE, 0xFF);
 	lastSerialStatsTime = 0;
+
+	modeStart = 0;
+	detectDuration = 10.0;
     
     showDebug = true;
     reset();
@@ -91,6 +92,11 @@ void Analyzer::update() {
     
     handleSerialMessage(serialCom.update());
 
+	// start analysis
+	if (curMode == DETECT && ofGetElapsedTimef() - modeStart > detectDuration) {
+		ofLogNotice() << ofGetElapsedTimef() << " " << modeStart;
+		setMode(ANALYSIS);
+	}
     
     if (curMode == PRACTICE || curMode == ANALYSIS) {
         float curUpdate = ofGetElapsedTimef();
@@ -115,9 +121,10 @@ void Analyzer::update() {
                 // session history stats
                 totalTalkTime[i] += audioDuration;
                 if (faceInput.status[i] > smileThresh) {
-                    float ind = audioInput.curSpeaker == -1 ? i : audioInput.curSpeaker; // stick it in self if no cur speaker
-                    totalSmileTime[i][ind] += elapsed;
-                } else {
+                    if (audioInput.curSpeaker) { // per person
+						personSmileTime[i][audioInput.curSpeaker] += elapsed;
+					}
+					totalSmileTime[i] += elapsed; // total
                 }
                 
                 // check for interrupting
@@ -151,32 +158,40 @@ void Analyzer::update() {
         }
 
         // track talk time ratios
-        float totalTalkTime = 0;
+        float groupTalkTime = 0;
         for (int i=0; i<4; i++) {
             if (participantStatus[i]) {
-                totalTalkTime += talkTime[i];
+                groupTalkTime += talkTime[i];
             }
         }
-        for (int i=0; i<4; i++) {
-            if (participantStatus[i]) {
-                talkRatio[i] = talkTime[i]/totalTalkTime;
-            }
-        }
+		if (groupTalkTime > 0) {
+			for (int i=0; i<4; i++) {
+				if (participantStatus[i]) {
+					talkRatio[i] = talkTime[i]/groupTalkTime;
+				}
+			}
+		}
+
 
 		// send stats every second while in practice or analysis mode
 		float serialElapsed = ofGetElapsedTimef() - lastSerialStatsTime;
 		if (serialElapsed > 1.0) {
-			        
+			
+			// add up group smile time
+			float groupSmileTime = 0;
+			for (int i=0; i<4; i++) {
+				groupSmileTime += totalSmileTime[i];
+			}
+			 
 			for (int i=0; i<4; i++) {
 				if (participantStatus[i]) {
-					stats[i][0] = talkRatio[i]*255;
+					stats[i][0] = talkRatio[i]*100 + 0.5;
 					stats[i][1] = interruptions[i][0];
-					stats[i][2] = faceInput.status[i] > smileThresh ? 1 : 0;
+					stats[i][2] = groupSmileTime > 0 ? 0.5 + (100*totalSmileTime[i])/groupSmileTime : 0;
 				}
 			}
-
-			//ofLogNotice() << "send stats " << serialElapsed << " " << lastSerialStatsTime;
 	        serialCom.sendStats(stats);
+			ofLogNotice() << " cur mode " << curMode;
 			lastSerialStatsTime += serialElapsed;
 		}
     }
@@ -191,7 +206,7 @@ void Analyzer::handleSerialMessage(int msg) {
                 break;
             case 1:
                 ofLogNotice() << "Received message: begin analysis session";
-                setMode(ANALYSIS);
+                setMode(DETECT);
                 break;
             case 4:
                 ofLogNotice() << "Received message: end practice session";
@@ -239,8 +254,9 @@ void Analyzer::reset() {
         interruptions[i][1] = 0;
         totalTalkTime[i] = 0;
         for (int j=0; j<4; j++) {
-            totalSmileTime[i][j] = 0;
+            personSmileTime[i][j] = 0;
         }
+		totalSmileTime[i] = 0;
     }
     
     // clear stats
@@ -251,28 +267,31 @@ void Analyzer::reset() {
 }
 
 void Analyzer::setMode(int mode) {
-    
+	
     if (mode == PRACTICE || mode == ANALYSIS) {
-        beginSession();
+        beginSession(mode);
     }
-    
+
     if (curMode == ANALYSIS && mode != ANALYSIS) {
         endAnalysisSession();
     }
     
-    curMode = mode;
     reset();
+	modeStart = ofGetElapsedTimef();
+    curMode = mode;
     ofLogNotice() << "mode set to " << curMode;
-    
 }
 
-void Analyzer::beginSession() {
-    participantStatus = faceInput.detectFaces();
+void Analyzer::beginSession(int mode) {
+	if (mode == PRACTICE) {
+		for (int i=0; i<4; i++) {
+			participantStatus[i] = true;
+		}
+	} else if (mode == ANALYSIS) {
+		participantStatus = faceInput.detectFaces();
+	}
     serialCom.sendParticipants(participantStatus);
-	ofLog() << "Faces detected";
-    for (int i=0; i<4; i++) {
-        ofLog() << i << " " << participantStatus[i];
-    }
+	ofLog() << "Faces detected " << participantStatus[0] << " " << participantStatus[1] << " " << participantStatus[2] << " " << participantStatus[3];
 }
 
 
@@ -301,7 +320,6 @@ void Analyzer::endAnalysisSession() {
     int leastSmiling = -1;
     float leastSmilingVal = 0;
     
-    vector<float> individualTotalSmile = vector<float>(4, 0);
     float groupTotalTalk = 0;
     float groupTotalSmile = 0;
     
@@ -341,22 +359,16 @@ void Analyzer::endAnalysisSession() {
             
             
             // smiling
-            for (int j=0; j<4; j++) {
-                if (participantStatus[j]) {
-                    individualTotalSmile[i] += totalSmileTime[i][j];
-                }
-            }
-            
-            if (individualTotalSmile[i] > mostSmilingVal) {
+            if (totalSmileTime[i] > mostSmilingVal) {
                 mostSmiling = i;
-                mostSmilingVal = individualTotalSmile[i];
+                mostSmilingVal = totalSmileTime[i];
             }
-            else if (individualTotalSmile[i] < leastSmilingVal || leastSmiling == -1) {
+            else if (totalSmileTime[i] < leastSmilingVal || leastSmiling == -1) {
                 leastSmiling = i;
-                leastSmilingVal = individualTotalSmile[i];
+                leastSmilingVal = totalSmileTime[i];
             }
             
-            groupTotalSmile += individualTotalSmile[i];
+            groupTotalSmile += totalSmileTime[i];
         }
     }
     
@@ -418,15 +430,15 @@ void Analyzer::endAnalysisSession() {
             
             // SMILED
             if (groupTotalSmile > 0) {
-                results << "\nYou were smiling " << int(100*individualTotalSmile[i]/groupTotalSmile) << "% of the time";
-                if (i == mostSpeaking) results << ",\nthe most of anyone.\n";
-                else if (i == leastSpeaking) results << ",\nthe least of anyone.\n";
+                results << "\nYou were smiling " << int(100*totalSmileTime[i]/groupTotalSmile) << "% of the time";
+                if (i == mostSmiling) results << ",\nthe most of anyone.\n";
+                else if (i == leastSmiling) results << ",\nthe least of anyone.\n";
                 else results << ".\n";
                 
                 if (mostSmiling != -1 && mostSmiling != i)
-                    results << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of the time).\n";
+                    results << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of everyone).\n";
                 if (leastSmiling != -1 && leastSmiling != i)
-                    results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of the time).\n";
+                    results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of everyone).\n";
             }
             //results << "\n"; // tear off clearance
 
@@ -436,8 +448,8 @@ void Analyzer::endAnalysisSession() {
 			
 			// print
 			ofLogNotice() << "PRINTING";
-			printers[i].println(results.str());
-			printers[i].cut();
+			printer.println(results.str());
+			printer.cut();
         }
     }
 }

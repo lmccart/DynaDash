@@ -60,6 +60,8 @@ int SerialCom::update() {
 }
 
 void SerialCom::sendStats(vector< vector<int> > stats) {
+	ofLogNotice() << "STATS 0: " << stats[0][0] << " " << stats[0][1] << " " << stats[0][2] << " 1: " << stats[1][0] << " " << stats[1][1] << " " << stats[1][2] << " 2: " << stats[2][0] << " " << stats[2][1] << " " << stats[2][2] << " 3: " << stats[3][0] << " " << stats[3][1] << " " << stats[3][2];
+
 	// ofLog() << "sending packet";
     writeSerialByte(0xFE);
     writeSerialByte(3);

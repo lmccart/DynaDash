@@ -140,7 +140,7 @@ void ofApp::guiEvent(ofxUIEventArgs &e) {
         ofxUILabelToggle *toggle = (ofxUILabelToggle *) e.widget;
         int val = toggle->getValue();
         if (val) {
-            analyzer.setMode(Analyzer::ANALYSIS);
+            analyzer.setMode(Analyzer::DETECT);
         } else {
             analyzer.setMode(Analyzer::OFF);
         }

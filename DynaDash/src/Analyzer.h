@@ -32,8 +32,9 @@ public:
     enum {
         OFF = 0,
         PRACTICE = 1,
-        ANALYSIS = 2,
-        REMOTE_CONTROL = 3
+		DETECT = 2,
+        ANALYSIS = 3,
+        REMOTE_CONTROL = 4
     };
     int curMode;
     
@@ -49,8 +50,11 @@ public:
     
 
 private:
+	float modeStart;
     float lastUpdate;
-    vector<ofx::ESCPOS::DefaultSerialPrinter> printers;
+	float detectDuration;
+
+    ofx::ESCPOS::DefaultSerialPrinter printer;
     SerialCom serialCom;
 	float lastSerialStatsTime;
     
@@ -64,9 +68,10 @@ private:
     float smileThresh;
     vector< vector<int> > interruptions; // [person][giving, receiving]
     vector<float> totalTalkTime;
-    vector< vector<float> > totalSmileTime; // [person][person]
+    vector< vector<float> > personSmileTime; // [person][person]
+	vector<float> totalSmileTime;
     
-    void beginSession();
+    void beginSession(int mode);
     void endAnalysisSession();
     void handleSerialMessage(int msg);
 
