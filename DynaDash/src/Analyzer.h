@@ -72,6 +72,7 @@ private:
 	vector<float> totalSmileTime;
     
     void endAnalysisSession();
+	string Analyzer::getTimes(int val);
     void handleSerialMessage(int msg);
 	void detectParticipants(int mode);
 

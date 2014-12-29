@@ -201,30 +201,30 @@ void Analyzer::update() {
 }
 
 void Analyzer::handleSerialMessage(int msg) {
-    //if (msg != -1) {
-    //    switch (msg) {
-    //        case 0:
-    //            ofLogNotice() << "Received message: begin practice session";
-    //            setMode(PRACTICE);
-    //            break;
-    //        case 1:
-    //            ofLogNotice() << "Received message: begin analysis session";
-    //            setMode(DETECT);
-    //            break;
-    //        case 4:
-    //            ofLogNotice() << "Received message: end practice session";
-    //            setMode(OFF);
-    //            break;
-    //        case 5:
-    //            ofLogNotice() << "Received message: end analysis session";
-    //            setMode(OFF);
-    //            break;
-    //        default:
-    //            ofLogNotice() << "Received unknown message: " << msg;
-    //            break;
-    //    }
-    //    
-    //}
+    if (msg != -1) {
+        switch (msg) {
+            case 0:
+                ofLogNotice() << "Received message: begin practice session";
+                setMode(PRACTICE);
+                break;
+            case 1:
+                ofLogNotice() << "Received message: begin analysis session";
+                setMode(DETECT);
+                break;
+            case 4:
+                ofLogNotice() << "Received message: end practice session";
+                setMode(OFF);
+                break;
+            case 5:
+                ofLogNotice() << "Received message: end analysis session";
+                setMode(OFF);
+                break;
+            default:
+                ofLogNotice() << "Received unknown message: " << msg;
+                break;
+        }
+        
+    }
 }
 
 void Analyzer::draw() {
@@ -321,24 +321,26 @@ void Analyzer::detectParticipants(int mode) {
 void Analyzer::endAnalysisSession() {
     
     ofLogNotice() << "Processing end of conversation";
+
+	float sessionTime = ofGetElapsedTimef() - modeStart;
     
     // figure out most and least
-    int mostInterrupting = -1;
+    int mostInterrupting = 0;
     int mostInterruptingVal = 0;
     int leastInterrupting = -1;
     int leastInterruptingVal = 0;
     
-    int mostInterrupted = -1;
+    int mostInterrupted = 0;
     int mostInterruptedVal = 0;
     int leastInterrupted = -1;
     int leastInterruptedVal = 0;
     
-    int mostSpeaking = -1;
+    int mostSpeaking = 0;
     float mostSpeakingVal = 0;
     int leastSpeaking = -1;
     float leastSpeakingVal = 0;
     
-    int mostSmiling = -1;
+    int mostSmiling = 0;
     float mostSmilingVal = 0;
     int leastSmiling = -1;
     float leastSmilingVal = 0;
@@ -391,7 +393,6 @@ void Analyzer::endAnalysisSession() {
                 leastSmilingVal = totalSmileTime[i];
             }
             
-            groupTotalSmile += totalSmileTime[i];
         }
     }
     
@@ -415,34 +416,34 @@ void Analyzer::endAnalysisSession() {
             labels[i] = "You";
             
             // INTERRUPTED
-            results << "You interrupted people " << interruptions[i][0] << " times";
-            if (i == mostInterrupting) results << ",\nthe most of anyone.\n";
-            else if (i == leastInterrupting) results << ",\nthe least of anyone.\n";
+            results << "You interrupted people " << interruptions[i][0] << getTimes(interruptions[i][0]);
+            if (i == mostInterrupting) results << ",\nmore than anyone.\n";
+            else if (i == leastInterrupting) results << ",\nless than anyone.\n";
             else results << ".\n";
             
             if (mostInterrupting != -1 && mostInterrupting != i)
-                results << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << " times).\n";
+                results << labels[mostInterrupting] << " interrupted the most (" << mostInterruptingVal << getTimes(mostInterruptingVal) << ").\n";
             if (leastInterrupting != -1 && leastInterrupting != i)
-                results << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << " times).\n";
+                results << labels[leastInterrupting] << " interrupted the least (" << leastInterruptingVal << getTimes(leastInterruptingVal) << ").\n";
             
             // WAS INTERRUPTED
-            results << "\nYou were interrupted " << interruptions[i][1] << " times";
-            if (i == mostInterrupted) results << ",\nthe most of anyone.\n";
-            else if (i == leastInterrupted) results << ",\nthe least of anyone.\n";
+            results << "\nYou were interrupted " << interruptions[i][1] << getTimes(interruptions[i][1]);
+            if (i == mostInterrupted) results << ",\nmore than anyone.\n";
+            else if (i == leastInterrupted) results << ",\nless than anyone.\n";
             else results << ".\n";
             
             if (mostInterrupted != -1 && mostInterrupted != i) {
-                results << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << " times).\n";
+                results << labels[mostInterrupted] << " was interrupted the most (" << mostInterruptedVal << getTimes(mostInterruptedVal) << ").\n";
             }
             if (leastInterrupted != -1 && leastInterrupted != i) {
-                results << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << " times).\n";
+                results << labels[leastInterrupted] << " was interrupted the least (" << leastInterruptedVal << getTimes(leastInterruptingVal) << ").\n";
             }
             
             // TALKED
             if (groupTotalTalk > 0) {
                 results << "\nYou were talking " << int(100*totalTalkTime[i]/groupTotalTalk) << "% of the time";
-                if (i == mostSpeaking) results << ",\nthe most of anyone.\n";
-                else if (i == leastSpeaking) results << ",\nthe least of anyone.\n";
+                if (i == mostSpeaking) results << ",\nmore than anyone.\n";
+                else if (i == leastSpeaking) results << ",\nless than anyone.\n";
                 else results << ".\n";
                 
                 if (mostSpeaking != -1 && mostSpeaking != i)
@@ -452,17 +453,15 @@ void Analyzer::endAnalysisSession() {
             }
             
             // SMILED
-            if (groupTotalSmile > 0) {
-                results << "\nYou were smiling " << int(100*totalSmileTime[i]/groupTotalSmile) << "% of the time";
-                if (i == mostSmiling) results << ",\nthe most of anyone.\n";
-                else if (i == leastSmiling) results << ",\nthe least of anyone.\n";
-                else results << ".\n";
+            results << "\nYou were smiling " << int(100*totalSmileTime[i]/sessionTime) << "% of the time";
+            if (i == mostSmiling) results << ",\nmore than anyone.\n";
+            else if (i == leastSmiling) results << ",\nless than anyone.\n";
+            else results << ".\n";
                 
-                if (mostSmiling != -1 && mostSmiling != i)
-                    results << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/groupTotalSmile) << "% of everyone).\n";
-                if (leastSmiling != -1 && leastSmiling != i)
-                    results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/groupTotalSmile) << "% of everyone).\n";
-            }
+            if (mostSmiling != -1 && mostSmiling != i)
+                results << labels[mostSmiling] << " smiled the most (" << int(100*mostSmilingVal/sessionTime) << "% of everyone).\n";
+            if (leastSmiling != -1 && leastSmiling != i)
+                results << labels[leastSmiling] << " smiled the least (" << int(100*leastSmilingVal/sessionTime) << "% of everyone).\n";
             //results << "\n"; // tear off clearance
 
 			// write to file
@@ -477,6 +476,13 @@ void Analyzer::endAnalysisSession() {
     }
 }
 
+string Analyzer::getTimes(int val) {
+	if (val == 1) {
+		return " time";
+	} else {
+		return " times";
+	}
+}
 
 // remote control
 void Analyzer::setDominance(float d0, float d1, float d2, float d3) {
