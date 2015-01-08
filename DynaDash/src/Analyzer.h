@@ -74,7 +74,7 @@ private:
     void endAnalysisSession();
 	string Analyzer::getTimes(int val);
     void handleSerialMessage(int msg);
-	void detectParticipants(int mode);
+	int detectParticipants(int mode);
 
 	bool printerAttached;
 };

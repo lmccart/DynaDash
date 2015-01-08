@@ -95,8 +95,10 @@ void Analyzer::update() {
 	// start analysis
 	if (curMode == DETECT) {
         faceInput.update();
-		detectParticipants(curMode);
-		if (ofGetElapsedTimef() - modeStart > detectDuration) {
+		if (detectParticipants(curMode) == 4) { // auto-start analysis if 4 faces detected
+			ofLogNotice() << ofGetElapsedTimef() << " " << modeStart;
+			setMode(ANALYSIS);
+		} else if (ofGetElapsedTimef() - modeStart > detectDuration) {
 			ofLogNotice() << ofGetElapsedTimef() << " " << modeStart;
 			setMode(ANALYSIS);
 		}
@@ -291,19 +293,24 @@ void Analyzer::setMode(int mode) {
     ofLogNotice() << "mode set to " << curMode;
 }
 
-void Analyzer::detectParticipants(int mode) {
+int Analyzer::detectParticipants(int mode) {
 	if (mode == PRACTICE) {
 		for (int i=0; i<4; i++) {
 			participantStatus[i] = true;
 		}
 		serialCom.sendParticipants(participantStatus);
 		ofLog() << "Faces detected " << participantStatus[0] << " " << participantStatus[1] << " " << participantStatus[2] << " " << participantStatus[3];
+		return 4;
 	}
 
 	else if (mode == DETECT) {
 		vector<bool> newStatus = faceInput.detectFaces();
 		bool changed = false;
+		int num = 0;
 		for (int i=0; i<4; i++) {
+			if (newStatus[i]) {
+				num++;
+			}
 			if (!participantStatus[i] && newStatus[i]) {
 				participantStatus[i] = true;
 				changed = true;
@@ -314,7 +321,8 @@ void Analyzer::detectParticipants(int mode) {
 			serialCom.sendParticipants(participantStatus);
 			ofLog() << "Faces detected " << participantStatus[0] << " " << participantStatus[1] << " " << participantStatus[2] << " " << participantStatus[3];
 		}
-	}
+		return num;
+	} else return 0;
 }
 
 
