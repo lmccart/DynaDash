@@ -178,6 +178,7 @@ void Analyzer::update() {
 			}
 		}
 
+		float sessionTime = ofGetElapsedTimef() - modeStart;
 
 		// send stats every second while in practice or analysis mode
 		float serialElapsed = ofGetElapsedTimef() - lastSerialStatsTime;
@@ -193,7 +194,7 @@ void Analyzer::update() {
 				if (participantStatus[i]) {
 					stats[i][0] = talkRatio[i]*100 + 0.5;
 					stats[i][1] = interruptions[i][0];
-					stats[i][2] = groupSmileTime > 0 ? 0.5 + (100*totalSmileTime[i])/groupSmileTime : 0;
+					stats[i][2] = (100*totalSmileTime[i]/sessionTime) + 0.5;
 				}
 			}
 	        serialCom.sendStats(stats);
