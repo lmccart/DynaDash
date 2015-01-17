@@ -78,6 +78,12 @@ void FaceInput::draw() {
     ofPopMatrix();
 }
 
+void FaceInput::reset() {
+	for (int i=0; i<4; i++) {
+		faceHysteresis[i].set(false);
+	}
+}
+
 vector<bool> FaceInput::detectFaces() {
     vector<bool>detected = vector<bool>(4, false);
     for (int i=0; i<4; i++) {

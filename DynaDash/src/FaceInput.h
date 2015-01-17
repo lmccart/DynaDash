@@ -16,7 +16,8 @@ public:
     void setup();
     void update();
     void draw();
-    
+    void reset();
+
     vector<bool> detectFaces();
     vector<Hysteresis> faceHysteresis;
     vector<float> status;

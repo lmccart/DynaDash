@@ -274,6 +274,10 @@ void Analyzer::reset() {
 
 void Analyzer::setMode(int mode) {
 	
+	if (mode == PRACTICE || mode == DETECT) {
+		faceInput.reset();
+	}
+
     if (mode == PRACTICE) {
         detectParticipants(mode);
     }
